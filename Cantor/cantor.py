@@ -126,3 +126,35 @@ class Rat2(Scene):
             )
         l.append(TexMobject(r"\vdots").shift(DOWN * (n + 1) * dy))
         return VGroup(*l).shift(UL * 3 + UP)
+
+
+class Rat3(Scene):
+    def construct(self):
+        ratlist = []
+        for i in range(1, 6):
+            ratlist.append(
+                self.colonne(
+                    4, 
+                    i // 2 + 1 if i % 2 else -i // 2
+                )
+            )
+        ratlist.append(self.dernière_colonne(4))
+        rat = VGroup(*ratlist).arrange(RIGHT, buff=1)
+        self.play(Write(rat))
+        self.wait()
+    
+    def colonne(self, hauteur, numérateur):
+        l = []
+        for i in range(1, hauteur + 1):
+            l.append(
+                TexMobject(str(numérateur) + r"\over" + str(i)) if numérateur >= 0 else TexMobject("{-" + str(-numérateur) + r"\over" + str(i) + "}")  
+            )
+        l.append(TexMobject(r"\vdots"))
+        return VGroup(*l).arrange(DOWN, buff=.5)
+
+    def dernière_colonne(self, hauteur):
+        l = []
+        for i in range(1, hauteur + 1):
+            l.append(TexMobject(r"\cdots"))
+        l.append(TexMobject(r"\ddots"))
+        return VGroup(*l).arrange(DOWN, buff=1.28)
