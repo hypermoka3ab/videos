@@ -158,3 +158,12 @@ class Rat3(Scene):
             l.append(TexMobject(r"\cdots"))
         l.append(TexMobject(r"\ddots"))
         return VGroup(*l).arrange(DOWN, buff=1.28)
+
+class Counting(Scene):
+    def construct(self):
+        pass
+
+    def application(self):
+        pass
+        CEstQuoi = TextMobject("")
+        
