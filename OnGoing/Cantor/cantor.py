@@ -161,9 +161,20 @@ class Rat3(Scene):
 
 class Counting(Scene):
     def construct(self):
-        pass
+        self.application()
 
     def application(self):
         pass
         CEstQuoi = TextMobject("")
-        
+
+
+class SternBrocot(Scene):
+    def construct(self):
+        RationalTree = VGroup(
+            *[
+                TexMobject("{" + str(i + 1), r"\over", str(j + 1) + "}").move_to((i - 2) * UP + (j - 2) * DOWN) 
+                for i in range(5) for j in range(5)
+            ]
+        )
+        self.add(RationalTree)
+        self.wait(3)
