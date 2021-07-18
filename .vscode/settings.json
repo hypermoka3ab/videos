@@ -51,7 +51,7 @@
     },
     "python.defaultInterpreterPath": "/usr/bin/python3",
     "liveServer.settings.CustomBrowser": "chrome",
-    "editor.columnSelection": true,
+    "editor.columnSelection": false,
     "[python]": {
         
 
