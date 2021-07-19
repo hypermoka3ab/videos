@@ -60,5 +60,10 @@
         ],
         "editor.autoClosingBrackets": "always",
         "editor.wordBasedSuggestions": false
-    }
+    },
+    "cSpell.words": [
+        "Mobject",
+        "submobject",
+        "submobjects"
+    ]
 }
