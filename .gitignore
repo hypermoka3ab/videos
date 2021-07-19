@@ -4,4 +4,4 @@ turing.py
 logo.py
 banner.py
 OnHold/
-
+__pycache__/
