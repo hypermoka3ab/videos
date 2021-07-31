@@ -1,5 +1,5 @@
 from manimlib.imports import *
-import binarytree as bt
+
 class Cantor(Scene):
     def construct(self):
         #self.add_sound("test")
@@ -168,14 +168,3 @@ class Counting(Scene):
         CEstQuoi = TextMobject("")
 
 
-class SternBrocot(Scene):
-    def construct(self):
-        fractions = [
-            [TexMobject("{" + str(i + 1), r"\over", str(j + 1) + "}")] 
-            for i in range(5) for j in range(5)
-        ]
-        
-        self.add(fractions[0][0].to_edge(UP, buff=SMALL_BUFF))
-        self.wait(3)
-t = bt.tree()
-print(t.body)
