@@ -1,5 +1,5 @@
 from manimlib.imports import *
-
+from collections import deque
 class Fraction(object):
     """
     A fraction of two strictly positive integers
@@ -15,12 +15,6 @@ class Fraction(object):
     def __repr__(self):
         return "{}\\over {}".format(self.numerator, self.denominator)
 
-    def __str__(self):
-        return self.__repr__()
-
-    def __bool__(self):
-        return bool(self.numerator)
-
     def __index__(self, i):
         if i > 1:
             raise IndexError("Fraction index out of range")
@@ -29,7 +23,7 @@ class Fraction(object):
 class Node(object):
     
     """
-    Stern Brocot tree node
+    Binary tree node
     """
     def __init__(self, fraction: Fraction, left=None, right=None, parent=None):
         self.fraction = Fraction(1, 1) if fraction is None else fraction 
@@ -63,10 +57,13 @@ class Node(object):
 
 class Tree(object):
     """
-    Stern brocot tree
+    Stern-brocot tree
     """
 
     def __init__(self, root_fraction: Fraction=None, height: int=0):
+        """
+            constructs Stern-Brocot tree of height 'height' and root label 'root_fraction'
+        """
         if height != 0:
             # root step
             self.root = Node(root_fraction)
@@ -94,25 +91,35 @@ class Tree(object):
 
             # set left and right children
             self.root.set_left(left)
+            self.left = left
             self.root.set_right(right)
-
+            self.right = right
 
     
     
-class SternBrocot(Scene):
+class SternBrocotTest(Scene):
     def construct(self):
-        t = Tree(root_fraction = Fraction(1, 1), height=1)
-        self.play(FadeIn(TexMobject(t.fraction)))
+        t = Tree(root_fraction = Fraction(1, 1), height=3)
+        self.traverse(t)
+
         self.wait()
 
+    def traverse(self, tree):
+        """
+        Breadth first traverse the tree and play(Write) each fraction
+        """
+        queue = deque()
+        queue.append(tree.root)
+        while queue:
+            node = queue.popleft()
+            fraction = node.fraction
+            print(fraction)
+            self.play(Write(TexMobject(fraction)))
+            if node.left is not None:
+                queue.append(node.left)
+            if node.right is not None:
+                queue.append(node.right)
+            if fraction == Fraction(3, 1):
+                break
+        self.wait()
     
-    def tree(self, height, root_fraction = None):
-        """
-            construct stern-brocot tree of height 'height > 0' and root 'root_fraction'
-        """
-        root_fraction = TexMobject(r"1 \over 1") if root_fraction is None else root_fraction
-        # Initiate the tree
-        root = Node(root_fraction)
-        return root
-
-
