@@ -13,7 +13,7 @@ class Fraction(object):
         return self.numerator * other.denominator == self.denominator * other.numerator
     
     def __repr__(self):
-        return "{}\\over {}".format(self.numerator, self.denominator)
+        return "{} \\over {}".format(self.numerator, self.denominator)
 
     def __index__(self, i):
         if i > 1:
@@ -60,46 +60,60 @@ class Tree(object):
     Stern-brocot tree
     """
 
-    def __init__(self, root_fraction: Fraction=None, height: int=0):
+    def __init__(self, root_fraction: Fraction=None, height: int=0, position: type(UP)=UP*2, width: float=4):
         """
             constructs Stern-Brocot tree of height 'height' and root label 'root_fraction'
         """
-        if height != 0:
-            # root step
-            self.root = Node(root_fraction)
-            self.fraction = self.root.fraction
-            self.height = height
-            
-            # left step:
+        self.left = None
+        self.right = None
+        # root step
+        self.root = Node(root_fraction)
+        self.fraction = self.root.fraction
+        self.height = height
+        self.position = position
+        self.width = width
+        self.texFraction = TexMobject(*str(self.fraction).split(" ")).move_to(self.position)
+        
+        # Stop at leaf leaf
+        if height == 0:
+            return
 
-            left = Tree(
-                root_fraction = Fraction(
-                    numerator = self.fraction.numerator,
-                    denominator = self.fraction.numerator + self.fraction.denominator
-                ),
-                height = self.height - 1
-            )
+        # left step:
 
-            # right step:
-            right = Tree(
-                root_fraction = Fraction(
-                    numerator = self.fraction.numerator + self.fraction.denominator,
-                    denominator = self.fraction.denominator
-                ),
-                height=self.height - 1
-            )
+        left = Tree(
+            root_fraction = Fraction(
+                numerator = self.fraction.numerator,
+                denominator = self.fraction.numerator + self.fraction.denominator
+            ),
+            height = self.height - 1,
+            position = self.position + LEFT * self.width + DOWN * 1.5,
+            width = self.width / 2
+        )
 
-            # set left and right children
-            self.root.set_left(left)
-            self.left = left
-            self.root.set_right(right)
-            self.right = right
+        # right step:
+        right = Tree(
+            root_fraction = Fraction(
+                numerator = self.fraction.numerator + self.fraction.denominator,
+                denominator = self.fraction.denominator
+            ),
+            height=self.height - 1,
+            position = self.position + RIGHT * self.width + DOWN * 1.5,
+            width = self.width / 2
+        )
+
+        # set left and right children
+        self.root.set_left(left)
+        self.left = left
+        self.root.set_right(right)
+        self.right = right
+
 
     
     
 class SternBrocotTest(Scene):
     def construct(self):
         t = Tree(root_fraction = Fraction(1, 1), height=3)
+        print()
         self.showTree(t)
 
         self.wait()
@@ -110,11 +124,16 @@ class SternBrocotTest(Scene):
         """
         if tree is None:
             return
-        fraction = tree.fraction
-        self.play(Write(TexMobject(fraction)))
-        self.play(
-            Write(TexMobject(tree.left.fraction).move_to(DOWN + LEFT)),
-            Write(TexMobject(tree.right.fraction).move_to(DOWN + RIGHT)),
-        )
-       
+        fraction = tree.texFraction
+        self.play(Write(fraction))
+        if tree.height > 0:
+            self.play(
+                Write(tree.left.texFraction),
+                Write(tree.right.texFraction),
+                Write(Line(tree.position, tree.left.position, buff=SMALL_BUFF)),
+                Write(Line(tree.position, tree.right.position, buff=SMALL_BUFF))
+            )
+        self.showTree(tree.left)
+        self.showTree(tree.right)
+        
 
