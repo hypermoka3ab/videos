@@ -108,19 +108,13 @@ class SternBrocotTest(Scene):
         """
         Traverse the tree and play(Write) each fraction
         """
-        queue = deque()
-        queue.append(tree.root)
-        while queue:
-            node = queue.popleft()
-            fraction = node.fraction
-            print(fraction)
-            self.play(Write(TexMobject(fraction)))
-            if node.left is not None:
-                queue.append(node.left)
-            if node.right is not None:
-                queue.append(node.right)
-            if fraction == Fraction(3, 1):
-                break
-        self.wait()
+        if tree is None:
+            return
+        fraction = tree.fraction
+        self.play(Write(TexMobject(fraction)))
+        self.play(
+            Write(TexMobject(tree.left.fraction).move_to(DOWN + LEFT)),
+            Write(TexMobject(tree.right.fraction).move_to(DOWN + RIGHT)),
+        )
        
 
