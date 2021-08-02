@@ -2,6 +2,7 @@ from manimlib.imports import *
 from collections import deque
 class Fraction(object):
     """
+    TODO : Refactor to inherit from Mobject
     A fraction of two strictly positive integers
     """
 
@@ -58,11 +59,13 @@ class Node(object):
 class Tree(object):
     """
     Stern-brocot tree
+    TODO : Refactor to inherit from Mobject
     """
 
     def __init__(self, root_fraction: Fraction=None, height: int=0, position: type(UP)=UP*2, width: float=4):
         """
             constructs Stern-Brocot tree of height 'height' and root label 'root_fraction'
+            TODO : Refactor and rewrite comments
         """
         self.left = None
         self.right = None
