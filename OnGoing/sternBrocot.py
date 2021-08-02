@@ -100,13 +100,13 @@ class Tree(object):
 class SternBrocotTest(Scene):
     def construct(self):
         t = Tree(root_fraction = Fraction(1, 1), height=3)
-        self.traverse(t)
+        self.showTree(t)
 
         self.wait()
 
-    def traverse(self, tree):
+    def showTree(self, tree):
         """
-        Breadth first traverse the tree and play(Write) each fraction
+        Traverse the tree and play(Write) each fraction
         """
         queue = deque()
         queue.append(tree.root)
@@ -122,4 +122,5 @@ class SternBrocotTest(Scene):
             if fraction == Fraction(3, 1):
                 break
         self.wait()
-    
+       
+
