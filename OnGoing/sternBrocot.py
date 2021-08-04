@@ -1,9 +1,8 @@
-from manimlib.imports import *
-from collections import deque
+from manim import *
 class Fraction(object):
     """
-    TODO : Refactor to inherit from Mobject
     A fraction of two strictly positive integers
+    TODO : Refactor to inherit from Mobject
     """
 
     def __init__(self, numerator, denominator):
@@ -59,13 +58,13 @@ class Node(object):
 class Tree(object):
     """
     Stern-brocot tree
-    TODO : Refactor to inherit from Mobject
+    TODO: Refactor to inherit from Mobject
     """
 
-    def __init__(self, root_fraction: Fraction=None, height: int=0, position: type(UP)=UP*2, width: float=4):
+    def __init__(self, root_fraction: Fraction=None, height: int=0, position: type(UP)=UP*3, width: float=3.5):
         """
             constructs Stern-Brocot tree of height 'height' and root label 'root_fraction'
-            TODO : Refactor and rewrite comments
+            TODO: Refactor and rewrite comments
         """
         self.left = None
         self.right = None
@@ -75,7 +74,7 @@ class Tree(object):
         self.height = height
         self.position = position
         self.width = width
-        self.texFraction = TexMobject(*str(self.fraction).split(" ")).move_to(self.position)
+        self.texFraction = TexMobject(*str(self.fraction).split(" ")).scale(.4).move_to(self.position)
         
         # Stop at leaf leaf
         if height == 0:
@@ -115,10 +114,10 @@ class Tree(object):
     
 class SternBrocotTest(Scene):
     def construct(self):
-        t = Tree(root_fraction = Fraction(1, 1), height=3)
+        t = Tree(root_fraction = Fraction(1, 1), height=2)
         print()
         self.showTree(t)
-
+        self.play()
         self.wait()
 
     def showTree(self, tree):
@@ -128,11 +127,12 @@ class SternBrocotTest(Scene):
         if tree is None:
             return
         fraction = tree.texFraction
-        self.play(Write(fraction))
+        self.play(
+            Write(fraction),
+            ShowCreation(Circle(arc_center = fraction.get_center(), radius = 0.3, color = WHITE))
+        )
         if tree.height > 0:
             self.play(
-                Write(tree.left.texFraction),
-                Write(tree.right.texFraction),
                 Write(Line(tree.position, tree.left.position, buff=SMALL_BUFF)),
                 Write(Line(tree.position, tree.right.position, buff=SMALL_BUFF))
             )
