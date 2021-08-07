@@ -1,4 +1,4 @@
-from manimlib.imports import *
+from manim import *
 
 class Cantor(Scene):
     def construct(self):
@@ -8,10 +8,10 @@ class Cantor(Scene):
 
 
     def introduction(self):
-        Cantor = ImageMobject("cantor").scale(2)
-        Russel = ImageMobject("Russel").scale(2).to_edge(LEFT)
-        Godel = ImageMobject("Godel").scale(2)
-        Turing = ImageMobject("Turing").scale(2).to_edge(RIGHT)
+        Cantor = ImageMobject("assets/images/cantor").scale(.5)
+        Russel = ImageMobject("assets/images/Russel").scale(.5).to_edge(LEFT)
+        Godel = ImageMobject("assets/images/Godel").scale(.5)
+        Turing = ImageMobject("assets/images/Turing").scale(.5).to_edge(RIGHT)
 
         self.play(FadeIn(Cantor))
         self.wait()
