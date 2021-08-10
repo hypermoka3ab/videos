@@ -3,5 +3,5 @@ media/
 turing.py
 logo.py
 banner.py
-tmp/
+private/
 __pycache__/
