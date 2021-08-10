@@ -5,4 +5,5 @@ logo.py
 banner.py
 private/
 __pycache__/
-assets/
+sounds/
+videos/
