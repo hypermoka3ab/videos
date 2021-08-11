@@ -1,24 +1,20 @@
 from manim import *
-class Fraction(object):
+class Fraction(MathTex):
     """
     A fraction of two strictly positive integers
-    TODO : Refactor to inherit from Mobject
     """
 
     def __init__(self, numerator, denominator):
+        if not (numerator > 0 and denominator > 0):
+            raise ValueError("Both arguments must be positive integers")
         self.numerator = numerator
         self.denominator = denominator
+        MathTex.__init__(self, *("{} \over {}".format(numerator, denominator).split(" ")))
+       
+        
 
-    def __eq__(self, other):
-        return self.numerator * other.denominator == self.denominator * other.numerator
-    
-    def __repr__(self):
-        return "{} \\over {}".format(self.numerator, self.denominator)
 
-    def __index__(self, i):
-        if i > 1:
-            raise IndexError("Fraction index out of range")
-        return self.numerator if i == 0 else self.denominator 
+
      
 class Node(object):
     
