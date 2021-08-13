@@ -11,11 +11,7 @@ class Fraction(MathTex):
         self.denominator = denominator
         MathTex.__init__(self, *("{} \over {}".format(numerator, denominator).split(" ")))
        
-        
 
-
-
-     
 class Node(object):
     
     """
@@ -25,10 +21,7 @@ class Node(object):
         self.fraction = Fraction(1, 1) if fraction is None else fraction 
         self.left = left
         self.right = right
-        self.parent = parent
-
-    def get_fraction(self):
-        return self.fraction
+        self.parent = parent    
     
     def set_left(self, left):
         self.left = left
@@ -38,26 +31,19 @@ class Node(object):
         self.right = right
         right.parent = self
 
-    # getters for parent, left, right and fraction
-    def get_parent(self):
-        return self.parent
-
-    def get_left(self):
-        return self.left
-    
-    def get_right(self):
-        return self.right
-    
-    def get_fraction(self):
-        return self.fraction
-
 class Tree(object):
     """
     Stern-brocot tree
     TODO: Refactor to inherit from Mobject
     """
 
-    def __init__(self, root_fraction: Fraction=None, height: int=0, position: type(UP)=UP*3, width: float=3.5):
+    def __init__(
+        self, 
+        root_fraction: Fraction = None, 
+        height: int = 0, 
+        position: np.ndarray = UP*3, 
+        width: float = 3.5
+    ):
         """
             constructs Stern-Brocot tree of height 'height' and root label 'root_fraction'
             TODO: Refactor and rewrite comments
@@ -136,3 +122,6 @@ class SternBrocotTest(Scene):
         self.showTree(tree.right)
         
 
+class show(Scene):
+    def construct(self):
+        print(type(UP))
