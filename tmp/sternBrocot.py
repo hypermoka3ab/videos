@@ -17,16 +17,17 @@ class Node(object):
     """
     Binary tree node
     """
-    def __init__(self, fraction: Fraction, left=None, right=None, parent=None):
+    def __init__(self, fraction: Fraction, left=None, right=None, parent=None, position = UP * 3):
         self.fraction = Fraction(1, 1) if fraction is None else fraction 
         self.left = left
         self.right = right
-        self.parent = parent    
+        self.parent = parent
+        self.position = position    
     
     def set_left(self, left):
         self.left = left
         left.parent = self
-
+    
     def set_right(self, right):
         self.right = right
         right.parent = self
@@ -41,7 +42,7 @@ class Tree(object):
         self, 
         root_fraction: Fraction = None, 
         height: int = 0, 
-        position: np.ndarray = UP*3, 
+        position: np.ndarray = UP * 3, 
         width: float = 3.5
     ):
         """
@@ -51,7 +52,7 @@ class Tree(object):
         self.left = None
         self.right = None
         # root step
-        self.root = Node(root_fraction)
+        self.root = Node(root_fraction, position)
         self.fraction = self.root.fraction
         self.height = height
         self.position = position
@@ -91,37 +92,33 @@ class Tree(object):
         self.root.set_right(right)
         self.right = right
 
+    def show(self, sc):
+        """
+        Draws the tree
+        """
+
+        # test for empty tree
+        if self:
+            sc.play(
+                # write root fraction
+                Write(self.fraction.scale(.5).move_to(self.position)),
+                ShowCreation(Circle(arc_center = self.fraction.get_center(), radius = .3, color = WHITE))
+            )
+
+            # test for leaf
+            if self.height > 0:
+                sc.play(
+                    # show creation of left and right edges
+                    Write(Line(self.position, self.left.position, buff=SMALL_BUFF)),
+                    Write(Line(self.position, self.right.position, buff=SMALL_BUFF))
+                )
+                # show left and right children
+                self.left.show(sc)
+                self.right.show(sc)
 
     
     
 class SternBrocotTest(Scene):
     def construct(self):
-        t = Tree(root_fraction = Fraction(1, 1), height=2)
-        print()
-        self.showTree(t)
-        self.play()
+        Tree(root_fraction = Fraction(1, 1), height=3).show(self)
         self.wait()
-
-    def showTree(self, tree):
-        """
-        Traverse the tree and play(Write) each fraction
-        """
-        if tree is None:
-            return
-        fraction = tree.texFraction
-        self.play(
-            Write(fraction),
-            ShowCreation(Circle(arc_center = fraction.get_center(), radius = 0.3, color = WHITE))
-        )
-        if tree.height > 0:
-            self.play(
-                Write(Line(tree.position, tree.left.position, buff=SMALL_BUFF)),
-                Write(Line(tree.position, tree.right.position, buff=SMALL_BUFF))
-            )
-        self.showTree(tree.left)
-        self.showTree(tree.right)
-        
-
-class show(Scene):
-    def construct(self):
-        print(type(UP))
