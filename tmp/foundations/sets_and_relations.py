@@ -4,7 +4,7 @@ class Logic(Scene):
     
     
     def construct(self):
-        self.add_sound("private/prop.wav")
+        self.add_sound("tmp/foundations/prop")
         self.define_proposition()
         self.introduce_truth_tables()
 
