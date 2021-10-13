@@ -86,3 +86,14 @@ class Logic(Scene):
         self.wait(2)
     def introduce_truth_tables(self):
         pass
+
+class TruthTable(Scene):
+    def construct(self):
+        vals = VGroup(
+            MathTex("111"), MathTex("0"), MathTex("1"), MathTex("0")
+        ).arrange_in_grid(2, 2)
+        rects = VGroup(*[
+            SurroundingRectangle(v) for v in vals
+        ])
+        self.play(Create(vals), Create(rects))
+        self.wait(2)
