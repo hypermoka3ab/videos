@@ -57,7 +57,7 @@ class Tree(object):
         self.height = height
         self.position = position
         self.width = width
-        self.texFraction = TexMobject(*str(self.fraction).split(" ")).scale(.4).move_to(self.position)
+        self.texFraction = MathTex(*str(self.fraction).split(" ")).scale(.4).move_to(self.position)
         
         # Stop at leaf leaf
         if height == 0:
@@ -102,7 +102,7 @@ class Tree(object):
             sc.play(
                 # write root fraction
                 Write(self.fraction.scale(.5).move_to(self.position)),
-                ShowCreation(Circle(arc_center = self.fraction.get_center(), radius = .3, color = WHITE))
+                Create(Circle(arc_center = self.fraction.get_center(), radius = .3, color = WHITE))
             )
 
             # test for leaf
