@@ -1,10 +1,10 @@
 from manim import *
-
+config["assets_dir"] = "./assets"
 class Logic(Scene):
     
     
     def construct(self):
-        self.add_sound("tmp/foundations/prop")
+        self.add_sound("sounds/logic/prop")
         self.define_proposition()
         self.introduce_truth_tables()
 
