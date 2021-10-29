@@ -12,30 +12,29 @@ class Axioms(Scene):
 
 class Continuity(Scene):
     def construct(self):
-        """
-        """
-
+        
         real_line = NumberLine([-10, 10], 20)
         line_label = MathTex(r"\mathbb{R}").to_edge(edge = LEFT, buff = SMALL_BUFF).shift(UP * .5)
+        
         hole = Circle(
-            .05, WHITE, fill_color = BLACK, 
+            .05, YELLOW, fill_color = BLACK, 
             fill_opacity = 1, stroke_width = 1
         ).move_to(real_line.number_to_point(2.3))
         
-        left_brace = BraceBetweenPoints(
+        A_brace = BraceBetweenPoints(
             real_line.get_left(),
             hole.get_left(),
             direction = DOWN
         )
-        A_label = MathTex("A").next_to(left_brace, DOWN, buff = SMALL_BUFF)
+        A_label = MathTex("A").next_to(A_brace, DOWN, buff = SMALL_BUFF)
 
 
-        right_brace = BraceBetweenPoints(
+        B_brace = BraceBetweenPoints(
             hole.get_right(),
             real_line.get_right(),
             direction = DOWN
         )
-        B_label = MathTex("B").next_to(right_brace, DOWN, buff = SMALL_BUFF)
+        B_label = MathTex("B").next_to(B_brace, DOWN, buff = SMALL_BUFF)
         
         self.play(Create(real_line), Write(line_label))
         
@@ -43,7 +42,7 @@ class Continuity(Scene):
         self.wait()
 
         self.play(
-            *[GrowFromCenter(brace) for brace in [left_brace, right_brace]],
+            *[GrowFromCenter(brace) for brace in [A_brace, B_brace]],
             run_time = .5,
             rate_func = linear
         )
