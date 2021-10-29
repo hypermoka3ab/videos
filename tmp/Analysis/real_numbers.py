@@ -12,35 +12,37 @@ class Axioms(Scene):
 
 class Continuity(Scene):
     def construct(self):
+        # set up the scene
         
-        real_line = NumberLine([-10, 10], 20)
-        line_label = MathTex(r"\mathbb{R}").to_edge(edge = LEFT, buff = SMALL_BUFF).shift(UP * .5)
+        # create the objects
+          
+        real_line = NumberLine([-10, 10], 20) # real line
+        line_label = MathTex(r"\mathbb{R}").to_edge(edge = LEFT, buff = SMALL_BUFF).shift(UP * .5) # R label
         
-        hole = Circle(
+        hole = Circle( # hole
             .05, YELLOW, fill_color = BLACK, 
             fill_opacity = 1, stroke_width = 1
         ).move_to(real_line.number_to_point(2.3))
         
-        A_brace = BraceBetweenPoints(
-            real_line.get_left(),
+        # braces for A (left) and B(right)
+        A_brace = BraceBetweenPoints( # left brace
+            real_line.number_to_point(-7.5),
             hole.get_left(),
             direction = DOWN
         )
-        A_label = MathTex("A").next_to(A_brace, DOWN, buff = SMALL_BUFF)
-
-
-        B_brace = BraceBetweenPoints(
+        A_label = MathTex("A").next_to(A_brace, DOWN, buff = SMALL_BUFF) # A label
+        
+        B_brace = BraceBetweenPoints( # right brace
             hole.get_right(),
-            real_line.get_right(),
+            real_line.number_to_point(7.5),
             direction = DOWN
         )
-        B_label = MathTex("B").next_to(B_brace, DOWN, buff = SMALL_BUFF)
+        B_label = MathTex("B").next_to(B_brace, DOWN, buff = SMALL_BUFF) # B label
         
+        # Draw everything
         self.play(Create(real_line), Write(line_label))
-        
         self.play(GrowFromCenter(hole))
         self.wait()
-
         self.play(
             *[GrowFromCenter(brace) for brace in [A_brace, B_brace]],
             run_time = .5,
