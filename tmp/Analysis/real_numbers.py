@@ -17,27 +17,46 @@ class Continuity(Scene):
         # create the objects
           
         real_line = NumberLine([-10, 10], 20) # real line
-        line_label = MathTex(r"\mathbb{R}").to_edge(edge = LEFT, buff = SMALL_BUFF).shift(UP * .5) # R label
         
-        hole = Circle( # hole
-            .05, YELLOW, fill_color = BLACK, 
-            fill_opacity = 1, stroke_width = 1
-        ).move_to(real_line.number_to_point(2.3))
+        line_label = always_redraw( # R label
+            lambda: 
+                MathTex(r"\mathbb{R}").move_to(real_line.number_to_point(-7) + UP * 0.5)    
+        ) 
+        
+        hole = always_redraw( # hole
+            lambda:
+                Circle( 
+                    .05, YELLOW, fill_color = BLACK, 
+                    fill_opacity = 1, stroke_width = 2
+                ).move_to(real_line.number_to_point(2.3))     
+        )
         
         # braces for A (left) and B(right)
-        A_brace = BraceBetweenPoints( # left brace
-            real_line.number_to_point(-7.5),
-            hole.get_left(),
-            direction = DOWN
+        A_brace = always_redraw( # left brace
+            lambda:
+                BraceBetweenPoints( 
+                    real_line.number_to_point(-7.5),
+                    hole.get_left(),
+                    direction = DOWN
+                )
         )
-        A_label = MathTex("A").next_to(A_brace, DOWN, buff = SMALL_BUFF) # A label
+        A_label = always_redraw( # left label
+            lambda:
+                MathTex("A").next_to(A_brace, DOWN, buff = SMALL_BUFF) # A label
+        )
         
-        B_brace = BraceBetweenPoints( # right brace
-            hole.get_right(),
-            real_line.number_to_point(7.5),
-            direction = DOWN
+        B_brace = always_redraw( # right brace
+            lambda:
+                BraceBetweenPoints(
+                    hole.get_right(),
+                    real_line.number_to_point(7.5),
+                    direction = DOWN
+                )
         )
-        B_label = MathTex("B").next_to(B_brace, DOWN, buff = SMALL_BUFF) # B label
+        B_label = always_redraw( # right label
+            lambda:
+                MathTex("B").next_to(B_brace, DOWN, buff = SMALL_BUFF)
+        )
         
         # Draw everything
         self.play(Create(real_line), Write(line_label))
@@ -50,3 +69,5 @@ class Continuity(Scene):
         )
         self.play(Write(A_label), Write(B_label))
         self.wait()
+
+        self.play(real_line.animate.shift(DOWN))
