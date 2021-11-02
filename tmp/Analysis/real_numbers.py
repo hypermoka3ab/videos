@@ -12,7 +12,6 @@ class Axioms(Scene):
 
 class Continuity(Scene):
     def construct(self):
-        # set up the scene
         
         # create the objects
           
@@ -20,7 +19,7 @@ class Continuity(Scene):
         
         line_label = always_redraw( # R label
             lambda: 
-                MathTex(r"\mathbb{R}").move_to(real_line.number_to_point(-7) + UP * 0.5)    
+                MathTex(r"\mathbb{R}").move_to(real_line.number_to_point(-6.7) + UP * 0.5)    
         ) 
         
         hole = always_redraw( # hole
@@ -70,4 +69,7 @@ class Continuity(Scene):
         self.play(Write(A_label), Write(B_label))
         self.wait()
 
-        self.play(real_line.animate.shift(DOWN))
+        formula = MathTex(r"\forall x \in A\ \forall y \in B \quad x \le y ").to_edge(LEFT).shift(UP * 2)
+        
+        self.play(Write(formula))
+        self.wait()
