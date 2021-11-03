@@ -71,10 +71,47 @@ class Continuity(Scene):
         self.play(real_line.animate.shift(DOWN))
 
         hole_definition = VGroup( # define a hole rigorously 
-            MathTex(r"(1)\ \forall x \in A\ \forall y \in B \quad x \le y"), # A is left of B
             MathTex(
-                r"(2)\ \neg \exists z \in \mathbb{R}\ \forall x \in A\ \forall y \in B \quad x \le z \le y"
+                r"(1)\ ", 
+                r"\forall", 
+                "x", 
+                r"\in",  
+                "A", 
+                r"\ \forall", 
+                "y", 
+                r"\in", 
+                "B", 
+                r"\quad x \le y"
+            ), # A is left of B
+            MathTex(
+                r"(2)\ ", 
+                r"\neg \exists z \in \mathbb{R}\ ", 
+                r"\forall x \in A\ ", 
+                r"\forall y \in B \quad", 
+                r"x \le z \le y"
             ) # No reals between A and B
         ).arrange(DOWN, aligned_edge=LEFT).to_edge(LEFT).shift(UP)
-        self.play(Write(hole_definition))
+        
+        x_tracker = ValueTracker(-1)
+        y_tracker = ValueTracker(3)
+        x_label = always_redraw( # x label
+            lambda: MathTex("x").move_to(real_line.number_to_point(x_tracker.get_value())).shift(UP / 2)
+        )
+        y_label = always_redraw( # y label
+            lambda: MathTex("y").move_to(real_line.number_to_point(y_tracker.get_value())).shift(UP / 2)
+        )
+
+        self.play(Write(hole_definition[0][0]))
+        self.play(Write(x_label), Write(y_label))
+        
+        
+        for label, set_label, offset in zip([x_label, y_label], [A_label, B_label], [1, 5]):
+            self.play(
+                ReplacementTransform(label.copy(), hole_definition[0][offset + 1]),
+                ReplacementTransform(set_label.copy(), hole_definition[0][offset + 3]),
+                Write(hole_definition[0][offset]),
+                Write(hole_definition[0][offset + 2]),
+            )
+        
+        self.play(Write(hole_definition[0][9:]))
         self.wait()
