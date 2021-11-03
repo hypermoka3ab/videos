@@ -4,10 +4,10 @@ class Convergence(Scene):
     def construct(self):
         #self.PositionDuProbleme()
         #self.PremiereConjecture()
-        trivial = TexMobject(r"u_n = n^2,\  n \ge 0:").to_corner(UL, buff=1)
-        moinsTrivial = TexMobject(r"u_n = 2^{n(-1)^n}")
-        UnFleche0 = TexMobject(r"u_n \rightarrow 0")
-        NDefUnFleche0 = TexMobject(
+        trivial = MathTex(r"u_n = n^2,\  n \ge 0:").to_corner(UL, buff=1)
+        moinsTrivial = MathTex(r"u_n = 2^{n(-1)^n}")
+        UnFleche0 = MathTex(r"u_n \rightarrow 0")
+        NDefUnFleche0 = MathTex(
             r"\forall \varepsilon > 0,\ \exists,",
             r"\underbrace{", 
             "n_0", 
@@ -23,7 +23,7 @@ class Convergence(Scene):
         NDefUnFleche0.next_to(trivial, DOWN).shift(RIGHT/2)
         self.play(*[Write(NDefUnFleche0[i]) for i in [0, 2, 4, 5, 6, 8, 9]])
         self.wait()
-        N0Brace = VGroup(Brace(NDefUnFleche0[1]), TexMobject("0")).arrange(DOWN)
+        N0Brace = VGroup(Brace(NDefUnFleche0[1]), MathTex("0")).arrange(DOWN)
         #self.add(N0Brace)
         self.wait()
 
@@ -52,10 +52,10 @@ class Convergence(Scene):
         self.wait()
     
     def PremiereConjecture(self):
-        UnFleche0 = TexMobject(r"u_n \rightarrow 0").shift(UP).scale(1.5)
-        equivaut = TexMobject(r"\Updownarrow", "?").scale(2)
-        implique2 = TexMobject(r"\Downarrow", r"\quad", r"\Uparrow", "?").scale(2)
-        NDefUnFleche0 = TexMobject(r"\forall \varepsilon > 0,\ \exists n_0 \in \mathbb{N},\ |u_{n_0}| < \varepsilon").shift(DOWN)
+        UnFleche0 = MathTex(r"u_n \rightarrow 0").shift(UP).scale(1.5)
+        equivaut = MathTex(r"\Updownarrow", "?").scale(2)
+        implique2 = MathTex(r"\Downarrow", r"\quad", r"\Uparrow", "?").scale(2)
+        NDefUnFleche0 = MathTex(r"\forall \varepsilon > 0,\ \exists n_0 \in \mathbb{N},\ |u_{n_0}| < \varepsilon").shift(DOWN)
 
         self.play(Write(UnFleche0), run_time=.5)
         self.wait()

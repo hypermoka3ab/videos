@@ -29,7 +29,7 @@ class Cantor(Scene):
 
 class Thumbnail(Scene):
     def construct(self):
-        grid = TexMobject(
+        grid = MathTex(
             r"""
             \begin{array}{c c c c c c}
                 0 & \rightarrow & 0 & 1 & 0 & \cdots \\
@@ -54,25 +54,25 @@ class Thumbnail(Scene):
 class Rationnels(Scene):
     def construct(self):
         rat = VGroup(
-            TexMobject(
+            MathTex(
                 r"{1\over 1}", r"\quad", r"{-1\over 1}", r"\quad", r"{2\over 1}", r"\quad", r"{-2\over 1}", r"\quad", r"{3\over 1}", r"\quad", r"{-3\over 1}", r"\quad", r"\cdots"
             ),
-            TexMobject(
+            MathTex(
                 r"{1\over 2}", r"\quad", r"{-1\over 2}", r"\quad", r"{2\over 2}", r"\quad", r"{-2\over 2}", r"\quad", r"{3\over 2}", r"\quad", r"{-3\over 2}", r"\quad", r"\cdots"
             ),
-            TexMobject(
+            MathTex(
                 r"{1\over 3}", r"\quad", r"{-1\over 3}", r"\quad", r"{2\over 3}", r"\quad", r"{-2\over 3}", r"\quad", r"{3\over 3}", r"\quad", r"{-3\over 3}", r"\quad", r"\cdots"
             ),
-            TexMobject(
+            MathTex(
                 r"{1\over 4}", r"\quad", r"{-1\over 4}", r"\quad", r"{2\over 4}", r"\quad", r"{-2\over 4}", r"\quad", r"{3\over 4}", r"\quad", r"{-3\over 4}", r"\quad", r"\cdots"
             ),
-            TexMobject(
+            MathTex(
                 r"{1\over 5}", r"\quad", r"{-1\over 5}", r"\quad", r"{2\over 5}", r"\quad", r"{-2\over 5}", r"\quad", r"{3\over 5}", r"\quad", r"{-3\over 5}", r"\quad", r"\cdots"
             ),
-            TexMobject(
+            MathTex(
                 r"{1\over 6}", r"\quad", r"{-1\over 6}", r"\quad", r"{2\over 6}", r"\quad", r"{-2\over 6}", r"\quad", r"{3\over 6}", r"\quad", r"{-3\over 6}", r"\quad", r"\cdots"
             ),
-            TexMobject(
+            MathTex(
                 r"\vdots", r"\qquad", r"\vdots", r"\qquad", r"\vdots", r"\qquad", r"\vdots", r"\qquad", r"\vdots", r"\qquad", r"\vdots", r"\qquad", r"\ddots"
             )
         )
@@ -107,9 +107,9 @@ class Rat2(Scene):
         l = []
         for i in range(1, n + 1):
             l.append(
-                TexMobject(str(num) + r"\over" + str(i)).shift(DOWN * i * dy)
+                MathTex(str(num) + r"\over" + str(i)).shift(DOWN * i * dy)
             )
-        l.append(TexMobject(r"\vdots").shift(DOWN * (n + 1) * dy))
+        l.append(MathTex(r"\vdots").shift(DOWN * (n + 1) * dy))
         return VGroup(*l).shift(UL * 3 + UP)
         
 
@@ -118,13 +118,13 @@ class Rat2(Scene):
         for i in range(1, n + 1):
             if num >= 0:
                 l.append(
-                TexMobject(str(num) + r"\over" + str(i)).shift(DOWN * i * dy)
+                MathTex(str(num) + r"\over" + str(i)).shift(DOWN * i * dy)
             )
             else:
                 l.append(
-                TexMobject("-{" + str(-num) + r"\over" + str(i) + "}").shift(DOWN * i * dy)
+                MathTex("-{" + str(-num) + r"\over" + str(i) + "}").shift(DOWN * i * dy)
             )
-        l.append(TexMobject(r"\vdots").shift(DOWN * (n + 1) * dy))
+        l.append(MathTex(r"\vdots").shift(DOWN * (n + 1) * dy))
         return VGroup(*l).shift(UL * 3 + UP)
 
 
@@ -147,16 +147,16 @@ class Rat3(Scene):
         l = []
         for i in range(1, hauteur + 1):
             l.append(
-                TexMobject(str(numérateur) + r"\over" + str(i)) if numérateur >= 0 else TexMobject("{-" + str(-numérateur) + r"\over" + str(i) + "}")  
+                MathTex(str(numérateur) + r"\over" + str(i)) if numérateur >= 0 else MathTex("{-" + str(-numérateur) + r"\over" + str(i) + "}")  
             )
-        l.append(TexMobject(r"\vdots"))
+        l.append(MathTex(r"\vdots"))
         return VGroup(*l).arrange(DOWN, buff=.5)
 
     def dernière_colonne(self, hauteur):
         l = []
         for i in range(1, hauteur + 1):
-            l.append(TexMobject(r"\cdots"))
-        l.append(TexMobject(r"\ddots"))
+            l.append(MathTex(r"\cdots"))
+        l.append(MathTex(r"\ddots"))
         return VGroup(*l).arrange(DOWN, buff=1.28)
 
 class Counting(Scene):
