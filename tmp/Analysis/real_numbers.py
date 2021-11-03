@@ -68,8 +68,13 @@ class Continuity(Scene):
         )
         self.play(Write(A_label), Write(B_label))
         self.wait()
+        self.play(real_line.animate.shift(DOWN))
 
-        formula = MathTex(r"\forall x \in A\ \forall y \in B \quad x \le y ").to_edge(LEFT).shift(UP * 2)
-        
-        self.play(Write(formula))
+        hole_definition = VGroup( # define a hole rigorously 
+            MathTex(r"(1)\ \forall x \in A\ \forall y \in B \quad x \le y"), # A is left of B
+            MathTex(
+                r"(2)\ \neg \exists z \in \mathbb{R}\ \forall x \in A\ \forall y \in B \quad x \le z \le y"
+            ) # No reals between A and B
+        ).arrange(DOWN, aligned_edge=LEFT).to_edge(LEFT).shift(UP)
+        self.play(Write(hole_definition))
         self.wait()
