@@ -29,10 +29,10 @@ class Convergence(Scene):
 
     def PositionDuProbleme(self):
         # Question principale
-        question = TextMobject("Qu'est-ce qu'on entend par ``$u_n$ converge vers ", r"$\ell$", "''?")
+        question = Text("Qu'est-ce qu'on entend par ``$u_n$ converge vers ", r"$\ell$", "''?")
         
         # Question simplifiée
-        question_modeste = TextMobject("Qu'est-ce qu'on entend par ``$u_n$ converge vers ", "$0$", "''?")
+        question_modeste = Text("Qu'est-ce qu'on entend par ``$u_n$ converge vers ", "$0$", "''?")
         
         # Position de la question principale
         self.play(Write(question))

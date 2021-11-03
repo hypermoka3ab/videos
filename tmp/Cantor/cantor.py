@@ -165,6 +165,6 @@ class Counting(Scene):
 
     def application(self):
         pass
-        CEstQuoi = TextMobject("")
+        CEstQuoi = Text("")
 
 
