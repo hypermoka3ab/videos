@@ -41,7 +41,7 @@ class Continuity(Scene):
         )
         A_label = always_redraw( # left label
             lambda:
-                MathTex("A").next_to(A_brace, DOWN, buff = SMALL_BUFF) # A label
+                MathTex("A").next_to(A_brace, DOWN, buff = SMALL_BUFF)
         )
         
         B_brace = always_redraw( # right brace
