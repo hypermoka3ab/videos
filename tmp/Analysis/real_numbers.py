@@ -12,6 +12,10 @@ class Axioms(Scene):
 
 class Continuity(Scene):
     def construct(self):
+        self.state_axiom_of_continuity()        
+        
+
+    def state_axiom_of_continuity(self):
         
         # create the objects
           
