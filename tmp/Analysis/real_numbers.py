@@ -87,10 +87,10 @@ class Continuity(Scene):
                 r"(2)\ ", 
                 r"\neg \exists z \in \mathbb{R}\ ", 
                 r"\forall x \in A\ ", 
-                r"\forall y \in B \quad", 
-                r"x \le z \le y"
+                r"\forall y \in B", 
+                r"\quad x \le z \le y"
             ) # No reals between A and B
-        ).arrange(DOWN, aligned_edge=LEFT).to_edge(LEFT).shift(UP)
+        ).arrange(DOWN, aligned_edge=LEFT).to_edge(LEFT).shift(UP * 2)
         
         x_tracker = ValueTracker(-1)
         y_tracker = ValueTracker(3)
@@ -114,4 +114,13 @@ class Continuity(Scene):
             )
         
         self.play(Write(hole_definition[0][9:]))
+        self.wait()
+
+        self.play(Write(hole_definition[1][0]))
+        self.play(ReplacementTransform(hole.copy(), hole_definition[1][1]),)
+        self.play(
+            ReplacementTransform(hole_definition[0][1:9].copy(), hole_definition[1][2:4]),
+        )
+        self.play(Write(hole_definition[1][4]))
+        
         self.wait()
