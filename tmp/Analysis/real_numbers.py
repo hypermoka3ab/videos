@@ -2,10 +2,52 @@ from manim import *
 
 class Axioms(Scene):
     def construct(self):
-        axioms = MathTex(
-            r"1-\ \forall x, y \in \mathbb{R},\ x + y = y + x",
-            r"1-\ \forall x, y \in \mathbb{R},\ x \cdot y = y \cdot x",
-        ).align_submobjects(LEFT)
+        axioms = VGroup(
+            *[
+                MathTex(r"\mathrm{axiome}\ " + str(i + 1) + "\ " + axiom, font_size=20)
+                for i, axiom in enumerate(
+                    [
+                        # I Addition
+                        r"\forall x, y, z \in \mathbb{R},\ x + (y + z) = (x + y) + z",
+                        r"\forall x, y \in \mathbb{R},\ x + y = y + x",
+                        r"\exists 0 \in \mathbb{R}\ \forall x \in  \mathbb{R},\ x + 0 = 0 + x = x",
+                        r"\forall x \in \mathbb{R}\ \exists y \in \mathbb{R},\ x + y = y + x = 0",
+                        
+                        
+                        # II Multiplication
+                        r"\forall x, y, z \in \mathbb{R},\ x \cdot (y \cdot z) = (x \cdot y) \cdot z",
+                        r"\forall x, y \in \mathbb{R},\ x \cdot y = y \cdot x",
+                        r"\exists 1 \in \mathbb{R}\ \forall x \in  \mathbb{R},\ x \cdot 1 = 1 \cdot x = x",
+                        r"\forall x \in \mathbb{R} \backslash \{0\}\ \exists y \in \mathbb{R},\ x \cdot y = y\cdot x = 1",
+
+                        # I + II Distributivity
+                        r"\forall x, y, z \in \mathbb{R},\ x \cdot (y + x) = x\cdot y + x\cdot z",
+
+                        # III Order
+                        r"\forall x \in \mathbb{R},\ x \le x",
+                        r"\forall x, y \in \mathbb{R},\ (x \le y \wedge y \le x) \Rightarrow x = y",
+                        r"\forall x, y, z \in \mathbb{R}, (x \le y \wedge y \le z) \Rightarrow x \le z",
+                        r"\forall x, y \in \mathbb{R},\ x \le y \lor y \le x",
+
+                        # I + III Order and addition
+                        r"\forall x, y, z \in \mathbb{R},\ x \le y \Rightarrow x + z \le y + z",
+
+                        # II + III Order and multiplication
+                        r"\forall x, y \in \mathbb{R},\ (0 \le x \wedge 0 \le y) \Rightarrow 0 \le x\cdot y",
+
+                        # IV Completeness
+                        r"""
+                            (\forall x \in A\ \forall y\in B\quad x \le y) 
+                            \Rightarrow 
+                            (\exists z \in \mathbb{R}\ \forall x \in A \ \forall y \in B \quad x \le z \le y)
+                        """
+                    ]
+                )
+            ]
+        ).arrange(DOWN, aligned_edge = LEFT).to_edge(LEFT)
+        # MathTex(
+        #     
+        # ).align_submobjects(LEFT)
 
         self.play(Write(axioms))
         self.wait(2)
@@ -90,8 +132,14 @@ class Continuity(Scene):
             MathTex(
                 r"(2)\ ", 
                 r"\neg \exists z \in \mathbb{R}\ ", 
-                r"\forall x \in A\ ", 
-                r"\forall y \in B", 
+                r"\forall", 
+                "x", 
+                r"\in",  
+                "A", 
+                r"\ \forall", 
+                "y", 
+                r"\in", 
+                "B", 
                 r"\quad x \le z \le y"
             ) # No reals between A and B
         ).arrange(DOWN, aligned_edge=LEFT).to_edge(LEFT).shift(UP * 2)
@@ -123,8 +171,8 @@ class Continuity(Scene):
         self.play(Write(hole_definition[1][0]))
         self.play(ReplacementTransform(hole.copy(), hole_definition[1][1]),)
         self.play(
-            ReplacementTransform(hole_definition[0][1:9].copy(), hole_definition[1][2:4]),
+            ReplacementTransform(hole_definition[0][1:9].copy(), hole_definition[1][2:10]),
         )
-        self.play(Write(hole_definition[1][4]))
+        self.play(Write(hole_definition[1][10]))
         
         self.wait()
