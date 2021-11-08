@@ -37,9 +37,10 @@ class Axioms(Scene):
 
                         # IV Completeness
                         r"""
-                            (\forall x \in A\ \forall y\in B\quad x \le y) 
+                            \forall A, B \in \mathcal{P}(\mathbb{R})\backslash\{\emptyset\}, \ 
+                            (\forall x \in A\ \forall y\in B,\  x \le y) 
                             \Rightarrow 
-                            (\exists z \in \mathbb{R}\ \forall x \in A \ \forall y \in B \quad x \le z \le y)
+                            (\exists z \in \mathbb{R}\ \forall x \in A \ \forall y \in B, \  x \le z \le y)
                         """
                     ]
                 )
@@ -127,7 +128,7 @@ class Continuity(Scene):
                 "y", 
                 r"\in", 
                 "B", 
-                r"\quad x \le y"
+                r",\  x \le y"
             ), # A is left of B
             MathTex(
                 r"(2)\ ", 
@@ -140,7 +141,7 @@ class Continuity(Scene):
                 "y", 
                 r"\in", 
                 "B", 
-                r"\quad x \le z \le y"
+                r",\  x \le z \le y"
             ) # No reals between A and B
         ).arrange(DOWN, aligned_edge=LEFT).to_edge(LEFT).shift(UP * 2)
         
