@@ -1,4 +1,5 @@
 from manim import *
+from numpy.lib.type_check import real
 
 class Axioms(Scene):
     def construct(self):
@@ -175,5 +176,19 @@ class Continuity(Scene):
             ReplacementTransform(hole_definition[0][1:9].copy(), hole_definition[1][2:10]),
         )
         self.play(Write(hole_definition[1][10]))
+        
+        self.wait()
+
+
+class ExistanceOfSup(Scene):
+    def construct(self):
+        real_line = NumberLine([-10, 10], 20) # real line
+        line_label = always_redraw( # R label
+            lambda: 
+                MathTex(r"\mathbb{R}").move_to(real_line.number_to_point(-6.7) + UP * 0.5)    
+        )
+
+        self.play(Create(real_line), Write(line_label))
+        
         
         self.wait()
