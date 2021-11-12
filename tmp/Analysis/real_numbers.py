@@ -1,5 +1,4 @@
 from manim import *
-from numpy.lib.type_check import real
 
 class Axioms(Scene):
     def construct(self):
@@ -178,7 +177,6 @@ class Continuity(Scene):
         self.play(Write(hole_definition[1][10]))
         
         self.wait()
-
 
 class ExistanceOfSup(Scene):
     def construct(self):
