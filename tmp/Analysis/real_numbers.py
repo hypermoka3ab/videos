@@ -186,7 +186,37 @@ class ExistanceOfSup(Scene):
                 MathTex(r"\mathbb{R}").move_to(real_line.number_to_point(-6.7) + UP * 0.5)    
         )
 
-        self.play(Create(real_line), Write(line_label))
+        A_brace = always_redraw( # left brace
+            lambda:
+                BraceBetweenPoints( 
+                    real_line.number_to_point(-7.5),
+                    real_line.number_to_point(2),
+                    direction = DOWN
+                )
+        )
+        A_label = always_redraw( # left label
+            lambda:
+                MathTex("A").next_to(A_brace, DOWN, buff = SMALL_BUFF)
+        )
+        
+        B_brace = always_redraw( # right brace
+            lambda:
+                BraceBetweenPoints(
+                    real_line.number_to_point(2),
+                    real_line.number_to_point(7.5),
+                    direction = DOWN
+                )
+        )
+        B_label = always_redraw( # right label
+            lambda:
+                MathTex("B").next_to(B_brace, DOWN, buff = SMALL_BUFF)
+        )
+
+        self.play(
+            Create(real_line), Write(line_label),
+            *[GrowFromCenter(brace) for brace in [A_brace, B_brace]],
+            Write(A_label), Write(B_label),
+        )
         
         
         self.wait()
