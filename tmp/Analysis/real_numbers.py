@@ -220,3 +220,11 @@ class ExistanceOfSup(Scene):
         
         
         self.wait()
+
+class ArchimedeanProperty(Scene):
+    def construct(self):
+        x_segment = NumberLine([0, 1], .5)
+        y_segment = NumberLine([0, 1], 2).next_to(x_segment, DOWN)
+        self.add(x_segment, y_segment)
+        self.wait()
+
