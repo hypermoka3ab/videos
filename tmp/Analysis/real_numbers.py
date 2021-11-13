@@ -227,19 +227,44 @@ class ArchimedeanProperty(Scene):
         self.illustrate_archimedean_property()
 
     def illustrate_archimedean_property(self):
-        x_length = ValueTracker(1 / sqrt(2))
-        x_segment = always_redraw(lambda : NumberLine([0, 1], x_length.get_value()).to_edge(LEFT).shift(UP / 2))
-        y_segment = NumberLine([0, 1], 2).to_edge(LEFT)
-        x_label = always_redraw(lambda: MathTex("x").next_to(x_segment, UP, buff = SMALL_BUFF))
-        y_label = always_redraw(lambda: MathTex("y").next_to(y_segment, DOWN, buff = SMALL_BUFF))
-        x = VGroup(x_segment, x_label)
-        y = VGroup(y_segment, y_label)
-        self.add(x, y)
+        # x
+        x_length = ValueTracker(1 / sqrt(5)) # length of x
+        x_segment = always_redraw(lambda : NumberLine([0, 1], x_length.get_value()).to_edge(LEFT).shift(UP / 2)) # x segment
+        x_label = always_redraw(lambda: MathTex("x").next_to(x_segment, UP, buff = SMALL_BUFF)) # x label
+        x = VGroup(x_segment, x_label) # group everything together
+        
+        # y
+        y_length = ValueTracker(2) # length of y
+        y_segment = always_redraw(lambda : NumberLine([0, 1], y_length.get_value()).to_edge(LEFT)) # y segment
+        y_label = always_redraw(lambda: MathTex("y").next_to(y_segment, DOWN, buff = SMALL_BUFF)) # y label
+        y = VGroup(y_segment, y_label) # group everything together
+        
+        self.play(
+            Create(x_segment),
+            Create(y_segment),
+            Write(x_label),
+            Write(y_label),
+        )
         self.wait()
-        i = 1
-        while x_length.get_value() * i < 2:
-            self.play(
-                ReplacementTransform(x.copy(), x.copy().shift(RIGHT * i * x_length.get_value())),
+            
+        xs_group = always_redraw(
+            lambda:
+                VGroup(
+                *[
+                    x_segment.copy().shift(x_length.get_value() * RIGHT * i) 
+                    for i in range(int(y_length.get_value() / x_length.get_value()) + 1)
+                ]
             )
-            i += 1
+        )
+        for i in range(1, len(xs_group)):
+            self.play(
+                ReplacementTransform(xs_group[i - 1].copy(), xs_group[i]),
+                )
             self.wait()
+
+        self.play(
+            *[FadeOut(o) for o in self.mobjects + [x_segment]]
+        )
+        self.clear()
+        self.wait()
+        
