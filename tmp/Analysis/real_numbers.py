@@ -1,5 +1,8 @@
 from math import sqrt
 from manim import *
+chapter = "I"
+global theorem_count 
+theorem_count = 1
 
 class Axioms(Scene):
     def construct(self):
@@ -181,7 +184,10 @@ class Continuity(Scene):
 
 class SupAndInf(Scene):
     def construct(self):
-        self.prove_existance_of_sup_and_inf()
+        global theorem_count
+        # self.prove_existance_of_sup_and_inf()
+        self.caracterize_sup_and_inf()
+        print("hah ", theorem_count)        
 
 
 
@@ -228,7 +234,27 @@ class SupAndInf(Scene):
         self.wait()
 
     def caracterize_sup_and_inf(self):
-        pass
+        global chapter
+        global theorem_count
+
+        # establish theorem
+        theorem = VGroup(
+            Tex("Théorème " + chapter + "." + str(theorem_count)),
+            Tex(
+                r"Soit $A \subset \mathbb{R}$  un ensemble non vide est $\lambda$ un majorant de $A$."                
+            ),
+            Tex("Les deux propositions suivantes sont équivalantes:"),
+            MathTex(r"(i)  \quad \lambda = \sup A"),
+            MathTex(r"(ii) \quad \forall \varepsilon > 0\ \exists x \in A\ \lambda \ < x + \varepsilon"),
+        ).arrange_submobjects(DOWN, aligned_edge = LEFT).to_edge(LEFT)
+        
+        theorem_count += 1
+        self.play(Write(theorem))
+        self.wait()
+        self.play(DrawBorderThenFill(
+            SurroundingRectangle(theorem, color = WHITE, buff = 0.5)
+        ))
+
 class ArchimedeanProperty(Scene):
     def construct(self):
         # self.illustrate_archimedean_property()
