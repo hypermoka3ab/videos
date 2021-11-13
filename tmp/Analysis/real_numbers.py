@@ -1,3 +1,4 @@
+from math import sqrt
 from manim import *
 
 class Axioms(Scene):
@@ -223,8 +224,22 @@ class ExistanceOfSup(Scene):
 
 class ArchimedeanProperty(Scene):
     def construct(self):
-        x_segment = NumberLine([0, 1], .5)
-        y_segment = NumberLine([0, 1], 2).next_to(x_segment, DOWN)
-        self.add(x_segment, y_segment)
-        self.wait()
+        self.illustrate_archimedean_property()
 
+    def illustrate_archimedean_property(self):
+        x_length = ValueTracker(1 / sqrt(2))
+        x_segment = always_redraw(lambda : NumberLine([0, 1], x_length.get_value()).to_edge(LEFT).shift(UP / 2))
+        y_segment = NumberLine([0, 1], 2).to_edge(LEFT)
+        x_label = always_redraw(lambda: MathTex("x").next_to(x_segment, UP, buff = SMALL_BUFF))
+        y_label = always_redraw(lambda: MathTex("y").next_to(y_segment, DOWN, buff = SMALL_BUFF))
+        x = VGroup(x_segment, x_label)
+        y = VGroup(y_segment, y_label)
+        self.add(x, y)
+        self.wait()
+        i = 1
+        while x_length.get_value() * i < 2:
+            self.play(
+                ReplacementTransform(x.copy(), x.copy().shift(RIGHT * i * x_length.get_value())),
+            )
+            i += 1
+            self.wait()
