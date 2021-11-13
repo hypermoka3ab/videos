@@ -179,8 +179,13 @@ class Continuity(Scene):
         
         self.wait()
 
-class ExistanceOfSup(Scene):
+class SupAndInf(Scene):
     def construct(self):
+        self.prove_existance_of_sup_and_inf()
+
+
+
+    def prove_existance_of_sup_and_inf(self):
         real_line = NumberLine([-10, 10], 20) # real line
         line_label = always_redraw( # R label
             lambda: 
@@ -222,6 +227,8 @@ class ExistanceOfSup(Scene):
         
         self.wait()
 
+    def caracterize_sup_and_inf(self):
+        pass
 class ArchimedeanProperty(Scene):
     def construct(self):
         # self.illustrate_archimedean_property()
