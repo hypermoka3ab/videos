@@ -224,8 +224,8 @@ class ExistanceOfSup(Scene):
 
 class ArchimedeanProperty(Scene):
     def construct(self):
-        self.illustrate_archimedean_property()
-
+        # self.illustrate_archimedean_property()
+        self.prove_archimedean_property()
     def illustrate_archimedean_property(self):
         # x
         x_length = ValueTracker(1 / sqrt(5)) # length of x
@@ -268,3 +268,29 @@ class ArchimedeanProperty(Scene):
         self.clear()
         self.wait()
         
+    def prove_archimedean_property(self):
+        font_size = 40
+
+        # initial assumption
+        initial_assumption = Tex(
+            r"Soient $x > 0, y\in\mathbb{R}$ un contrexemple de la propriété d'Archimède.", 
+            font_size = 40
+        )
+
+        # restate assumption
+        restated_assumption = Tex(
+            r"$y$ est un majorant de l'ensemble $A = \{nx\vert n\in\mathbb{N}\}$",
+            font_size = font_size
+        )
+
+        # conclude that α = Sup(A)
+        sup_A = Tex(r"Soit $\alpha = \sup A$", font_size = font_size)
+        
+        # Group everything together
+        proof = VGroup(
+            initial_assumption,
+            restated_assumption,
+            sup_A
+        ).arrange_submobjects(DOWN, aligned_edge = LEFT).to_corner(UL)
+        self.play(Write(proof))
+        self.wait()
