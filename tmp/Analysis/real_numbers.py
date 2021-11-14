@@ -186,9 +186,8 @@ class SupAndInf(Scene):
     def construct(self):
         global theorem_count
         # self.prove_existance_of_sup_and_inf()
-        self.caracterize_sup_and_inf()
-        print("hah ", theorem_count)        
-
+        # self.caracterize_sup_and_inf()
+        self.prove_caracterization()
 
 
     def prove_existance_of_sup_and_inf(self):
@@ -244,16 +243,46 @@ class SupAndInf(Scene):
                 r"Soit $A \subset \mathbb{R}$  un ensemble non vide est $\lambda$ un majorant de $A$."                
             ),
             Tex("Les deux propositions suivantes sont équivalantes:"),
-            MathTex(r"(i)  \quad \lambda = \sup A"),
-            MathTex(r"(ii) \quad \forall \varepsilon > 0\ \exists x \in A\ \lambda \ < x + \varepsilon"),
+            MathTex(r"(i)  \quad", r"\lambda = \sup A"),
+            MathTex(r"(ii) \quad", r" \forall \varepsilon > 0\ \exists x \in A\ \lambda \ < x + \varepsilon"),
         ).arrange_submobjects(DOWN, aligned_edge = LEFT).to_edge(LEFT)
         
         theorem_count += 1
-        self.play(Write(theorem))
-        self.wait()
+        for i in range(3):
+            self.play(Write(theorem[i]))
+            self.wait(i/3 + .5)
+        for prop in theorem[3], theorem[4]:
+            self.play(Write(prop[0]))
+            self.wait(.5)
+            self.play(Write(prop[1]))
+            self.wait()
+        
         self.play(DrawBorderThenFill(
             SurroundingRectangle(theorem, color = WHITE, buff = 0.5)
         ))
+        self.wait()
+
+        # clean up
+        self.play(
+            *[FadeOut(o) for o in self.mobjects]
+        )
+        self.clear()
+
+    def prove_caracterization(self):
+        
+        
+        
+        proof = VGroup(
+            *[
+                Tex(r"\emph{Proof.}"),
+                MathTex(r"(i) \Rightarrow (ii):", color = BLUE),
+                Tex(r"Posons $\lambda = \sup A$ et soit $\varepsilon > 0$."),
+                Tex(r"$\lambda - \varepsilon < \lambda \Rightarrow \lambda - \varepsilon$ n'est pas un majorant de $A$.")
+            ]
+        ).arrange_submobjects(DOWN, aligned_edge = LEFT).to_edge(LEFT)
+        proof[2:].shift(RIGHT)
+        self.play(Write(proof))
+        self.wait()
 
 class ArchimedeanProperty(Scene):
     def construct(self):
