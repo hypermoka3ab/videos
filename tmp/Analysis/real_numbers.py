@@ -274,7 +274,7 @@ class Sup(Scene):
         
         proof = VGroup(
             *[
-                Tex(r"\emph{Proof.}"),
+                Tex(r"\emph{Démonstration.}"),
                 MathTex(r"(i) \Rightarrow (ii):", color = BLUE),
                 Tex(r"Posons $\lambda = \sup A$ et soit $\varepsilon > 0$."),
                 MathTex(
@@ -288,7 +288,7 @@ class Sup(Scene):
         ).arrange_submobjects(DOWN, aligned_edge = LEFT).to_edge(LEFT)
         proof[2:4].shift(RIGHT)
         proof[5].shift(RIGHT)
-        self.play(Write(proof))
+        self.play(Write(proof.scale(.7)))
         self.wait()
 
 class ArchimedeanProperty(Scene):
