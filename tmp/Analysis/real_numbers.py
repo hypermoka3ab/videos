@@ -182,7 +182,7 @@ class Continuity(Scene):
         
         self.wait()
 
-class SupAndInf(Scene):
+class Sup(Scene):
     def construct(self):
         global theorem_count
         # self.prove_existance_of_sup_and_inf()
@@ -277,10 +277,17 @@ class SupAndInf(Scene):
                 Tex(r"\emph{Proof.}"),
                 MathTex(r"(i) \Rightarrow (ii):", color = BLUE),
                 Tex(r"Posons $\lambda = \sup A$ et soit $\varepsilon > 0$."),
-                Tex(r"$\lambda - \varepsilon < \lambda \Rightarrow \lambda - \varepsilon$ n'est pas un majorant de $A$.")
+                MathTex(
+                    r"\lambda - \varepsilon < \lambda &\Rightarrow \lambda - \varepsilon\ \mathrm{n'est\ pas\ un\ majorant\ de}\ A.\\", 
+                    r"&\Rightarrow \exists x \in A\ \lambda - \varepsilon < x\\",
+                    r"& \Rightarrow \lambda < x + \varepsilon"
+                ),
+                MathTex(r"(ii) \Rightarrow (i):", color = BLUE),
+                Tex(r"Soit $\lambda$ un majorant de $A$ qui vérifie $(ii)$ et soit $\alpha < \lambda$.")
             ]
         ).arrange_submobjects(DOWN, aligned_edge = LEFT).to_edge(LEFT)
-        proof[2:].shift(RIGHT)
+        proof[2:4].shift(RIGHT)
+        proof[5].shift(RIGHT)
         self.play(Write(proof))
         self.wait()
 
