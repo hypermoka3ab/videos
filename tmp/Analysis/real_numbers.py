@@ -72,7 +72,7 @@ class Axioms(Scene):
             )
             
 
-class Continuity(Scene):
+class Completude(Scene):
     def construct(self):
         self.define_hole()        
         
@@ -196,6 +196,13 @@ class Continuity(Scene):
         self.play(Write(hole_definition[1][10]))
         
         self.wait()
+    
+    def state_axiom_of_continuity(self):
+        pass
+
+    def restate_all(self):
+        pass
+
 
 class Sup(Scene):
     def construct(self):
