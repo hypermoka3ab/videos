@@ -8,7 +8,7 @@ class Axioms(Scene):
     def construct(self):
         self.axioms = VGroup(
             *[
-                MathTex(r"\mathrm{axiome}\ " + str(i + 1) + "\ " + axiom, font_size=20)
+                MathTex(f"\\mathrm{{axiome}}\ {i + 1}\ {axiom} ", font_size=20)
                 for i, axiom in enumerate(
                     [
                         # I Addition
@@ -253,7 +253,7 @@ class Sup(Scene):
 
         # establish theorem
         theorem = VGroup(
-            Tex("Théorème " + chapter + "." + str(theorem_count)),
+            Tex(f"Théorème\ {chapter}.{theorem_count}"),
             Tex(
                 r"Soit $A \subset \mathbb{R}$  un ensemble non vide est $\lambda$ un majorant de $A$."                
             ),
