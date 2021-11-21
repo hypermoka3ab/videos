@@ -6,7 +6,7 @@ theorem_count = 1
 
 class Axioms(Scene):
     def construct(self):
-        axioms = VGroup(
+        self.axioms = VGroup(
             *[
                 MathTex(r"\mathrm{axiome}\ " + str(i + 1) + "\ " + axiom, font_size=20)
                 for i, axiom in enumerate(
@@ -50,12 +50,27 @@ class Axioms(Scene):
                 )
             ]
         ).arrange(DOWN, aligned_edge = LEFT).to_edge(LEFT)
-        # MathTex(
-        #     
-        # ).align_submobjects(LEFT)
 
-        self.play(Write(axioms))
-        self.wait(2)
+        self.introduce_axioms()
+        self.wait()
+        
+    def introduce_axioms(self):
+        self.play(Write(self.axioms[:15]))
+        
+        for i in [0, 3, 11]:
+            self.wait()
+            a = MathTex()
+            
+            self.play(
+                self.axioms[i].animate.set_color(YELLOW),
+                Write(SurroundingRectangle(self.axioms[i])), 
+                # run_time=.5
+            )
+            self.play(
+                Write(SurroundingRectangle(self.axioms[i])), 
+                rate_func=lambda t: -t
+            )
+            
 
 class Continuity(Scene):
     def construct(self):
