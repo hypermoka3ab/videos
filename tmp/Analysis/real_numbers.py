@@ -74,10 +74,10 @@ class Axioms(Scene):
 
 class Continuity(Scene):
     def construct(self):
-        self.state_axiom_of_continuity()        
+        self.define_hole()        
         
 
-    def state_axiom_of_continuity(self):
+    def define_hole(self):
         
         # create the objects
           
