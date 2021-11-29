@@ -261,7 +261,7 @@ class Sup(Scene):
 
         # establish theorem
         theorem = VGroup(
-            Tex(f"Théorème\ {chapter}.{theorem_count}"),
+            Tex(f"Théorème\\ {chapter}.{theorem_count}"),
             Tex(
                 r"Soit $A \subset \mathbb{R}$  un ensemble non vide est $\lambda$ un majorant de $A$."                
             ),
@@ -316,8 +316,9 @@ class Sup(Scene):
 
 class ArchimedeanProperty(Scene):
     def construct(self):
-        # self.illustrate_archimedean_property()
-        self.prove_archimedean_property()
+        self.illustrate_archimedean_property()
+        # self.prove_archimedean_property()
+
     def illustrate_archimedean_property(self):
         # x
         x_length = ValueTracker(1 / sqrt(5)) # length of x
@@ -354,6 +355,20 @@ class ArchimedeanProperty(Scene):
                 )
             self.wait()
 
+
+        # Theorem statement
+        global chapter
+        global theorem_count
+        theorem = VGroup(
+            Tex(f"Théorème {chapter}.{theorem_count}"),
+            Tex("Soient $x > 0$ et $y \\in \\mathbb{R}$"),
+            MathTex(r"\exists n \in \mathbb{N}, \quad nx > y")
+        ).arrange_submobjects(DOWN, aligned_edge=LEFT).to_edge(RIGHT)
+        for line in theorem:
+            self.play(Write(line))
+
+        self.play(Write(SurroundingRectangle(theorem, color=WHITE)))
+        self.wait()
         self.play(
             *[FadeOut(o) for o in self.mobjects + [x_segment]]
         )
