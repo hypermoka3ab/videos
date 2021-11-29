@@ -59,16 +59,17 @@ class Axioms(Scene):
         
         for i in [0, 3, 11]:
             self.wait()
-            a = MathTex()
+            rect = SurroundingRectangle(self.axioms[i])
             
             self.play(
                 self.axioms[i].animate.set_color(YELLOW),
-                Write(SurroundingRectangle(self.axioms[i])), 
-                # run_time=.5
+                Write(rect), 
+                run_time=2
             )
             self.play(
-                Write(SurroundingRectangle(self.axioms[i])), 
-                rate_func=lambda t: -t
+                Unwrite(rect), 
+                self.axioms[i].animate.set_color(WHITE),
+                run_time=2
             )
             
 
