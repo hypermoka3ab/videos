@@ -316,8 +316,8 @@ class Sup(Scene):
 
 class ArchimedeanProperty(Scene):
     def construct(self):
-        self.illustrate_archimedean_property()
-        # self.prove_archimedean_property()
+        # self.illustrate_archimedean_property()
+        self.prove_archimedean_property()
 
     def illustrate_archimedean_property(self):
         # x
@@ -357,47 +357,52 @@ class ArchimedeanProperty(Scene):
 
 
         # Theorem statement
-        global chapter
-        global theorem_count
-        theorem = VGroup(
-            Tex(f"Théorème {chapter}.{theorem_count}"),
-            Tex("Soient $x > 0$ et $y \\in \\mathbb{R}$"),
-            MathTex(r"\exists n \in \mathbb{N}, \quad nx > y")
-        ).arrange_submobjects(DOWN, aligned_edge=LEFT).to_edge(RIGHT)
-        for line in theorem:
-            self.play(Write(line))
+        # global chapter
+        # global theorem_count
+        # theorem = VGroup(
+        #     Tex(f"Théorème {chapter}.{theorem_count}"),
+        #     Tex("Soient $x > 0$ et $y \\in \\mathbb{R}$"),
+        #     MathTex(r"\exists n \in \mathbb{N}, \quad nx > y")
+        # ).arrange_submobjects(DOWN, aligned_edge=LEFT).to_edge(RIGHT)
+        # for line in theorem:
+        #     self.play(Write(line))
 
-        self.play(Write(SurroundingRectangle(theorem, color=WHITE)))
-        self.wait()
-        self.play(
-            *[FadeOut(o) for o in self.mobjects + [x_segment]]
-        )
-        self.clear()
-        self.wait()
+        # self.play(Write(SurroundingRectangle(theorem, color=WHITE)))
+        # self.wait()
+        # self.play(
+        #     *[FadeOut(o) for o in self.mobjects + [x_segment]]
+        # )
+        # self.clear()
+        # self.wait()
         
     def prove_archimedean_property(self):
         font_size = 40
 
-        # initial assumption
-        initial_assumption = Tex(
-            r"Soient $x > 0, y\in\mathbb{R}$ un contrexemple de la propriété d'Archimède.", 
-            font_size = 40
-        )
+        # suppose counterexample
 
-        # restate assumption
-        restated_assumption = Tex(
-            r"$y$ est un majorant de l'ensemble $A = \{nx\vert n\in\mathbb{N}\}$",
-            font_size = font_size
-        )
-
-        # conclude that α = Sup(A)
-        sup_A = Tex(r"Soit $\alpha = \sup A$", font_size = font_size)
+        #x
+        x_length = ValueTracker(1 / sqrt(5)) # length of x
+        x_segment = always_redraw(lambda : NumberLine([0, 1], x_length.get_value()).to_edge(LEFT).shift(UP / 2)) # x segment
+        x_label = always_redraw(lambda: MathTex("x").next_to(x_segment, UP, buff = SMALL_BUFF)) # x label
+        x = VGroup(x_segment, x_label) # group everything together
         
-        # Group everything together
-        proof = VGroup(
-            initial_assumption,
-            restated_assumption,
-            sup_A
-        ).arrange_submobjects(DOWN, aligned_edge = LEFT).to_corner(UL)
-        self.play(Write(proof))
+        # y
+        y_length = ValueTracker(2.5) # length of y
+        y_segment = always_redraw(lambda : NumberLine([0, 1], y_length.get_value()).to_edge(LEFT)) # y segment
+        y_label = always_redraw(lambda: MathTex("y").next_to(y_segment, DOWN, buff = SMALL_BUFF)) # y label
+        y = VGroup(y_segment, y_label) # group everything together
+
+        xs = VGroup(
+            x_segment.copy(), 
+            x_segment.copy().shift(x_length.get_value() * RIGHT), 
+            MathTex("\\cdots").next_to(x_segment, buff=.1).shift(x_length.get_value() * RIGHT), 
+            x_segment.copy().shift((x_length.get_value() + .1) * 3 * RIGHT)
+        )
+
+        self.play(Write(y), Write(x))
+        
+        for i in range(1, len(xs)):
+            self.play(
+                ReplacementTransform(xs[i - 1].copy(), xs[i]),
+            )
         self.wait()
