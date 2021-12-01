@@ -406,3 +406,8 @@ class ArchimedeanProperty(Scene):
                 ReplacementTransform(xs[i - 1].copy(), xs[i]),
             )
         self.wait()
+        
+        brace = Brace(xs, UP, .5)
+        nx = MathTex("nx").next_to(brace, UP)
+        self.play(Write(brace), Write(nx))
+        self.wait()
