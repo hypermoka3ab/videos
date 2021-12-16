@@ -208,12 +208,14 @@ class Completude(Scene):
 class Sup(Scene):
     def construct(self):
         global theorem_count
-        # self.prove_existance_of_sup_and_inf()
+        self.prove_existance_of_sup_and_inf()
         # self.caracterize_sup_and_inf()
-        self.prove_caracterization()
+        # self.prove_caracterization()
 
 
     def prove_existance_of_sup_and_inf(self):
+        hole_coord = ValueTracker(2.3)
+        A_B_distance = ValueTracker(0.)
         real_line = NumberLine([-10, 10], 20) # real line
         line_label = always_redraw( # R label
             lambda: 
@@ -224,7 +226,7 @@ class Sup(Scene):
             lambda:
                 BraceBetweenPoints( 
                     real_line.number_to_point(-7.5),
-                    real_line.number_to_point(2),
+                    real_line.number_to_point(hole_coord.get_value() - A_B_distance.get_value()),
                     direction = DOWN
                 )
         )
@@ -236,7 +238,7 @@ class Sup(Scene):
         B_brace = always_redraw( # right brace
             lambda:
                 BraceBetweenPoints(
-                    real_line.number_to_point(2),
+                    real_line.number_to_point(hole_coord.get_value() + A_B_distance.get_value()),
                     real_line.number_to_point(7.5),
                     direction = DOWN
                 )
@@ -246,14 +248,31 @@ class Sup(Scene):
                 MathTex("B").next_to(B_brace, DOWN, buff = SMALL_BUFF)
         )
 
+        B_definition = MathTex(r"B =\{y\in\mathbb{R}|\forall x \in A,\  x\le y\}").to_edge(LEFT).shift(UP * 2)
+
         self.play(
             Create(real_line), Write(line_label),
-            *[GrowFromCenter(brace) for brace in [A_brace, B_brace]],
-            Write(A_label), Write(B_label),
         )
         
-        
         self.wait()
+
+        self.play(
+            GrowFromCenter(A_brace),
+            Write(A_label)
+        )
+        self.wait()
+
+
+        self.play(Write(B_definition))
+        self.play(
+            GrowFromCenter(B_brace),
+            Write(B_label)
+        )
+        self.wait()
+        self.play(real_line.animate.shift(DOWN * 2))
+        self.play(A_B_distance.animate.set_value(.05))
+        self.wait()
+
 
     def caracterize_sup_and_inf(self):
         global chapter
@@ -313,6 +332,7 @@ class Sup(Scene):
         proof[5].shift(RIGHT)
         self.play(Write(proof.scale(.7)))
         self.wait()
+
 
 class ArchimedeanProperty(Scene):
     def construct(self):
@@ -411,3 +431,7 @@ class ArchimedeanProperty(Scene):
         nx = MathTex("nx").next_to(brace, UP)
         self.play(Write(brace), Write(nx))
         self.wait()
+
+
+
+
