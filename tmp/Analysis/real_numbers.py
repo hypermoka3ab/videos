@@ -250,6 +250,15 @@ class Sup(Scene):
 
         B_definition = MathTex(r"B =", r"\{y\in\mathbb{R}|\forall x \in A,\  x\le y\}").to_edge(LEFT).shift(UP * 2)
 
+        z_exists = VGroup(
+            MathTex(r"(i)\ ", r"A, B \neq \emptyset"), # A, B are not empty sets
+            MathTex(r"(ii)\ ", r"\forall x \in A\ \forall y \in B,\  x \le y"), # A left of B
+            MathTex(
+                r"\xrightarrow{\text{Complétude}}", 
+                r"\exists z \in \mathbb{R}\ \forall x \in A\ \forall y \in B,\  x \le z \le y"
+            ), # z between A and B
+        ).arrange(DOWN, aligned_edge=LEFT).to_edge(LEFT).shift(UP * 2)
+
         self.play(
             Create(real_line), Write(line_label),
         )
@@ -269,11 +278,15 @@ class Sup(Scene):
 
         self.play(Write(B_definition[0]))
         self.play(Write(B_definition[1]))
-        self.wait()
         self.play(real_line.animate.shift(DOWN * 2))
-        # self.play(A_B_distance.animate.set_value(.05))
+        self.wait()
+        self.play(Unwrite(B_definition), run_time = .5)
         self.wait()
 
+        self.play(Write(z_exists[:2]))
+        self.wait()
+        self.play(Write(z_exists[2]))
+        self.wait()
 
     def caracterize_sup_and_inf(self):
         global chapter
