@@ -256,26 +256,29 @@ class Sup(Scene):
             VGroup(
                 VGroup(Tex("Complétude", font_size=15), MathTex(r"\Longrightarrow")).arrange(DOWN, buff=SMALL_BUFF),
                 MathTex(
-                    r"\exists z \in \mathbb{R}\ ", 
-                    r"\forall", 
-                    "x", 
-                    r"\in",  
-                    "A", 
-                    r"\ \forall", 
-                    "y", 
-                    r"\in", 
-                    "B", 
-                    r",\ ", r"x \le",  "z", r"\le y"
+                    r"\exists z \in \mathbb{R}\ ", r"\forall x \in A\ ", r"\forall y \in B\ ", r"x \le", "z",  r"\le y"
                 )   
             ).arrange(RIGHT), # z between A and B            
         ).arrange(DOWN, aligned_edge=LEFT).to_edge(LEFT).shift(UP * 2)
 
 
         z_maj_A = MathTex(
-            r"\forall", r"x", r"\in", "A", r"\ ", r"x \le", "z",
+            r"\forall x \in A\ ", r"x \le", "z",
             r"\Rightarrow", r"z \text{\ majorant\ de\ } A", r"\Rightarrow", r"z \in B"
         )
 
+        z_min_B = MathTex(
+           r"\forall y \in B\ ", "z", r"\le y",
+            r"\Rightarrow", r"z \text{\ minorant\ de\ } B"
+        )
+
+        z_sup_A = MathTex(
+            r"z \in B", r"\wedge", r"z \text{\ minorant\ de\ } B",
+            r"\Rightarrow", r"z = \min B",
+            r"\Rightarrow", r"z = \sup A", r"\ \square"
+        )
+
+        z_min_B_reform = Tex("($z$ est le pluse petit majorant de $A$)", font_size=15)
         self.play(
             Create(real_line), Write(line_label),
         )
@@ -313,17 +316,42 @@ class Sup(Scene):
             z_exists[2][1].animate.to_corner(UL)
         )
         z_maj_A.next_to(z_exists[2][1], DOWN).to_edge(LEFT)
+        z_min_B.next_to(z_maj_A, DOWN).to_edge(LEFT)
+        z_sup_A.next_to(z_min_B, DOWN).to_edge(LEFT)
+        z_min_B_reform.next_to(z_sup_A[4], DOWN)
+
         self.wait()
         self.play(
-            *[
-                ReplacementTransform(z_exists[2][1][i + 1].copy(), z_maj_A[i]) for i in range(4)
-            ],
-            ReplacementTransform(z_exists[2][1][-3].copy(), z_maj_A[5]),
-            ReplacementTransform(z_exists[2][1][-2].copy(), z_maj_A[6]),
+            ReplacementTransform(z_exists[2][1][1].copy(), z_maj_A[0]),
+            ReplacementTransform(z_exists[2][1][3].copy(), z_maj_A[1]),
+            ReplacementTransform(z_exists[2][1][4].copy(), z_maj_A[2]),
         )
         self.wait()
-        self.play(Write(z_maj_A[7:]))        
-
+        self.play(Write(z_maj_A[3:]))        
+        self.wait()
+        self.play(
+            ReplacementTransform(z_exists[2][1][2].copy(), z_min_B[0]),
+            ReplacementTransform(z_exists[2][1][4].copy(), z_min_B[1]),
+            ReplacementTransform(z_exists[2][1][5].copy(), z_min_B[2]),
+        )
+        self.wait()
+        self.play(Write(z_min_B[3:]))
+        self.wait()
+        self.play(
+            ReplacementTransform(z_maj_A[-1].copy(), z_sup_A[0]),
+            ReplacementTransform(z_min_B[-1].copy(), z_sup_A[2]),
+        )
+        self.play(Write(z_sup_A[1]))
+        self.wait()
+        self.play(Write(z_sup_A[3:5]))
+        self.wait()
+        self.play(Write(z_min_B_reform))
+        self.play(
+            Write(z_sup_A[5:-1]),
+        )
+        self.wait()
+        self.play(Write(z_sup_A[-1]))
+        self.wait()
 
     def caracterize_sup_and_inf(self):
         global chapter
