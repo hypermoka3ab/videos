@@ -253,10 +253,10 @@ class Sup(Scene):
         z_exists = VGroup(
             MathTex(r"(i)\ ", r"A, B \neq \emptyset"), # A, B are not empty sets
             MathTex(r"(ii)\ ", r"\forall x \in A\ \forall y \in B,\  x \le y"), # A left of B
-            MathTex(
-                r"\xrightarrow{\text{Complétude}}", 
-                r"\exists z \in \mathbb{R}\ \forall x \in A\ \forall y \in B,\  x \le z \le y"
-            ), # z between A and B
+            VGroup(
+                VGroup(Tex("Complétude", font_size=20), MathTex(r"\Longrightarrow")).arrange(DOWN, buff=SMALL_BUFF),
+                MathTex(r"\exists z \in \mathbb{R}\ \forall x \in A\ \forall y \in B,\  x \le z \le y")
+            ).arrange(RIGHT), # z between A and B            
         ).arrange(DOWN, aligned_edge=LEFT).to_edge(LEFT).shift(UP * 2)
 
         self.play(
