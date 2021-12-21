@@ -254,10 +254,27 @@ class Sup(Scene):
             MathTex(r"(i)\ ", r"A, B \neq \emptyset"), # A, B are not empty sets
             MathTex(r"(ii)\ ", r"\forall x \in A\ \forall y \in B,\  x \le y"), # A left of B
             VGroup(
-                VGroup(Tex("Complétude", font_size=20), MathTex(r"\Longrightarrow")).arrange(DOWN, buff=SMALL_BUFF),
-                MathTex(r"\exists z \in \mathbb{R}\ \forall x \in A\ \forall y \in B,\  x \le z \le y")
+                VGroup(Tex("Complétude", font_size=15), MathTex(r"\Longrightarrow")).arrange(DOWN, buff=SMALL_BUFF),
+                MathTex(
+                    r"\exists z \in \mathbb{R}\ ", 
+                    r"\forall", 
+                    "x", 
+                    r"\in",  
+                    "A", 
+                    r"\ \forall", 
+                    "y", 
+                    r"\in", 
+                    "B", 
+                    r",\ ", r"x \le",  "z", r"\le y"
+                )   
             ).arrange(RIGHT), # z between A and B            
         ).arrange(DOWN, aligned_edge=LEFT).to_edge(LEFT).shift(UP * 2)
+
+
+        z_maj_A = MathTex(
+            r"\forall", r"x", r"\in", "A", r"\ ", r"x \le", "z",
+            r"\Rightarrow", r"z \text{\ majorant\ de\ } A", r"\Rightarrow", r"z \in B"
+        )
 
         self.play(
             Create(real_line), Write(line_label),
@@ -278,15 +295,35 @@ class Sup(Scene):
 
         self.play(Write(B_definition[0]))
         self.play(Write(B_definition[1]))
-        self.play(real_line.animate.shift(DOWN * 2))
         self.wait()
         self.play(Unwrite(B_definition), run_time = .5)
         self.wait()
+        self.play(real_line.animate.shift(DOWN * 2))
 
         self.play(Write(z_exists[:2]))
         self.wait()
-        self.play(Write(z_exists[2]))
+        self.play(GrowFromCenter(z_exists[2][0]))
         self.wait()
+        self.play(Write(z_exists[2][1]))
+        self.wait()
+        self.play(
+            *[
+                FadeOut(v, shift=LEFT) for v in [z_exists[0], z_exists[1], z_exists[2][0]]
+            ],
+            z_exists[2][1].animate.to_corner(UL)
+        )
+        z_maj_A.next_to(z_exists[2][1], DOWN).to_edge(LEFT)
+        self.wait()
+        self.play(
+            *[
+                ReplacementTransform(z_exists[2][1][i + 1].copy(), z_maj_A[i]) for i in range(4)
+            ],
+            ReplacementTransform(z_exists[2][1][-3].copy(), z_maj_A[5]),
+            ReplacementTransform(z_exists[2][1][-2].copy(), z_maj_A[6]),
+        )
+        self.wait()
+        self.play(Write(z_maj_A[7:]))        
+
 
     def caracterize_sup_and_inf(self):
         global chapter
