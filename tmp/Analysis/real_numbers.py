@@ -511,6 +511,11 @@ class ArchimedeanProperty(Scene):
         self.play(Write(brace), Write(nx))
         self.wait()
 
+class QDesnse(Scene):
+    def construct(self):
+        pass
 
+    def rational_between_reals(self):
+        pass
 
 
