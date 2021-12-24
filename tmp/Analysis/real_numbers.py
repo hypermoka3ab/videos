@@ -511,11 +511,31 @@ class ArchimedeanProperty(Scene):
         self.play(Write(brace), Write(nx))
         self.wait()
 
+
 class QDesnse(Scene):
     def construct(self):
-        pass
+        real_line = NumberLine([-5, 5], 15) # real line
+        line_label = always_redraw( # R label
+            lambda: 
+                MathTex(r"\mathbb{R}").move_to(real_line.number_to_point(-4.6) + UP * 0.5)    
+        )
+        x_trcker = ValueTracker(.2) # x tracker
+        y_tracker = ValueTracker(.7) # y tracker
+        x_label = always_redraw( # x label
+            lambda: MathTex("x", font_size=25).next_to(real_line.number_to_point(x_trcker.get_value()), UP, buff = SMALL_BUFF)
+        )
+        y_label = always_redraw( # y label
+            lambda: MathTex("y", font_size=25).next_to(real_line.number_to_point(y_tracker.get_value()), UP, buff = SMALL_BUFF)
+        )
+        q = self.get_archimedean(x_trcker.get_value(), y_tracker.get_value())
+        qx_label = MathTex("qx", font_size=25).next_to(real_line.number_to_point(q * x_trcker.get_value()), UP, buff = SMALL_BUFF)
+        qy_label = MathTex("qy", font_size=25).next_to(real_line.number_to_point(q * y_tracker.get_value()), UP, buff = SMALL_BUFF)
+        self.add(real_line, line_label, x_label, y_label, qx_label, qy_label)
+        self.wait()
 
     def rational_between_reals(self):
         pass
 
-
+    def get_archimedean(self, x, y):
+        return int(np.abs(1 / (y - x)))
+        
