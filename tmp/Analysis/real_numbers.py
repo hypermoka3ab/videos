@@ -564,6 +564,14 @@ class QDesnse(Scene):
             ).arrange(DOWN, buff=SMALL_BUFF).next_to(real_line.number_to_point(int(q * y_tracker.get_value()) / q), DOWN, buff=0)
         )
 
+        q_exists = MathTex(
+            r"\exists q \in \mathbb{N}\ ", "q", "(", "y", "-", "x", ")" "> 1",
+            r"& \Rightarrow ", "q", "y", "-", "q", "x", "> 1", 
+            r"\\ & \Rightarrow", r"\exists p \in \mathbb{Z}\ ", "q", "x", "<", "p", "<", "q", "y",
+            r"\\ & \Rightarrow", r"x", "<", r"p/q",  "< y",
+            tex_to_color_map={"q": YELLOW, "p": YELLOW}
+        ).to_corner(UL)
+
         self.play(
             Write(real_line),
             Write(line_label),
@@ -588,4 +596,6 @@ class QDesnse(Scene):
             ReplacementTransform(qx_label, x_label),
             ReplacementTransform(qy_label, y_label)
         )
+        self.wait()
+        self.play(Write(q_exists))
         self.wait()
