@@ -514,6 +514,10 @@ class ArchimedeanProperty(Scene):
 
 class QDesnse(Scene):
     def construct(self):
+        self.prove_Q_dense()
+
+        
+    def prove_Q_dense(self):
         real_line = NumberLine([-4, 4], 15) # real line
         line_label = always_redraw( # R label
             lambda: 
@@ -568,6 +572,10 @@ class QDesnse(Scene):
             ).arrange(DOWN, buff=SMALL_BUFF).next_to(real_line.number_to_point(int(q * y_tracker.get_value()) / q), DOWN, buff=0)
         )
 
+        inQ = always_redraw(
+            lambda: MathTex(r"\in \mathbb{Q}", font_size=30).next_to(p_over_q_label, RIGHT, buff=SMALL_BUFF)
+        )
+
         q_exists = MathTex(
             r"\exists q \in \mathbb{N}\ ", "q", "(", "y", "-", "x", ")", "> 1",
             r"& \Rightarrow ", "q", "y", "-", "q", "x", "> 1", 
@@ -609,5 +617,6 @@ class QDesnse(Scene):
             ReplacementTransform(qy_label, y_label),
             Write(q_exists[28:]),
         )
+        self.play(Write(inQ))
         self.wait()
        
