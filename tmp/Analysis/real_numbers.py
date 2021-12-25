@@ -541,35 +541,35 @@ class QDesnse(Scene):
                 ).scale(.1).next_to(real_line.number_to_point(y_tracker.get_value()), DOWN, buff=0)
             ) 
         )
-        q = int(np.abs(1 / (y_tracker.get_value() - x_tracker.get_value())))
+        not_q = int(np.abs(1 / (y_tracker.get_value() - x_tracker.get_value())))
         qx_label = always_redraw(
             lambda: VGroup(
                 MathTex(
                     "qx", font_size=30, tex_to_color_map={"q":YELLOW}
-                ).next_to(real_line.number_to_point(q * x_tracker.get_value()), UP, buff = SMALL_BUFF),
+                ).next_to(real_line.number_to_point(not_q * x_tracker.get_value()), UP, buff = SMALL_BUFF),
                 Triangle(
                     stroke_width=0, fill_color=WHITE, fill_opacity=1
-                ).scale(.1).next_to(real_line.number_to_point(x_tracker.get_value() * q), DOWN, buff=0)
+                ).scale(.1).next_to(real_line.number_to_point(x_tracker.get_value() * not_q), DOWN, buff=0)
             )
         )
         qy_label = always_redraw(
             lambda: VGroup(
                 MathTex(
                     "qy", font_size=30, tex_to_color_map={"q": YELLOW}
-                ).next_to(real_line.number_to_point(q * y_tracker.get_value()), UP, buff = SMALL_BUFF),
+                ).next_to(real_line.number_to_point(not_q * y_tracker.get_value()), UP, buff = SMALL_BUFF),
                 Triangle(
                     stroke_width=0, fill_color=WHITE, fill_opacity=1
-                ).scale(.1).next_to(real_line.number_to_point(y_tracker.get_value() * q), DOWN, buff=0)
+                ).scale(.1).next_to(real_line.number_to_point(y_tracker.get_value() * not_q), DOWN, buff=0)
             )
         )
         p_label = always_redraw(
-            lambda: MathTex("p", font_size=30).set_color(YELLOW).next_to(real_line.number_to_point(int(q * y_tracker.get_value())), UP, buff = SMALL_BUFF)
+            lambda: MathTex("p", font_size=30).set_color(YELLOW).next_to(real_line.number_to_point(int(not_q * y_tracker.get_value())), UP, buff = SMALL_BUFF)
         )
         p_over_q_label = always_redraw(
             lambda: VGroup(
                 Triangle(stroke_width=0, fill_color=WHITE, fill_opacity=1).scale(.1).set_color(YELLOW),
                 MathTex(r"p\over q", font_size=30).set_color(YELLOW)
-            ).arrange(DOWN, buff=SMALL_BUFF).next_to(real_line.number_to_point(int(q * y_tracker.get_value()) / q), DOWN, buff=0)
+            ).arrange(DOWN, buff=SMALL_BUFF).next_to(real_line.number_to_point(int(not_q * y_tracker.get_value()) / not_q), DOWN, buff=0)
         )
 
         inQ = always_redraw(
@@ -580,8 +580,8 @@ class QDesnse(Scene):
             r"\exists q \in \mathbb{N}\ ", "q", "(", "y", "-", "x", ")", "> 1",
             r"& \Rightarrow ", "q", "y", "-", "q", "x", "> 1", 
             r"\\ & \Rightarrow", r"\exists p \in \mathbb{Z}\ ", "q", "x", "<", "p", "<", "q", "y",
-            r"\\ & \Rightarrow", r"x < {1\over 2} < y",
-            tex_to_color_map={"q": YELLOW, "p": YELLOW, r"\over": YELLOW}
+            r"\\ & \Rightarrow", r"x < {p\over q} < y",
+            tex_to_color_map={"q": YELLOW, "p": YELLOW}
         ).to_corner(UL)
 
         self.play(
@@ -619,4 +619,5 @@ class QDesnse(Scene):
         )
         self.play(Write(inQ))
         self.wait()
-       
+
+
