@@ -540,7 +540,9 @@ class QDesnse(Scene):
         q = int(np.abs(1 / (y_tracker.get_value() - x_tracker.get_value())))
         qx_label = always_redraw(
             lambda: VGroup(
-                MathTex("qx", font_size=30).next_to(real_line.number_to_point(q * x_tracker.get_value()), UP, buff = SMALL_BUFF),
+                MathTex(
+                    "qx", font_size=30, tex_to_color_map={"q":YELLOW}
+                ).next_to(real_line.number_to_point(q * x_tracker.get_value()), UP, buff = SMALL_BUFF),
                 Triangle(
                     stroke_width=0, fill_color=WHITE, fill_opacity=1
                 ).scale(.1).next_to(real_line.number_to_point(x_tracker.get_value() * q), DOWN, buff=0)
@@ -548,7 +550,9 @@ class QDesnse(Scene):
         )
         qy_label = always_redraw(
             lambda: VGroup(
-                MathTex("qy", font_size=30).next_to(real_line.number_to_point(q * y_tracker.get_value()), UP, buff = SMALL_BUFF),
+                MathTex(
+                    "qy", font_size=30, tex_to_color_map={"q": YELLOW}
+                ).next_to(real_line.number_to_point(q * y_tracker.get_value()), UP, buff = SMALL_BUFF),
                 Triangle(
                     stroke_width=0, fill_color=WHITE, fill_opacity=1
                 ).scale(.1).next_to(real_line.number_to_point(y_tracker.get_value() * q), DOWN, buff=0)
@@ -565,11 +569,11 @@ class QDesnse(Scene):
         )
 
         q_exists = MathTex(
-            r"\exists q \in \mathbb{N}\ ", "q", "(", "y", "-", "x", ")" "> 1",
+            r"\exists q \in \mathbb{N}\ ", "q", "(", "y", "-", "x", ")", "> 1",
             r"& \Rightarrow ", "q", "y", "-", "q", "x", "> 1", 
             r"\\ & \Rightarrow", r"\exists p \in \mathbb{Z}\ ", "q", "x", "<", "p", "<", "q", "y",
-            r"\\ & \Rightarrow", r"x", "<", r"p/q",  "< y",
-            tex_to_color_map={"q": YELLOW, "p": YELLOW}
+            r"\\ & \Rightarrow", r"x < {1\over 2} < y",
+            tex_to_color_map={"q": YELLOW, "p": YELLOW, r"\over": YELLOW}
         ).to_corner(UL)
 
         self.play(
@@ -583,19 +587,27 @@ class QDesnse(Scene):
             Write(y_label[0]),
             GrowFromCenter(y_label[1])
         )
+        self.play(Write(q_exists[:10]))
         self.wait()
+        self.play(Write(q_exists[10]))
         self.play(
             ReplacementTransform(x_label, qx_label),
-            ReplacementTransform(y_label, qy_label)
+            ReplacementTransform(y_label, qy_label),
+            ReplacementTransform(q_exists[1].copy(), q_exists[11]),
+            ReplacementTransform(q_exists[3].copy(), q_exists[12]),
+            ReplacementTransform(q_exists[4].copy(), q_exists[13]),
+            ReplacementTransform(q_exists[1].copy(), q_exists[14]),
+            ReplacementTransform(q_exists[5].copy(), q_exists[15]),
+            ReplacementTransform(q_exists[10].copy(), q_exists[16]),
         )
         self.wait()
-        self.play(Write(p_label))
+        self.play(Write(p_label), Write(q_exists[17:28]))
         self.wait()
         self.play(
             ReplacementTransform(p_label, p_over_q_label),
             ReplacementTransform(qx_label, x_label),
-            ReplacementTransform(qy_label, y_label)
+            ReplacementTransform(qy_label, y_label),
+            Write(q_exists[28:]),
         )
         self.wait()
-        self.play(Write(q_exists))
-        self.wait()
+       
