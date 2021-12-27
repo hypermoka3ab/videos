@@ -416,8 +416,10 @@ class SupCaracterisation(Scene):
 
 class Sqrt2IsReal(Scene):
     def construct(self):
-        A_definition = MathTex(r"A =", r"\{x\in\mathbb{R}_+|x^2 < 2")
-        
+        A_definition = MathTex(r"A =", r"\{x\in\mathbb{R}_+|x^2 < 2\}")
+        S_definition = MathTex(r"s = \sup A").next_to(A_definition, DOWN)
+        self.play(Write(A_definition), Write(S_definition))
+        self.wait()        
 
 
 class ArchimedeanProperty(Scene):
