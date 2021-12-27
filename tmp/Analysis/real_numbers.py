@@ -205,7 +205,7 @@ class Completude(Scene):
         pass
 
 
-class Sup(Scene):
+class SupExistance(Scene):
     def construct(self):
         global theorem_count
         self.prove_existance_of_sup_and_inf()
