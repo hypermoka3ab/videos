@@ -349,13 +349,15 @@ class SupExistance(Scene):
         self.wait()
         self.play(Write(z_sup_A[-1]))
         self.wait()
-    
+
 
 class SupCaracterisation(Scene):
     def construct(self):
-        self.caracterize_sup_and_inf()
+        self.state_theorem()
+        self.wait()
+        self.prove_theorem()
 
-    def caracterize_sup_and_inf(self):
+    def state_theorem(self):
         global chapter
         global theorem_count
 
@@ -391,14 +393,14 @@ class SupCaracterisation(Scene):
         )
         self.clear()
 
-    def prove_caracterization(self):    
+    def prove_theorem(self):    
         proof = VGroup(
             *[
                 Tex(r"\emph{Démonstration.}"),
                 MathTex(r"(i) \Rightarrow (ii):", color = BLUE),
                 Tex(r"Posons $\lambda = \sup A$ et soit $\varepsilon > 0$."),
                 MathTex(
-                    r"\lambda - \varepsilon < \lambda &\Rightarrow \lambda - \varepsilon\ \mathrm{n'est\ pas\ un\ majorant\ de}\ A.\\", 
+                    r"\lambda - \varepsilon < \lambda &\Rightarrow \lambda - \varepsilon\ \text{n'est\ pas\ un\ majorant\ de}\ A.\\", 
                     r"&\Rightarrow \exists x \in A\ \lambda - \varepsilon < x\\",
                     r"& \Rightarrow \lambda < x + \varepsilon"
                 ),
@@ -410,6 +412,13 @@ class SupCaracterisation(Scene):
         proof[5].shift(RIGHT)
         self.play(Write(proof.scale(.7)))
         self.wait()
+
+
+class Sqrt2IsReal(Scene):
+    def construct(self):
+        A_definition = MathTex(r"A =", r"\{x\in\mathbb{R}_+|x^2 < 2")
+        
+
 
 class ArchimedeanProperty(Scene):
     def construct(self):
