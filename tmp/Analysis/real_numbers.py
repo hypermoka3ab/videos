@@ -209,9 +209,6 @@ class SupExistance(Scene):
     def construct(self):
         global theorem_count
         self.prove_existance_of_sup_and_inf()
-        # self.caracterize_sup_and_inf()
-        # self.prove_caracterization()
-
 
     def prove_existance_of_sup_and_inf(self):
         hole_coord = ValueTracker(2.3)
@@ -352,6 +349,11 @@ class SupExistance(Scene):
         self.wait()
         self.play(Write(z_sup_A[-1]))
         self.wait()
+    
+
+class SupCaracterisation(Scene):
+    def construct(self):
+        self.caracterize_sup_and_inf()
 
     def caracterize_sup_and_inf(self):
         global chapter
@@ -365,7 +367,7 @@ class SupExistance(Scene):
             ),
             Tex("Les deux propositions suivantes sont équivalantes:"),
             MathTex(r"(i)  \quad", r"\lambda = \sup A"),
-            MathTex(r"(ii) \quad", r" \forall \varepsilon > 0\ \exists x \in A\ \lambda \ < x + \varepsilon"),
+            MathTex(r"(ii) \quad", r" \forall \varepsilon > 0\ \exists x \in A\ \lambda - \varepsilon < x"),
         ).arrange_submobjects(DOWN, aligned_edge = LEFT).to_edge(LEFT)
         
         theorem_count += 1
@@ -389,10 +391,7 @@ class SupExistance(Scene):
         )
         self.clear()
 
-    def prove_caracterization(self):
-        
-        
-        
+    def prove_caracterization(self):    
         proof = VGroup(
             *[
                 Tex(r"\emph{Démonstration.}"),
@@ -411,7 +410,6 @@ class SupExistance(Scene):
         proof[5].shift(RIGHT)
         self.play(Write(proof.scale(.7)))
         self.wait()
-
 
 class ArchimedeanProperty(Scene):
     def construct(self):
