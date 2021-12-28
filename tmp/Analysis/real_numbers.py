@@ -421,11 +421,58 @@ class SupCaracterisation(Scene):
 
 class Sqrt2IsReal(Scene):
     def construct(self):
-        A_definition = MathTex(r"A =", r"\{x\in\mathbb{R}_+|x^2 < 2\}")
-        S_definition = MathTex(r"s = \sup A").next_to(A_definition, DOWN)
-        self.play(Write(A_definition), Write(S_definition))
+        A_definition = MathTex(r"A =", r"\{x\in\mathbb{R}_+|x^2 < 2\}").to_corner(UL)
+        s_definition = MathTex(r"s = \sup A").next_to(A_definition, DOWN).to_edge(LEFT)
+        s_justification = Tex(r"($2$ est un majorant de $A$)").next_to(s_definition, RIGHT)
+        
+        
+        self.play(Write(A_definition))
         self.wait()        
+        self.play(Write(s_definition))
+        self.play(Write(s_justification), run_time = .8)
+        self.wait()
+        self.play(
+            FadeOut(A_definition),
+            FadeOut(s_justification),
+            s_definition.animate.to_corner(UL)
+        )
+        self.wait()
+        alternatives = VGroup(
+            MathTex("s^2 > 2"),
+            MathTex("s^2 < 2"),
+            MathTex("s^2 = 2"),
+        ).arrange(DOWN, aligned_edge = LEFT).next_to(s_definition, DOWN)
+        
+        for alternative in alternatives:
+            self.play(Write(alternative))
 
+        self.play(
+            *[FadeOut(o) for o in [s_definition, alternatives[1], alternatives[2]]],
+            alternatives[0].animate.to_corner(UL)
+        )
+        self.wait()
+
+        proofG2 = VGroup(
+            Tex(r"Soit $0 < \varepsilon < 1$, ", r"$(s - \varepsilon)^2 = s^2 -2s\varepsilon + \varepsilon^2$", r"$\ge s^2 -4\varepsilon$", "."),
+            Tex(r"En choisissant $\varepsilon < {s^2 - 2 \over 4}$, ", r"on obtient $(s - \varepsilon)^2 \ge 2$"),
+            MathTex(r"\forall x \in A\ ", r"(s - \varepsilon)^2 \ge 2 > x^2", r"\Rightarrow (s - \varepsilon)^2 > x^2", r"\Rightarrow s -\varepsilon> x"),
+            Tex(r"Autrement dit, ", r"$s - \varepsilon$ est un majorant de $A$."),
+            Tex(r"ce qui est absurde car $s- \varepsilon < s = \sup A$.")
+
+        ).arrange(DOWN, aligned_edge=LEFT).next_to(alternatives[0], DOWN).to_edge(LEFT)
+        self.play(Write(proofG2))
+        self.wait()
+        crossG2 = Cross(alternatives[0])
+        self.play(Write(crossG2))
+        self.wait()
+        self.play(
+            FadeOut(crossG2),
+            FadeOut(proofG2),
+            alternatives[0].animate.next_to(s_definition, DOWN),
+            FadeIn(alternatives[1]),
+            FadeIn(alternatives[2])
+        )
+        self.wait()
 
 class ArchimedeanProperty(Scene):
     def construct(self):
