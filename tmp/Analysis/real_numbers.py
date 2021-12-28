@@ -452,26 +452,52 @@ class Sqrt2IsReal(Scene):
         )
         self.wait()
 
-        proofG2 = VGroup(
+        proof = VGroup(
             Tex(r"Soit $0 < \varepsilon < 1$, ", r"$(s - \varepsilon)^2 = s^2 -2s\varepsilon + \varepsilon^2$", r"$\ge s^2 -4\varepsilon$", "."),
-            Tex(r"En choisissant $\varepsilon < {s^2 - 2 \over 4}$, ", r"on obtient $(s - \varepsilon)^2 \ge 2$"),
-            MathTex(r"\forall x \in A\ ", r"(s - \varepsilon)^2 \ge 2 > x^2", r"\Rightarrow (s - \varepsilon)^2 > x^2", r"\Rightarrow s -\varepsilon> x"),
+            Tex(r"En choisissant $\varepsilon < {s^2 - 2 \over 4}$, ", r"on obtient ",  r"$(s - \varepsilon)^2 > 2$"),
+            MathTex(
+                r"\forall x \in A\ ", r"(s - \varepsilon)^2 > 2",  r"> x^2", 
+                r"\Rightarrow", r"(s - \varepsilon)^2 > x^2", r"\Rightarrow",  r"s -\varepsilon> x"
+            ),
             Tex(r"Autrement dit, ", r"$s - \varepsilon$ est un majorant de $A$."),
             Tex(r"ce qui est absurde car $s- \varepsilon < s = \sup A$.")
 
         ).arrange(DOWN, aligned_edge=LEFT).next_to(alternatives[0], DOWN).to_edge(LEFT)
-        self.play(Write(proofG2))
+        
+        self.play(Write(proof[0][0]))
+        self.play(Write(proof[0][1]))
         self.wait()
-        crossG2 = Cross(alternatives[0])
-        self.play(Write(crossG2))
+        self.play(Write(proof[0][2:]))
+        self.wait()
+        self.play(Write(proof[1][0]))
+        self.play(Write(proof[1][1:]))
+        self.wait()
+        self.play(Write(proof[2][0]))
+        self.play(ReplacementTransform(proof[1][2].copy(), proof[2][1]))
+        self.play(Write(proof[2][2]))
+        for item in proof[2][3:]:
+            self.play(Write(item))
+            self.wait()
+        self.wait()
+        self.play(Write(proof[3]))
+        self.wait()
+        self.play(Write(proof[4]))
+        self.wait()
+        
+
+        self.play(Write(always_redraw(lambda : Cross(alternatives[0]))))
         self.wait()
         self.play(
-            FadeOut(crossG2),
-            FadeOut(proofG2),
+            FadeOut(proof),
             alternatives[0].animate.next_to(s_definition, DOWN),
             FadeIn(alternatives[1]),
             FadeIn(alternatives[2])
         )
+        self.wait()
+        self.play(Write(always_redraw(lambda : Cross(alternatives[1]))))
+        self.wait()
+        self.play(alternatives[2].animate.move_to(ORIGIN).to_edge(UP).set_color(YELLOW))
+        self.play(Create(SurroundingRectangle(alternatives[2], color = YELLOW)))
         self.wait()
 
 class ArchimedeanProperty(Scene):
