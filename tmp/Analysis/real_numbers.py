@@ -75,7 +75,70 @@ class Axioms(Scene):
 
 class Sqrt2IsNotRational(Scene):
     def construct(self):
-        pass
+        hyothesis = MathTex(
+            r"\text{Soient }", r"p ,q \in \mathbb{N} \text{ tels que }", "{p", "^2", r"\over",  "q", "^2}", "=", "2",
+            r"\text{ et }", "p", r"\wedge", "q", "=", "1"
+        ).to_corner(UL)
+        
+        proof =  MathTex(
+            "{p", "^2", r"\over",  "q", "^2}", "=", "2", r"&\Rightarrow", "p", "^2", "=", "2", "q", "^2", 
+            r"\\ &\Rightarrow", "2", "|", "p", "^2", 
+            r"\\ &\Rightarrow", "2", "|", "p", 
+            r"\\ &\Rightarrow", "p", "=", "2", "k", r"k \in \mathbb{N}", 
+        ).next_to(hyothesis, DOWN).to_edge(LEFT)
+        
+        self.play(Write(hyothesis))
+        self.wait()
+        changes = [
+            [
+                tuple(range(2, 10)),
+                tuple(range(7)),
+            ],
+            [
+                (0, 1, 3, 4, 5, 6),
+                (8, 9, 12, 13, 10, 11)
+            ],
+            [
+                (11, 8, 9),
+                (15, 17, 18)
+            ],
+            [
+                (15, 16, 17),
+                (20, 21, 22)
+            ]
+        ]
+        self.play(
+            *[
+                ReplacementTransform(hyothesis[pre].copy(), proof[post])
+                for pre, post in zip(*changes[0])
+            ]
+        )
+        self.wait()
+        self.play(Write(proof[7]))
+        self.play(
+            *[
+                ReplacementTransform(proof[pre].copy(), proof[post])
+                for pre, post in zip(*changes[1])
+            ]
+        )
+        self.wait()
+        self.play(Write(proof[14]))
+        self.play(
+            *[
+                ReplacementTransform(proof[pre].copy(), proof[post])
+                for pre, post in zip(*changes[2])
+            ],
+            Write(proof[16])
+        )
+        self.wait()
+        self.play(Write(proof[19]))
+        self.play(
+            *[
+                ReplacementTransform(proof[pre].copy(), proof[post])
+                for pre, post in zip(*changes[3])
+            ]
+        )
+        self.wait()
 
 
 class Completude(Scene):
