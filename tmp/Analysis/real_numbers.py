@@ -73,6 +73,11 @@ class Axioms(Scene):
             )
             
 
+class Sqrt2IsNotRational(Scene):
+    def construct(self):
+        pass
+
+
 class Completude(Scene):
     def construct(self):
         self.define_hole()        
