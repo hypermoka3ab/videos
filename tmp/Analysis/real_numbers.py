@@ -555,7 +555,8 @@ class Sqrt2IsReal(Scene):
 class ArchimedeanProperty(Scene):
     def construct(self):
         # self.illustrate_archimedean_property()
-        self.prove_archimedean_property()
+        # self.prove_archimedean_property()
+        self.state_theorem()
 
     def illustrate_archimedean_property(self):
         # x
@@ -650,6 +651,17 @@ class ArchimedeanProperty(Scene):
         self.play(Write(brace), Write(nx))
         self.wait()
 
+    def state_theorem(self):
+        theorem = VGroup(
+            Tex(f"Théorème {chapter}.{theorem_count}"),
+            Tex(r"Soient $x > 0$ et $y \in \mathbb{R}$, ", r"il existe $n \in \mathbb{N}$ tel que $nx > y$", r". càd: "),
+            MathTex(r"\forall x > 0\ \forall y \in \mathbb{R}\ \exists n \in \mathbb{N}\ nx > y"),
+        ).arrange(DOWN, aligned_edge=LEFT).to_edge(LEFT)
+        theorem[-1].shift(RIGHT * 3)
+
+        self.play(Write(theorem))
+        self.play(Write(SurroundingRectangle(theorem, color=WHITE)))
+        self.wait()
 
 class QDesnse(Scene):
     def construct(self):
