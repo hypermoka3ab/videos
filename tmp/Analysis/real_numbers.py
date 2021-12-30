@@ -58,19 +58,8 @@ class Axioms(Scene):
         self.play(Write(self.axioms[:15]))
         
         for i in [0, 3, 11]:
+            self.play(Indicate(self.axioms[i]))
             self.wait()
-            rect = SurroundingRectangle(self.axioms[i])
-            
-            self.play(
-                self.axioms[i].animate.set_color(YELLOW),
-                Write(rect), 
-                run_time=2
-            )
-            self.play(
-                Unwrite(rect), 
-                self.axioms[i].animate.set_color(WHITE),
-                run_time=2
-            )
             
 
 class Sqrt2IsNotRational(Scene):
