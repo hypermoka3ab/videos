@@ -552,11 +552,12 @@ class Sqrt2IsReal(Scene):
         self.play(Create(SurroundingRectangle(alternatives[2], color = YELLOW)))
         self.wait()
 
+
 class ArchimedeanProperty(Scene):
     def construct(self):
         # self.illustrate_archimedean_property()
-        # self.prove_archimedean_property()
-        self.state_theorem()
+        self.prove_archimedean_property()
+        # self.state_theorem()
 
     def illustrate_archimedean_property(self):
         # x
@@ -616,40 +617,29 @@ class ArchimedeanProperty(Scene):
         
     def prove_archimedean_property(self):
         font_size = 40
-
-        # suppose counterexample
-
-        #x
-        x_length = ValueTracker(1 / sqrt(5)) # length of x
-        x_segment = always_redraw(lambda : NumberLine([0, 1], x_length.get_value()).to_edge(LEFT).shift(UP / 2)) # x segment
-        x_label = always_redraw(lambda: MathTex("x").next_to(x_segment, UP, buff = SMALL_BUFF)) # x label
-        x = VGroup(x_segment, x_label) # group everything together
         
-        # y
-        y_length = ValueTracker(2.5) # length of y
-        y_segment = always_redraw(lambda : NumberLine([0, 1], y_length.get_value()).to_edge(LEFT)) # y segment
-        y_label = always_redraw(lambda: MathTex("y").next_to(y_segment, DOWN, buff = SMALL_BUFF)) # y label
-        y = VGroup(y_segment, y_label) # group everything together
+        initial_assumption = VGroup(
+            Tex(r"Soient $x > 0$ et $y \in \mathbb{R}$, ", r"si $y < 0$, on prends n = 1."),
+            Tex(r"Sinon, supposons que $x > 0$ et $y > 0$ sont un contre-exemple."),
+            VGroup(Tex(r"càd:"), MathTex(r"\forall n \in \mathbb{N}\ nx \le y")).arrange(RIGHT),
+        ).arrange(DOWN, aligned_edge=LEFT).to_corner(UL)
 
-        xs = VGroup(
-            x_segment.copy(), 
-            x_segment.copy().shift(x_length.get_value() * RIGHT), 
-            MathTex("\\cdots").next_to(x_segment, buff=.1).shift(x_length.get_value() * RIGHT), 
-            x_segment.copy().shift((x_length.get_value() + .1) * 3 * RIGHT)
+        proof = VGroup(
+            MathTex(r"\forall n \in \mathbb{N}\ nx \le y"),
+            Tex(r"Autrement dit, ", "$y$ est un majorant de ", r"$A = \{nx| n\in \mathbb{N}\}$"),
+        ).arrange(DOWN, aligned_edge=LEFT).to_corner(UL)
+        for line in initial_assumption:
+            for component in line:
+                self.play(Write(component))
+                self.wait()
+
+        self.play(
+            *[FadeOut(c) for c in list(initial_assumption) if c != initial_assumption[-1][-1]],
+            ReplacementTransform(initial_assumption[-1][-1].copy(), proof[0]),
         )
-
-        self.play(Write(y), Write(x))
-        
-        for i in range(1, len(xs)):
-            self.play(
-                ReplacementTransform(xs[i - 1].copy(), xs[i]),
-            )
+        self.play(Write(proof[1:]))
         self.wait()
         
-        brace = Brace(xs, UP, .5)
-        nx = MathTex("nx").next_to(brace, UP)
-        self.play(Write(brace), Write(nx))
-        self.wait()
 
     def state_theorem(self):
         theorem = VGroup(
@@ -664,6 +654,8 @@ class ArchimedeanProperty(Scene):
         self.wait()
         self.play(*[FadeOut(o) for o in self.mobjects])
         self.wait()
+
+
 class QDesnse(Scene):
     def construct(self):
         self.prove_Q_dense()
