@@ -662,7 +662,8 @@ class ArchimedeanProperty(Scene):
         self.play(Write(theorem))
         self.play(Write(SurroundingRectangle(theorem, color=WHITE)))
         self.wait()
-
+        self.play(*[FadeOut(o) for o in self.mobjects])
+        self.wait()
 class QDesnse(Scene):
     def construct(self):
         self.prove_Q_dense()
