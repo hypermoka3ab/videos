@@ -69,16 +69,16 @@ class Sqrt2IsNotRational(Scene):
             r"\text{ et }", "p", r"\wedge", "q", "=", "1"
         ).to_corner(UL)
         
-        proof =  MathTex(
+        proof_q_even =  MathTex(
             "{p", "^2", r"\over",  "q", "^2}", "=", "2", r"&\Rightarrow", "p", "^2", "=", "2", "q", "^2", 
             r"\\ &\Rightarrow", "2", "|", "p", "^2", 
             r"\\ &\Rightarrow", "2", "|", "p", 
-            r"\\ &\Rightarrow", "p", "=", "2", "k", r"k \in \mathbb{N}", 
+            r"\\ &\Rightarrow", "p", "=", "2", "k", r",\ k \in \mathbb{N}", 
         ).next_to(hyothesis, DOWN).to_edge(LEFT)
         
         self.play(Write(hyothesis))
         self.wait()
-        changes = [
+        changes_to_q = [
             [
                 tuple(range(2, 10)),
                 tuple(range(7)),
@@ -98,35 +98,37 @@ class Sqrt2IsNotRational(Scene):
         ]
         self.play(
             *[
-                ReplacementTransform(hyothesis[pre].copy(), proof[post])
-                for pre, post in zip(*changes[0])
+                ReplacementTransform(hyothesis[pre].copy(), proof_q_even[post])
+                for pre, post in zip(*changes_to_q[0])
             ]
         )
         self.wait()
-        self.play(Write(proof[7]))
+        self.play(Write(proof_q_even[7]))
         self.play(
             *[
-                ReplacementTransform(proof[pre].copy(), proof[post])
-                for pre, post in zip(*changes[1])
+                ReplacementTransform(proof_q_even[pre].copy(), proof_q_even[post])
+                for pre, post in zip(*changes_to_q[1])
             ]
         )
         self.wait()
-        self.play(Write(proof[14]))
+        self.play(Write(proof_q_even[14]))
         self.play(
             *[
-                ReplacementTransform(proof[pre].copy(), proof[post])
-                for pre, post in zip(*changes[2])
+                ReplacementTransform(proof_q_even[pre].copy(), proof_q_even[post])
+                for pre, post in zip(*changes_to_q[2])
             ],
-            Write(proof[16])
+            Write(proof_q_even[16])
         )
         self.wait()
-        self.play(Write(proof[19]))
+        self.play(Write(proof_q_even[19]))
         self.play(
             *[
-                ReplacementTransform(proof[pre].copy(), proof[post])
-                for pre, post in zip(*changes[3])
+                ReplacementTransform(proof_q_even[pre].copy(), proof_q_even[post])
+                for pre, post in zip(*changes_to_q[3])
             ]
         )
+        self.wait()
+        self.play(Write(proof_q_even[23:]))
         self.wait()
 
 
