@@ -792,7 +792,7 @@ class ArchimedeanProperty(Scene):
             MathTex(
                 r"\text{Si\ on\ prend } \varepsilon = x\text{,\ on\ a: }", 
                 "s", "-", "x",  r"\le",  "n_0", "x", 
-                r"\text{\ ,\ pour\ un certain } n_0\in\mathbb{N}."
+                r"\text{,\ pour\ un certain } n_0\in\mathbb{N}."
             ),
             MathTex(r"\text{Donc: }", "s", r"\le", "(", "n_0", "+", "1", ")", "x"),
             MathTex(
@@ -809,8 +809,47 @@ class ArchimedeanProperty(Scene):
             *[FadeOut(c) for c in list(initial_assumption) if c != initial_assumption[-1][-1]],
             ReplacementTransform(initial_assumption[-1][-1].copy(), proof[0]),
         )
-        self.play(Write(proof[1:]))
         self.wait()
+        self.play(Write(proof[1][0]))
+        self.play(Write(proof[1][1:]))
+        self.wait()
+        self.play(Write(proof[2][:4]))
+        self.wait(.5)
+        self.play(Write(proof[2][4:]))
+        self.wait()
+        self.play(Write(proof[3][:3]))
+        self.play(Write(proof[3][3:]))
+        self.wait()
+        self.play(Write(proof[4][0]))
+        self.wait(.5)
+        self.play(Write(proof[4][1:7]))
+        self.wait(.5)
+        self.play(Write(proof[4][7:]))
+        self.wait()
+        self.play(Write(proof[5][0]))
+        self.wait()
+        self.play(
+            *[
+                ReplacementTransform(proof[4][i+1].copy(), proof[5][j+1])
+                for i, j in zip([0, 3, 4, 1, 2, 5], [0, 1, 3, 4, 5, 7])
+            ], 
+            Write(proof[5][3]),
+            Write(proof[5][7]),
+        )
+        self.wait()
+        self.play(Write(proof[6][0]))
+        self.wait(.5)
+        self.play(
+            *[
+                ReplacementTransform(proof[5][i].copy(), proof[6][j])
+                for i, j in zip(list(range(3, 9)), list(range(1, 7)))
+            ],
+            Write(proof[6][7]),
+        )
+        self.wait()
+        self.play(Write(proof[6][8:]))
+        self.wait()
+        
         
 
     def state_theorem(self):
