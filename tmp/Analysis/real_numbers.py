@@ -787,6 +787,18 @@ class ArchimedeanProperty(Scene):
         proof = VGroup(
             MathTex(r"\forall n \in \mathbb{N}\ nx \le y"),
             Tex(r"Autrement dit, ", "$y$ est un majorant de ", r"$A = \{nx| n\in \mathbb{N}\}$"),
+            MathTex(r"\text{Posons }", "s","=", r"\sup A", r"\text{,\ le\ lémme\ de sup nous\ garentie\ que:}"), 
+            MathTex(r"\forall",  r"\varepsilon", "> 0", r", \exists n \in \mathbb{N}\ s-\varepsilon \le nx"),
+            MathTex(
+                r"\text{Si\ on\ prend } \varepsilon = x\text{,\ on\ a: }", 
+                "s", "-", "x",  r"\le",  "n_0", "x", 
+                r"\text{\ ,\ pour\ un certain } n_0\in\mathbb{N}."
+            ),
+            MathTex(r"\text{Donc: }", "s", r"\le", "(", "n_0", "+", "1", ")", "x"),
+            MathTex(
+                r"\text{Or, }", "(", "n_0", "+", "1", ")", "x", r"\in A", 
+                r"\text{, ceci est absurde car }", "s", r"\text{ est un majorant de } ", "A."
+            ),
         ).arrange(DOWN, aligned_edge=LEFT).to_corner(UL)
         for line in initial_assumption:
             for component in line:
