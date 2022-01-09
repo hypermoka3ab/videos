@@ -715,9 +715,9 @@ class Sqrt2IsReal(Scene):
 
 class ArchimedeanProperty(Scene):
     def construct(self):
-        # self.illustrate_archimedean_property()
+        self.illustrate_archimedean_property()
+        self.state_theorem()
         self.prove_archimedean_property()
-        # self.state_theorem()
 
     def illustrate_archimedean_property(self):
         # x
@@ -755,6 +755,9 @@ class ArchimedeanProperty(Scene):
                 )
             self.wait()
 
+        self.play(*[FadeOut(o) for o in self.mobjects])
+        self.wait()
+
 
         # Theorem statement
         # global chapter
@@ -779,13 +782,13 @@ class ArchimedeanProperty(Scene):
         font_size = 40
         
         initial_assumption = VGroup(
-            Tex(r"Soient $x > 0$ et $y \in \mathbb{R}$, ", r"si $y < 0$, on prends n = 1."),
+            Tex(r"Soient $x > 0$ et $y \in \mathbb{R}$, ", r"si $y \le 0$, on prends $n = 1$."),
             Tex(r"Sinon, supposons que $x > 0$ et $y > 0$ sont un contre-exemple."),
-            VGroup(Tex(r"càd:"), MathTex(r"\forall n \in \mathbb{N} nx \le y")).arrange(RIGHT),
+            VGroup(Tex(r"càd:"), MathTex(r"\forall n \in \mathbb{N}\ nx \le y")).arrange(RIGHT),
         ).arrange(DOWN, aligned_edge=LEFT).to_corner(UL)
 
         proof = VGroup(
-            MathTex(r"\forall n \in \mathbb{N} nx \le y"),
+            MathTex(r"\forall n \in \mathbb{N}\ nx \le y"),
             Tex(r"Autrement dit, ", "$y$ est un majorant de ", r"$A = \{nx| n\in \mathbb{N}\}$"),
             MathTex(r"\text{Posons }", "s","=", r"\sup A", r"\text{,\ le\ lémme\ de sup nous\ garentie\ que:}"), 
             MathTex(r"\forall",  r"\varepsilon", "> 0", r", \exists n \in \mathbb{N}\ s-\varepsilon \le nx"),
@@ -796,9 +799,9 @@ class ArchimedeanProperty(Scene):
             ),
             MathTex(r"\text{Donc: }", "s", r"\le", "(", "n_0", "+", "1", ")", "x"),
             MathTex(
-                r"\text{Or, }", "(", "n_0", "+", "1", ")", "x", r"\in A", 
-                r"\text{, ceci est absurde car }", "s", r"\text{ est un majorant de } ", "A."
+                r"\text{Or, }", "(", "n_0", "+", "1", ")", "x", r"\in A.", 
             ),
+            MathTex(r"\text{Ceci est absurde car }", "s", r"\text{ est un majorant de } ", "A.", r"\square")
         ).arrange(DOWN, aligned_edge=LEFT).to_corner(UL)
         for line in initial_assumption:
             for component in line:
@@ -847,14 +850,16 @@ class ArchimedeanProperty(Scene):
             Write(proof[6][7]),
         )
         self.wait()
-        self.play(Write(proof[6][8:]))
+        self.play(Write(proof[7][:-1]))
+        self.wait()
+        self.play(Write(proof[7][-1]))
         self.wait()
         
         
 
     def state_theorem(self):
         theorem = VGroup(
-            Tex(f"Théorème {chapter}.{theorem_count}"),
+            Tex("Théorème"),
             Tex(r"Soient $x > 0$ et $y \in \mathbb{R}$, ", r"il existe $n \in \mathbb{N}$ tel que $nx > y$", r". càd: "),
             MathTex(r"\forall x > 0\ \forall y \in \mathbb{R}\ \exists n \in \mathbb{N}\ nx > y"),
         ).arrange(DOWN, aligned_edge=LEFT).to_edge(LEFT)
