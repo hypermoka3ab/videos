@@ -9,14 +9,16 @@ class Theorem(VGroup):
     CONFIG = {
         "align": DOWN
     }
-    def __init__(self, body):
+    def __init__(self, body, title=None):
         Theorem.count += 1
+        self.body = body
+        self.title = Tex(f"Théorème {chapter}.{Theorem.count} ({title})" if title else f"Théorème {chapter}.{Theorem.count}")
         # create down arranged theorem
         VGroup.__init__(
             self, 
             VGroup(
-                Tex(f"Théorème {chapter}.{Theorem.count}"),
-                body
+                self.title,
+                self.body
             ).arrange(DOWN, aligned_edge=LEFT)
         )
   
@@ -732,9 +734,9 @@ class Sqrt2IsReal(Scene):
 
 class ArchimedeanProperty(Scene):
     def construct(self):
-        self.illustrate_archimedean_property()
+        # self.illustrate_archimedean_property()
         self.state_theorem()
-        self.prove_archimedean_property()
+        # self.prove_archimedean_property()
 
     def illustrate_archimedean_property(self):
         # x
@@ -876,18 +878,13 @@ class ArchimedeanProperty(Scene):
 
     def state_theorem(self):
         theorem = Theorem(
-            VGroup(
+            title="Archimède",
+            body=VGroup(
                 Tex(r"Soient $x > 0$ et $y \in \mathbb{R}$, ", r"il existe $n \in \mathbb{N}$ tel que $nx > y$", r". càd: "),
                 MathTex(r"\forall x > 0\ \forall y \in \mathbb{R}\ \exists n \in \mathbb{N}\ nx > y"),
-
             ).arrange(DOWN).to_edge(LEFT)
         ) 
-        # VGroup(
-        #     Tex("Théorème"),
-        #     Tex(r"Soient $x > 0$ et $y \in \mathbb{R}$, ", r"il existe $n \in \mathbb{N}$ tel que $nx > y$", r". càd: "),
-        #     MathTex(r"\forall x > 0\ \forall y \in \mathbb{R}\ \exists n \in \mathbb{N}\ nx > y"),
-        # )
-        # theorem[-1].shift(RIGHT * 3)
+        
 
         self.play(Write(theorem))
         self.play(Write(SurroundingRectangle(theorem, color=WHITE)))
