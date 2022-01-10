@@ -1,8 +1,25 @@
+from ctypes import alignment
 from math import sqrt
 from manim import *
 chapter = "I"
-global theorem_count 
-theorem_count = 1
+theorem_count = 0
+
+class Theorem(VGroup):
+    count = 0
+    CONFIG = {
+        "align": DOWN
+    }
+    def __init__(self, body):
+        Theorem.count += 1
+        # create down arranged theorem
+        VGroup.__init__(
+            self, 
+            VGroup(
+                Tex(f"Théorème {chapter}.{Theorem.count}"),
+                body
+            ).arrange(DOWN, aligned_edge=LEFT)
+        )
+  
 
 class Axioms(Scene):
     def construct(self):
