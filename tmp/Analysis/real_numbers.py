@@ -875,12 +875,19 @@ class ArchimedeanProperty(Scene):
         
 
     def state_theorem(self):
-        theorem = VGroup(
-            Tex("Théorème"),
-            Tex(r"Soient $x > 0$ et $y \in \mathbb{R}$, ", r"il existe $n \in \mathbb{N}$ tel que $nx > y$", r". càd: "),
-            MathTex(r"\forall x > 0\ \forall y \in \mathbb{R}\ \exists n \in \mathbb{N}\ nx > y"),
-        ).arrange(DOWN, aligned_edge=LEFT).to_edge(LEFT)
-        theorem[-1].shift(RIGHT * 3)
+        theorem = Theorem(
+            VGroup(
+                Tex(r"Soient $x > 0$ et $y \in \mathbb{R}$, ", r"il existe $n \in \mathbb{N}$ tel que $nx > y$", r". càd: "),
+                MathTex(r"\forall x > 0\ \forall y \in \mathbb{R}\ \exists n \in \mathbb{N}\ nx > y"),
+
+            ).arrange(DOWN).to_edge(LEFT)
+        ) 
+        # VGroup(
+        #     Tex("Théorème"),
+        #     Tex(r"Soient $x > 0$ et $y \in \mathbb{R}$, ", r"il existe $n \in \mathbb{N}$ tel que $nx > y$", r". càd: "),
+        #     MathTex(r"\forall x > 0\ \forall y \in \mathbb{R}\ \exists n \in \mathbb{N}\ nx > y"),
+        # )
+        # theorem[-1].shift(RIGHT * 3)
 
         self.play(Write(theorem))
         self.play(Write(SurroundingRectangle(theorem, color=WHITE)))
