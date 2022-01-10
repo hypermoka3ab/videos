@@ -961,10 +961,20 @@ class QDesnse(Scene):
             r"\exists q \in \mathbb{N}\ ", "q", "(", "y", "-", "x", ")", "> 1",
             r"& \Rightarrow ", "q", "y", "-", "q", "x", "> 1", 
             r"\\ & \Rightarrow", r"\exists p \in \mathbb{Z}\ ", "q", "x", "<", "p", "<", "q", "y",
-            r"\\ & \Rightarrow", r"x < {p\over q} < y",
-            tex_to_color_map={"q": YELLOW, "p": YELLOW}
+            r"\\ & \Rightarrow", r"x", "<", "{p \over q}",  "<",  "y", r"\ \square",
         ).to_corner(UL)
 
+
+        changes = [
+            [
+                (1, 3, 4, 1, 5, 7),
+                (9, 10, 11, 12, 13, 14)
+            ],
+            [
+                (17, 18, 19, 20, 22),
+                (25, 26, 27, 28, 29)
+            ]
+        ]
         self.play(
             Write(real_line),
             Write(line_label),
@@ -976,29 +986,32 @@ class QDesnse(Scene):
             Write(y_label[0]),
             GrowFromCenter(y_label[1])
         )
-        self.play(Write(q_exists[:10]))
+        self.play(Write(q_exists[:8]))
         self.wait()
-        self.play(Write(q_exists[10]))
+        self.play(Write(q_exists[8]))
         self.play(
             ReplacementTransform(x_label, qx_label),
             ReplacementTransform(y_label, qy_label),
-            ReplacementTransform(q_exists[1].copy(), q_exists[11]),
-            ReplacementTransform(q_exists[3].copy(), q_exists[12]),
-            ReplacementTransform(q_exists[4].copy(), q_exists[13]),
-            ReplacementTransform(q_exists[1].copy(), q_exists[14]),
-            ReplacementTransform(q_exists[5].copy(), q_exists[15]),
-            ReplacementTransform(q_exists[10].copy(), q_exists[16]),
+            *[
+                ReplacementTransform(q_exists[pre].copy(), q_exists[post])
+                for pre, post in zip(*changes[0])
+            ]
         )
         self.wait()
-        self.play(Write(p_label), Write(q_exists[17:28]))
+        self.play(Write(p_label), Write(q_exists[15:24]))
         self.wait()
         self.play(
             ReplacementTransform(p_label, p_over_q_label),
             ReplacementTransform(qx_label, x_label),
             ReplacementTransform(qy_label, y_label),
-            Write(q_exists[28:]),
+            Write(q_exists[24]),
+            *[
+               ReplacementTransform(q_exists[pre].copy(), q_exists[post])
+                for pre, post in zip(*changes[1])
+            ],    
         )
         self.play(Write(inQ))
+        self.play(Write(q_exists[-1]))
         self.wait()
 
 
