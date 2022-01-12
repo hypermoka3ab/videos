@@ -337,6 +337,7 @@ class Sqrt2IsNotRational(Scene):
         )
         self.wait()
 
+
 class Completude(Scene):
     def construct(self):
         self.define_hole()        
@@ -921,7 +922,7 @@ class ArchimedeanProperty(Scene):
         self.wait()
 
 
-class QDesnse(Scene):
+class QDense(Scene):
     def construct(self):
         self.prove_Q_dense()
 
@@ -1043,3 +1044,39 @@ class QDesnse(Scene):
         self.wait()
 
 
+class QDense2(Scene):
+    def construct(self):
+        real_line = NumberLine([-2, 2], 15) # real line
+        line_label = always_redraw( # R label
+            lambda: 
+                MathTex(r"\mathbb{R}").move_to(real_line.number_to_point(-1.8) + UP * 0.5)    
+        )
+        x_tracker = ValueTracker(.2) # x tracker
+        y_tracker = ValueTracker(.7) # y tracker
+        x_label = always_redraw( # x label
+            lambda: VGroup(
+                MathTex("x", font_size=30).next_to(real_line.number_to_point(x_tracker.get_value()), UP, buff = SMALL_BUFF),
+                Triangle(
+                    stroke_width=0, fill_color=WHITE, fill_opacity=1
+                ).scale(.1).next_to(real_line.number_to_point(x_tracker.get_value()), DOWN, buff=0)
+            )
+        )
+        y_label = always_redraw( # y label
+            lambda: VGroup(
+                MathTex("y", font_size=30).next_to(real_line.number_to_point(y_tracker.get_value()), UP, buff = SMALL_BUFF),
+                Triangle(
+                    stroke_width=0, fill_color=WHITE, fill_opacity=1
+                ).scale(.1).next_to(real_line.number_to_point(y_tracker.get_value()), DOWN, buff=0)
+            ) 
+        )
+
+        self.play(
+            Create(real_line),
+            Write(line_label)
+        )
+        self.wait()
+        self.play(
+            Write(x_label),
+            Write(y_label)
+        )
+        self.wait()
