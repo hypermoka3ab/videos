@@ -928,10 +928,10 @@ class QDense(Scene):
 
         
     def prove_Q_dense(self):
-        real_line = NumberLine([-4, 4], 15) # real line
+        real_line = NumberLine([-2, 2], 15) # real line
         line_label = always_redraw( # R label
             lambda: 
-                MathTex(r"\mathbb{R}").move_to(real_line.number_to_point(-3.6) + UP * 0.5)    
+                MathTex(r"\mathbb{R}").move_to(real_line.number_to_point(-1.8) + UP * 0.5)    
         )
         x_tracker = ValueTracker(.2) # x tracker
         y_tracker = ValueTracker(.7) # y tracker
