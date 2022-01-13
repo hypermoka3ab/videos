@@ -1142,12 +1142,42 @@ class QDense2(Scene):
 
 class FiniteInfinite(Scene):
     def construct(self):
-        inf_question = Tex("$E$ est", " in", "fini", " ?").to_corner(UL)
-        fin_question = Tex("$E$ est", " fini", " ?").to_corner(UL)
-        self.play(Write(inf_question[:-1]))
+        template = TexTemplate()
+        template.add_to_preamble(r"\usepackage{stmaryrd}")
+        inf_question = Tex("Qu'est-ce qu'un ensemble ", " in", "fini", " ?").to_corner(UL)
+        fin_question = Tex("Qu'est-ce qu'un ensemble ", " fini", " ?").to_corner(UL)
+        
+        # finite intuition
+        finite_intuition = MathTex("E", " = ", r"\{", "x_1, ", "x_2, ", r"\cdots, ", "x_n" r"\}").next_to(fin_question, DOWN).to_edge(LEFT)
+
+        # finite definition
+
+        # map f:
+        f_map = VGroup(
+            MathTex("f", ":"),
+            VGroup(
+                Brace(
+                    VGroup(
+                        MathTex(r"\llbracket 1, n \rrbracket \rightarrow E", tex_template=template),
+                        MathTex(r"i \mapsto x_i"),
+                    ).arrange(DOWN, aligned_edge=LEFT), LEFT
+                ),
+                VGroup(
+                    MathTex(r"\llbracket 1, n \rrbracket \rightarrow E", tex_template=template),
+                    MathTex(r"i \mapsto x_i")
+                ).arrange(DOWN, aligned_edge=LEFT),
+            ),
+            Tex("est une bijection.")
+        ).arrange(RIGHT, buff=MED_SMALL_BUFF).next_to(finite_intuition, DOWN).to_edge(LEFT)
+        
+        self.play(Write(inf_question[:-1]), rate_func=smooth)
         self.play(Write(inf_question[-1]))
         self.wait()
         self.play(ReplacementTransform(inf_question[1:], fin_question[1:]))
         self.wait()
-
+        self.play(Write(finite_intuition))
+        self.wait()
+        for i in f_map:
+            self.play(Write(i))
+        self.wait()
 
