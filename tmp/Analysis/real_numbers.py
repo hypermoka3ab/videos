@@ -1051,8 +1051,8 @@ class QDense2(Scene):
             lambda: 
                 MathTex(r"\mathbb{R}").move_to(real_line.number_to_point(-1.8) + UP * 0.5)    
         )
-        x_tracker = ValueTracker(.2) # x tracker
-        y_tracker = ValueTracker(.7) # y tracker
+        x_tracker = ValueTracker(.1) # x tracker
+        y_tracker = ValueTracker(.9) # y tracker
         x_label = always_redraw( # x label
             lambda: VGroup(
                 MathTex("x", font_size=30).next_to(real_line.number_to_point(x_tracker.get_value()), UP, buff = SMALL_BUFF),
@@ -1070,13 +1070,71 @@ class QDense2(Scene):
             ) 
         )
 
+        r_label = always_redraw( # r label
+            lambda: VGroup(
+                Triangle(
+                    stroke_width=0, fill_color=WHITE, fill_opacity=1
+                ).scale(.1).next_to(real_line.number_to_point((x_tracker.get_value() + y_tracker.get_value()) / 2), DOWN, buff=0),
+                MathTex(r"r", font_size=30),
+            ).arrange(DOWN, buff=SMALL_BUFF).next_to(real_line.number_to_point((x_tracker.get_value() + y_tracker.get_value()) / 2), DOWN, buff=0)
+        )
+
+        r_prime_label = always_redraw( # r' label
+            lambda: VGroup(
+                Triangle(
+                    stroke_width=0, fill_color=WHITE, fill_opacity=1
+                ).scale(.1).next_to(real_line.number_to_point((x_tracker.get_value() + y_tracker.get_value()) / 2), DOWN, buff=0),
+                MathTex(r"r^{\prime}", font_size=30),
+            ).arrange(DOWN, buff=SMALL_BUFF).next_to(real_line.number_to_point(0.7), DOWN, buff=0)
+        )
+
+        r_2prime_label = always_redraw( # r" label
+            lambda: VGroup(
+                Triangle(
+                    stroke_width=0, fill_color=WHITE, fill_opacity=1
+                ).scale(.1).next_to(real_line.number_to_point((x_tracker.get_value() + y_tracker.get_value()) / 2), DOWN, buff=0),
+                MathTex(r"r^{\prime\prime}", font_size=30),
+            ).arrange(DOWN, buff=SMALL_BUFF).next_to(real_line.number_to_point(0.3), DOWN, buff=0)
+        )
+
+        rs = MathTex(
+            "r_1",  "<",  "r_2", "<", r"\cdots", "<", "r_n"
+        ).to_corner(UL)
+
+        s = MathTex("s", "=", r"{r_1",  "+",  "r_2",  r"\over 2}").next_to(rs, DOWN)
+       
+        self.add(real_line, line_label, x_label, y_label)
+        self.wait()
         self.play(
-            Create(real_line),
-            Write(line_label)
+            GrowFromCenter(r_label[0]),
+            Write(r_label[1])
         )
         self.wait()
         self.play(
-            Write(x_label),
-            Write(y_label)
+            Indicate(y_label),
+            Indicate(r_label),
         )
+        self.play(
+            GrowFromCenter(r_prime_label[0]),
+            Write(r_prime_label[1])
+        )
+        self.wait()
+        self.play(
+            Indicate(x_label),
+            Indicate(r_label),
+        )
+        self.play(
+            GrowFromCenter(r_2prime_label[0]),
+            Write(r_2prime_label[1])
+        )
+        self.wait()
+        self.play(
+            *[FadeOut(mob) for mob in self.mobjects]
+        )
+        for i in range(0, len(rs), 2):
+            self.play(Write(rs[i]))
+        self.wait()
+        self.play(*[Write(rs[i]) for i in range(1, len(rs), 2)])
+        self.wait()
+        self.play(Write(s))
         self.wait()
