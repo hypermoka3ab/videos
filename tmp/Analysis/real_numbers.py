@@ -1138,3 +1138,16 @@ class QDense2(Scene):
         self.wait()
         self.play(Write(s))
         self.wait()
+
+
+class FiniteInfinite(Scene):
+    def construct(self):
+        inf_question = Tex("$E$ est", " in", "fini", " ?").to_corner(UL)
+        fin_question = Tex("$E$ est", " fini", " ?").to_corner(UL)
+        self.play(Write(inf_question[:-1]))
+        self.play(Write(inf_question[-1]))
+        self.wait()
+        self.play(ReplacementTransform(inf_question[1:], fin_question[1:]))
+        self.wait()
+
+
