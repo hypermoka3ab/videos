@@ -1045,20 +1045,41 @@ class QDense(Scene):
 
 class QDense2(Scene):
     def construct(self):
-        self.illustrate_many_rationals()
-        rs = MathTex(
-            "r_1",  "<",  "r_2", "<", r"\cdots", "<", "r_n"
-        ).to_corner(UL)
-
-        s = MathTex("s", "=", r"{r_1",  "+",  "r_2",  r"\over 2}").next_to(rs, DOWN).to_edge(LEFT)
+        # self.illustrate_many_rationals()
+        Axy_definition = MathTex(r"A_{x, y} = ", r"\{", r"r \in \mathbb{Q}| x < r < y", r"\}").to_corner(UL)
+        Axy_finite = MathTex(r"A_{x, y} = ", r"\{", "r_1",  "<",  "r_2", "<", r"\cdots", "<", "r_n", r"\}").to_corner(UL)
+        s = MathTex("s", "=", r"{r_1",  "+",  "r_2",  r"\over 2}").next_to(Axy_finite, DOWN).to_edge(LEFT)
+        s_between_xy = MathTex("x < ", "r_1", "<", "s", "<", "r_2", "< y").next_to(s, DOWN).to_edge(LEFT)
        
-        for i in range(0, len(rs), 2):
-            self.play(Write(rs[i]))
+        self.play(Write(Axy_definition))
         self.wait()
-        self.play(*[Write(rs[i]) for i in range(1, len(rs), 2)])
+        self.play(
+            ReplacementTransform(Axy_definition[1], Axy_finite[1]),
+            ReplacementTransform(Axy_definition[2], Axy_finite[2:9:2]),
+            ReplacementTransform(Axy_definition[-1], Axy_finite[-1]),
+        )
         self.wait()
-        self.play(Write(s))
+        self.play(*[GrowFromCenter(mob) for mob in Axy_finite[3:9:2]])
         self.wait()
+        self.play(
+            ReplacementTransform(Axy_finite[2].copy(), s[2]),
+            ReplacementTransform(Axy_finite[4].copy(), s[4]),
+            GrowFromCenter(s[3]),
+        )
+        self.play(Write(s[5]))
+        self.wait()
+        self.play(Write(s[:2]))
+        self.wait()
+        self.play(
+            ReplacementTransform(s[0].copy(), s_between_xy[3]),
+            ReplacementTransform(Axy_finite[2:4].copy(), s_between_xy[1:3]),
+            ReplacementTransform(Axy_finite[3:5].copy(), s_between_xy[4:6]),
+        )
+        self.wait()
+        self.play(Write(s_between_xy[0]), Write(s_between_xy[-1]))
+        self.wait()
+
+        
 
     def illustrate_many_rationals(self):
         real_line = NumberLine([-2, 2], 15) # real line
