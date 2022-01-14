@@ -1,4 +1,3 @@
-from ctypes import alignment
 from math import sqrt
 from manim import *
 chapter = "I"
