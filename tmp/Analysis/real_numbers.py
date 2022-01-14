@@ -1046,6 +1046,22 @@ class QDense(Scene):
 
 class QDense2(Scene):
     def construct(self):
+        self.illustrate_many_rationals()
+        rs = MathTex(
+            "r_1",  "<",  "r_2", "<", r"\cdots", "<", "r_n"
+        ).to_corner(UL)
+
+        s = MathTex("s", "=", r"{r_1",  "+",  "r_2",  r"\over 2}").next_to(rs, DOWN).to_edge(LEFT)
+       
+        for i in range(0, len(rs), 2):
+            self.play(Write(rs[i]))
+        self.wait()
+        self.play(*[Write(rs[i]) for i in range(1, len(rs), 2)])
+        self.wait()
+        self.play(Write(s))
+        self.wait()
+
+    def illustrate_many_rationals(self):
         real_line = NumberLine([-2, 2], 15) # real line
         line_label = always_redraw( # R label
             lambda: 
@@ -1097,12 +1113,6 @@ class QDense2(Scene):
             ).arrange(DOWN, buff=SMALL_BUFF).next_to(real_line.number_to_point(0.3), DOWN, buff=0)
         )
 
-        rs = MathTex(
-            "r_1",  "<",  "r_2", "<", r"\cdots", "<", "r_n"
-        ).to_corner(UL)
-
-        s = MathTex("s", "=", r"{r_1",  "+",  "r_2",  r"\over 2}").next_to(rs, DOWN)
-       
         self.add(real_line, line_label, x_label, y_label)
         self.wait()
         self.play(
@@ -1129,14 +1139,10 @@ class QDense2(Scene):
         )
         self.wait()
         self.play(
-            *[FadeOut(mob) for mob in self.mobjects]
+            *[
+                FadeOut(mob) for mob in self.mobjects
+            ]
         )
-        for i in range(0, len(rs), 2):
-            self.play(Write(rs[i]))
-        self.wait()
-        self.play(*[Write(rs[i]) for i in range(1, len(rs), 2)])
-        self.wait()
-        self.play(Write(s))
         self.wait()
 
 
