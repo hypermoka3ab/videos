@@ -1049,7 +1049,13 @@ class QDense2(Scene):
         Axy_definition = MathTex(r"A_{x, y} = ", r"\{", r"r \in \mathbb{Q}| x < r < y", r"\}").to_corner(UL)
         Axy_finite = MathTex(r"A_{x, y} = ", r"\{", "r_1",  "<",  "r_2", "<", r"\cdots", "<", "r_n", r"\}").to_corner(UL)
         s = MathTex("s", "=", r"{r_1",  "+",  "r_2",  r"\over 2}").next_to(Axy_finite, DOWN).to_edge(LEFT)
-        s_between_xy = MathTex("x < ", "r_1", "<", "s", "<", "r_2", "< y").next_to(s, DOWN).to_edge(LEFT)
+        template = TexTemplate()
+        template.add_to_preamble(r"\usepackage{stmaryrd}")
+        s_between_xy = MathTex(
+            "x < ", "r_1", "<", "s", "<", "r_2", "< y", r"&\Rightarrow", r"s\in A_{x, y}",
+            r"\\ & \Rightarrow", r"s = r_i", r"\text{ pour un certain }", r"i \in \llbracket 1, n \rrbracket",
+            tex_template=template
+        ).next_to(s, DOWN).to_edge(LEFT)
        
         self.play(Write(Axy_definition))
         self.wait()
@@ -1076,7 +1082,9 @@ class QDense2(Scene):
             ReplacementTransform(Axy_finite[3:5].copy(), s_between_xy[4:6]),
         )
         self.wait()
-        self.play(Write(s_between_xy[0]), Write(s_between_xy[-1]))
+        self.play(Write(s_between_xy[0]), Write(s_between_xy[6]))
+        self.wait()
+        self.play(Write(s_between_xy[7:]))
         self.wait()
 
         
