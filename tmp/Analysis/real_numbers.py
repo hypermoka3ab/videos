@@ -1232,3 +1232,16 @@ class FiniteInfinite(Scene):
             self.play(Write(i))
         self.wait()
 
+
+class IrrationalsDense(Scene):
+    def construct(self):
+        Bxy = MathTex("B_{x, y}", " = ", r"\{s \in \mathbb{R}\setminus\mathbb{Q}|x < s < y\}").to_corner(UL)
+
+
+        Axy = MathTex(r"A_{\frac{x}{\sqrt{2}}, \frac{y}{\sqrt{2}}}", " = ", r"\{r\in  \mathbb{Q}|x < r < y\}").next_to(Bxy, DOWN).to_edge(LEFT)
+        s2Axy = MathTex(r"\sqrt{2}A_{\frac{x}{\sqrt{2}}, \frac{y}{\sqrt{2}}}", " = ", r"\{r\sqrt{2}|r \in A_{\frac{x}{\sqrt{2}}, \frac{y}{\sqrt{2}}}\}").next_to(Axy, DOWN).to_edge(LEFT)
+        self.play(Write(Bxy), Write(Axy), Write(s2Axy))
+        self.wait()
+
+
+
