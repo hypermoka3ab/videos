@@ -1245,9 +1245,10 @@ class IrrationalsDense(Scene):
         ).next_to(s2A, DOWN).to_edge(LEFT)
 
         comutative_diagram = VGroup(
-            MathTex("A").move_to(np.array([-1, -1, 0])),
-            MathTex(r"\sqrt{2}A}").move_to(np.array([1, -1, 0])),
-            MathTex(r"\llbracket 1, n \rrbracket", tex_template=template).move_to(np.array([1, 1, 0])),
+            MathTex("A").move_to(DOWN + LEFT * 2),
+            MathTex(r"\sqrt{2}A}").move_to(DOWN + RIGHT * 2),
+            MathTex(r"\llbracket 1, n \rrbracket", tex_template=template).move_to(UP + RIGHT * 2),
+            Arrow(DOWN + LEFT * 2, DOWN + RIGHT * 2)
         )    
         
         self.play(Write(B), Write(A), Write(s2A))
