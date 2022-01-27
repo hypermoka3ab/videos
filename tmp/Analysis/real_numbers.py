@@ -1237,7 +1237,7 @@ class IrrationalsDense(Scene):
     def construct(self):
         self.set_things_up()
         self.proof()
-        
+
     def proof(self):
         template = TexTemplate()
         template.add_to_preamble(r"\usepackage{stmaryrd}")
@@ -1262,7 +1262,7 @@ class IrrationalsDense(Scene):
         s2A_infinit = MathTex(r"\sqrt{2}A", r"\text{ est infini}").to_corner(UL)
         B_infinit = MathTex(r"\Rightarrow", r"B \text{ est infini }", r"\square .").next_to(s2A_infinit, DOWN).to_edge(LEFT)
         
-        self.play(Write(A), Write(s2A))
+        self.add(A, s2A)
         self.wait(.5)
         self.play(GrowArrow(f_arrow[0]))
         self.wait(.5)
@@ -1309,8 +1309,7 @@ class IrrationalsDense(Scene):
         self.wait()
         self.play(Write(s2A_included_B[3:]))
         self.wait()
-        self.play(
-            *[FadeOut(mob) for mob in self.mobjects]
-        )
+        self.play(A[0].copy().animate.move_to((DOWN * 1 + LEFT * 2) * 2), s2A[0].animate.move_to((DOWN * 1 + RIGHT * 2) * 2))
+        self.remove(*self.mobjects)
 
 
