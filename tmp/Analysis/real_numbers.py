@@ -1308,12 +1308,16 @@ class IrrationalsDense(Scene):
     def set_things_up(self):
         B = MathTex("B", " = ", r"\{s \in \mathbb{R}\setminus\mathbb{Q}|x < s < y\}").to_corner(UL)
         A = MathTex(r"A", " = ", r"\{r\in  \mathbb{Q}|x < r < y\}").next_to(B, DOWN).to_edge(LEFT)
-        s2A = MathTex(r"\sqrt{2}A}", " = ", r"\left\{r\sqrt{2}\left|r \in A\right\}").next_to(A, DOWN).to_edge(LEFT)
+        s2A = MathTex(r"\sqrt{2}A", " = ", r"\left\{r\sqrt{2}\left|r \in A\right\}").next_to(A, DOWN).to_edge(LEFT)
         s2A_included_B = MathTex(
             r"\sqrt{2}A", r"\subset", "B", r"\Rightarrow", r"\left(B \text{ est fini } \Rightarrow \sqrt{2}A \text{ est fini } \right)"
         ).next_to(s2A, DOWN).to_edge(LEFT)
 
-        self.play(Write(B), Write(A), Write(s2A))
+        self.play(Write(B))
+        self.wait()
+        self.play(Write(A))
+        self.wait()
+        self.play(Write(s2A))
         self.wait()
         self.play(
             ReplacementTransform(s2A[0].copy(),s2A_included_B[0]),
