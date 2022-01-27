@@ -1235,8 +1235,22 @@ class FiniteInfinite(Scene):
 
 class IrrationalsDense(Scene):
     def construct(self):
+        self.state_theorem()
         self.set_things_up()
         self.proof()
+
+    def state_theorem(self):
+        theorem = Corollary(
+            body=VGroup(
+                Tex("Soit $x$ et $y$ deux nombres réels tels que $x < y$."),
+                Tex("Il existe une infinité de nombres irrationels $s$ tels que $x < s < y$.")
+            ).arrange(DOWN, aligned_edge=LEFT),
+        )
+        self.play(Write(theorem))
+        self.play(Write(SurroundingRectangle(theorem, color=WHITE)))
+        self.wait()
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
+
 
     def proof(self):
         template = TexTemplate()
@@ -1311,5 +1325,6 @@ class IrrationalsDense(Scene):
         self.wait()
         self.play(A[0].copy().animate.move_to((DOWN * 1 + LEFT * 2) * 2), s2A[0].animate.move_to((DOWN * 1 + RIGHT * 2) * 2))
         self.remove(*self.mobjects)
+
 
 
