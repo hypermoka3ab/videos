@@ -1235,8 +1235,10 @@ class FiniteInfinite(Scene):
 
 class IrrationalsDense(Scene):
     def construct(self):
-        # self.set_things_up()
- 
+        self.set_things_up()
+        self.proof()
+        
+    def proof(self):
         template = TexTemplate()
         template.add_to_preamble(r"\usepackage{stmaryrd}")
         A = MathTex("A").move_to((DOWN * 1 + LEFT * 2) * 2)
@@ -1310,3 +1312,5 @@ class IrrationalsDense(Scene):
         self.play(
             *[FadeOut(mob) for mob in self.mobjects]
         )
+
+
