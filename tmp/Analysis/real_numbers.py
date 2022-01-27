@@ -1237,12 +1237,7 @@ class IrrationalsDense(Scene):
     def construct(self):
         template = TexTemplate()
         template.add_to_preamble(r"\usepackage{stmaryrd}")
-        B = MathTex("B", " = ", r"\{s \in \mathbb{R}\setminus\mathbb{Q}|x < s < y\}").to_corner(UL)
-        A = MathTex(r"A", " = ", r"\{r\in  \mathbb{Q}|x < r < y\}").next_to(B, DOWN).to_edge(LEFT)
-        s2A = MathTex(r"\sqrt{2}A}", " = ", r"\left\{r\sqrt{2}\left|r \in A\right\}").next_to(A, DOWN).to_edge(LEFT)
-        s2A_included_B = MathTex(
-            r"\sqrt{2}A", r"\subset", "B", r"\Rightarrow", r"\left(B \text{ est fini } \Rightarrow \sqrt{2}A \text{ est fini } \right)"
-        ).next_to(s2A, DOWN).to_edge(LEFT)
+        self.set_things_up()
 
         comutative_diagram = VGroup(
             MathTex("A").move_to(DOWN + LEFT * 2),
@@ -1250,7 +1245,20 @@ class IrrationalsDense(Scene):
             MathTex(r"\llbracket 1, n \rrbracket", tex_template=template).move_to(UP + RIGHT * 2),
             Arrow(DOWN + LEFT * 2, DOWN + RIGHT * 2)
         )    
-        
+        self.play(
+            FadeIn(comutative_diagram),
+        )
+        self.wait()
+
+
+    def set_things_up(self):
+        B = MathTex("B", " = ", r"\{s \in \mathbb{R}\setminus\mathbb{Q}|x < s < y\}").to_corner(UL)
+        A = MathTex(r"A", " = ", r"\{r\in  \mathbb{Q}|x < r < y\}").next_to(B, DOWN).to_edge(LEFT)
+        s2A = MathTex(r"\sqrt{2}A}", " = ", r"\left\{r\sqrt{2}\left|r \in A\right\}").next_to(A, DOWN).to_edge(LEFT)
+        s2A_included_B = MathTex(
+            r"\sqrt{2}A", r"\subset", "B", r"\Rightarrow", r"\left(B \text{ est fini } \Rightarrow \sqrt{2}A \text{ est fini } \right)"
+        ).next_to(s2A, DOWN).to_edge(LEFT)
+
         self.play(Write(B), Write(A), Write(s2A))
         self.wait()
         self.play(
@@ -1264,8 +1272,3 @@ class IrrationalsDense(Scene):
         self.play(
             *[FadeOut(mob) for mob in self.mobjects]
         )
-        self.play(
-            FadeIn(comutative_diagram),
-        )
-        self.wait()
-
