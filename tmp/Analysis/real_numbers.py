@@ -1235,21 +1235,59 @@ class FiniteInfinite(Scene):
 
 class IrrationalsDense(Scene):
     def construct(self):
+        # self.set_things_up()
+ 
         template = TexTemplate()
         template.add_to_preamble(r"\usepackage{stmaryrd}")
-        self.set_things_up()
+        A = MathTex("A").move_to((DOWN * 1 + LEFT * 2) * 2)
+        s2A = MathTex(r"\sqrt{2}A").move_to((DOWN * 1 + RIGHT * 2) * 2)
+        i1n = MathTex(r"\llbracket 1, n \rrbracket", tex_template=template).move_to((UP * 1 + RIGHT * 2) *  2)
 
-        comutative_diagram = VGroup(
-            MathTex("A").move_to(DOWN + LEFT * 2),
-            MathTex(r"\sqrt{2}A}").move_to(DOWN + RIGHT * 2),
-            MathTex(r"\llbracket 1, n \rrbracket", tex_template=template).move_to(UP + RIGHT * 2),
-            Arrow(DOWN + LEFT * 2, DOWN + RIGHT * 2)
-        )    
-        self.play(
-            FadeIn(comutative_diagram),
-        )
+        f_arrow = VGroup(Arrow(A.get_right(), s2A.get_left(), buff=SMALL_BUFF),)
+        f_arrow += MathTex("f").next_to(f_arrow.submobjects[0], UP, buff=SMALL_BUFF)
+        f = MathTex(r"r \mapsto r\sqrt{2}").next_to(f_arrow[0], UP, buff=SMALL_BUFF)
+
+        g_arrow = VGroup(Arrow(s2A.get_top(), i1n.get_bottom(), buff=SMALL_BUFF))
+        g_arrow += MathTex("g").next_to(g_arrow.submobjects[0], RIGHT, buff=SMALL_BUFF)
+        
+        fg_arrow = VGroup(Arrow(A.get_top(), i1n.get_left(), buff=SMALL_BUFF))
+        fg_arrow += MathTex("f", r"\circ",  "g").rotate(
+            fg_arrow.submobjects[0].get_angle()
+        ).next_to(fg_arrow.submobjects[-1].get_center(), UL, buff=SMALL_BUFF)
+        
+        comutative_diagram = VGroup(A, s2A, i1n, f_arrow, g_arrow, fg_arrow)    
+        
+        s2A_infinit = MathTex(r"\sqrt{2}A", r"\text{ est infini}").to_corner(UL)
+        B_infinit = MathTex(r"\Rightarrow", r"B \text{ est infini }", r"\square .").next_to(s2A_infinit, DOWN).to_edge(LEFT)
+        
+        self.play(Write(A), Write(s2A))
+        self.wait(.5)
+        self.play(GrowArrow(f_arrow[0]))
+        self.wait(.5)
+        self.play(Write(f))
+        self.wait(.5)
+        self.play(ReplacementTransform(f, f_arrow[1]))
         self.wait()
-
+        self.play(Write(i1n))
+        self.play(GrowArrow(g_arrow[0]), Write(g_arrow[1]))
+        self.wait()
+        self.play(GrowArrow(fg_arrow[0]))
+        self.play(
+            ReplacementTransform(g_arrow[1].copy(), fg_arrow[1][2]),
+            ReplacementTransform(f_arrow[1].copy(), fg_arrow[1][0]),
+        )
+        self.play(Write(fg_arrow[1][1]))
+        self.wait()
+        self.play(Create(Cross(fg_arrow[1])))
+        self.wait()
+        self.play(Create(Cross(g_arrow[1])))
+        self.wait()
+        self.play(ReplacementTransform(s2A.copy(), s2A_infinit[0]))
+        self.play(Write(s2A_infinit[1]))
+        self.wait()
+        for mob in B_infinit:
+            self.play(Write(mob))
+            self.wait()
 
     def set_things_up(self):
         B = MathTex("B", " = ", r"\{s \in \mathbb{R}\setminus\mathbb{Q}|x < s < y\}").to_corner(UL)
