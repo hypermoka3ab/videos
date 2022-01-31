@@ -1307,7 +1307,7 @@ class IrrationalsDense(Scene):
 
     def set_things_up(self):
         B = MathTex("B", " = ", r"\{s \in \mathbb{R}\setminus\mathbb{Q}|x < s < y\}").to_corner(UL)
-        A = MathTex(r"A", " = ", r"\{r\in  \mathbb{Q}|x < r < y\}").next_to(B, DOWN).to_edge(LEFT)
+        A = MathTex(r"A", " = ", r"\left\{r\in  \mathbb{Q}\left|{x\over\sqrt{2}} < r < {y\over\sqrt{2}}\right\}").next_to(B, DOWN).to_edge(LEFT)
         s2A = MathTex(r"\sqrt{2}A", " = ", r"\left\{r\sqrt{2}\left|r \in A\right\}").next_to(A, DOWN).to_edge(LEFT)
         s2A_included_B = MathTex(
             r"\sqrt{2}A", r"\subset", "B", r"\Rightarrow", r"\left(B \text{ est fini } \Rightarrow \sqrt{2}A \text{ est fini } \right)"
