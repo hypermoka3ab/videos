@@ -680,6 +680,76 @@ class SupCaracterisation(Scene):
 
 class Sqrt2IsReal(Scene):
     def construct(self):
+        real_line = NumberLine([-.5, 3.1], 15, numbers_to_include=[0, 2]).shift(LEFT)
+        self.play(Create(real_line))
+        self.wait()
+
+        A_brace = BraceBetweenPoints(real_line.number_to_point(0), real_line.number_to_point(sqrt(2)), UP)
+        A_text = MathTex("A").next_to(A_brace, UP)
+        A = VGroup(A_brace, A_text)
+        self.play(GrowFromCenter(A[0]), Write(A[1]))
+        self.wait()
+
+
+        s_tracker = ValueTracker(sqrt(2.5))
+        s_squared = always_redraw(
+            lambda: VGroup(
+                MathTex("s^2", font_size=30),
+                Triangle(
+                    stroke_width=0, fill_color=WHITE, fill_opacity=1
+                ).scale(.1)
+            ).arrange(UP, buff=SMALL_BUFF).next_to(real_line.number_to_point(s_tracker.get_value() ** 2), DOWN, buff=0)
+        )
+        self.play(Write(s_squared[0]), GrowFromCenter(s_squared[1]))
+        self.wait()
+
+        s = always_redraw(
+            lambda: VGroup(
+                MathTex("s", font_size=30),
+                Triangle(
+                    stroke_width=0, fill_color=WHITE, fill_opacity=1
+                ).scale(.1)
+            ).arrange(UP, buff=SMALL_BUFF).next_to(real_line.number_to_point(s_tracker.get_value()), DOWN, buff=0) 
+        )
+        self.play(ReplacementTransform(s_squared.copy(), s))
+        self.wait()
+
+        ε_tracker = ValueTracker(0.1)
+        s_ε_squared = always_redraw(
+            lambda: Triangle(stroke_width=0, fill_color=WHITE, fill_opacity=1).scale(.1).next_to(
+                real_line.number_to_point((s_tracker.get_value() - ε_tracker.get_value()) ** 2), DOWN, buff=0
+            )
+        )
+        
+        self.play(Create(s_ε_squared))
+        self.wait()
+
+        s_ε = always_redraw(
+            lambda: Triangle(stroke_width=0, fill_color=WHITE, fill_opacity=1).scale(.1).next_to(
+                real_line.number_to_point((s_tracker.get_value() - ε_tracker.get_value())), DOWN, buff=0
+            )
+        )
+
+        epsilon_brace = always_redraw(
+            lambda: BraceBetweenPoints(
+                real_line.number_to_point(s_tracker.get_value() - ε_tracker.get_value()), real_line.number_to_point(s_tracker.get_value()), UP
+            )
+        )
+        epsilon_text = always_redraw(
+            lambda: MathTex(r"\varepsilon").next_to(epsilon_brace, UP)
+        )
+        
+        self.play(ReplacementTransform(s_ε_squared.copy(), s_ε))
+        self.wait()
+        
+        epsilon = VGroup(epsilon_brace, epsilon_text)
+        self.play(GrowFromCenter(epsilon[0]), Write(epsilon[1]))
+        self.wait()
+
+        self.play(ε_tracker.animate.set_value(.2))
+        self.wait()
+        
+    def initial_attempt(self):
         A_definition = MathTex(r"A =", r"\{x\in\mathbb{R}_+|x^2 < 2\}").to_corner(UL)
         s_definition = MathTex(r"s = \sup A").next_to(A_definition, DOWN).to_edge(LEFT)
         s_justification = Tex(r"($2$ est un majorant de $A$)").next_to(s_definition, RIGHT)
