@@ -716,18 +716,21 @@ class Sqrt2IsReal(Scene):
 
         ε_tracker = ValueTracker(0.1)
         s_ε_squared = always_redraw(
-            lambda: Triangle(stroke_width=0, fill_color=WHITE, fill_opacity=1).scale(.1).next_to(
-                real_line.number_to_point((s_tracker.get_value() - ε_tracker.get_value()) ** 2), DOWN, buff=0
-            )
+            lambda: VGroup(
+                MathTex(r"(s - \epsilon)^2", font_size=30),
+                Triangle(stroke_width=0, fill_color=WHITE, fill_opacity=1)
+            ).arrange(UP, buff=SMALL_BUFF).scale(.1).next_to(
+                real_line.number_to_point((s_tracker.get_value() - ε_tracker.get_value()) ** 2), DOWN, buff=0)
         )
         
-        self.play(Create(s_ε_squared))
+        self.play(GrowFromCenter(s_ε_squared))
         self.wait()
 
         s_ε = always_redraw(
-            lambda: Triangle(stroke_width=0, fill_color=WHITE, fill_opacity=1).scale(.1).next_to(
-                real_line.number_to_point((s_tracker.get_value() - ε_tracker.get_value())), DOWN, buff=0
-            )
+            lambda: VGroup(
+                MathTex(r"s - \varepsilon", font_size=25),
+                Triangle(stroke_width=0, fill_color=WHITE, fill_opacity=1).scale(.1)
+            ).arrange(UP, buff=SMALL_BUFF).next_to(real_line.number_to_point((s_tracker.get_value() - ε_tracker.get_value())), DOWN, buff=0)
         )
 
         epsilon_brace = always_redraw(
@@ -739,9 +742,9 @@ class Sqrt2IsReal(Scene):
             lambda: MathTex(r"\varepsilon").next_to(epsilon_brace, UP)
         )
         
-        self.play(ReplacementTransform(s_ε_squared.copy(), s_ε))
+        self.play(ReplacementTransform(s_ε_squared[1].copy(), s_ε))
+
         self.wait()
-        
         epsilon = VGroup(epsilon_brace, epsilon_text)
         self.play(GrowFromCenter(epsilon[0]), Write(epsilon[1]))
         self.wait()
