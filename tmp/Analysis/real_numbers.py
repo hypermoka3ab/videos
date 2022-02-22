@@ -715,23 +715,30 @@ class Sqrt2IsReal(Scene):
         self.wait()
 
         ε_tracker = ValueTracker(0.1)
-        s_ε_squared = always_redraw(
-            lambda: VGroup(
-                MathTex(r"(s - \epsilon)^2", font_size=30),
-                Triangle(stroke_width=0, fill_color=WHITE, fill_opacity=1)
-            ).arrange(UP, buff=SMALL_BUFF).scale(.1).next_to(
-                real_line.number_to_point((s_tracker.get_value() - ε_tracker.get_value()) ** 2), DOWN, buff=0)
+        s_ε_squared_triangle = always_redraw(
+            lambda: Triangle(stroke_width=0, fill_color=WHITE, fill_opacity=1).scale(.1).next_to(
+                real_line.number_to_point((s_tracker.get_value() - ε_tracker.get_value()) ** 2), DOWN, buff=0
+            )
         )
         
-        self.play(GrowFromCenter(s_ε_squared))
+        s_ε_squared_text = always_redraw(
+            lambda: MathTex(r"(s - \varepsilon)^2", font_size=25).next_to(s_ε_squared_triangle, DOWN, buff=SMALL_BUFF)
+        )
+        s_ε_squared = VGroup(s_ε_squared_triangle, s_ε_squared_text)
+        
+        self.play(GrowFromCenter(s_ε_squared[0]))
         self.wait()
 
-        s_ε = always_redraw(
-            lambda: VGroup(
-                MathTex(r"s - \varepsilon", font_size=25),
-                Triangle(stroke_width=0, fill_color=WHITE, fill_opacity=1).scale(.1)
-            ).arrange(UP, buff=SMALL_BUFF).next_to(real_line.number_to_point((s_tracker.get_value() - ε_tracker.get_value())), DOWN, buff=0)
+        s_ε_triangle = always_redraw(
+            lambda: Triangle(stroke_width=0, fill_color=WHITE, fill_opacity=1).scale(.1).next_to(
+                real_line.number_to_point(s_tracker.get_value() - ε_tracker.get_value()), DOWN, buff=0
+            )
         )
+        
+        s_ε_text = always_redraw(
+            lambda: MathTex(r"s - \varepsilon", font_size=25).next_to(s_ε_triangle, DOWN, buff=SMALL_BUFF)
+        )
+        s_ε = VGroup(s_ε_triangle, s_ε_text)
 
         epsilon_brace = always_redraw(
             lambda: BraceBetweenPoints(
@@ -742,14 +749,17 @@ class Sqrt2IsReal(Scene):
             lambda: MathTex(r"\varepsilon").next_to(epsilon_brace, UP)
         )
         
-        self.play(ReplacementTransform(s_ε_squared[1].copy(), s_ε))
+        self.play(ReplacementTransform(s_ε_squared[0].copy(), s_ε[0]))
 
         self.wait()
         epsilon = VGroup(epsilon_brace, epsilon_text)
         self.play(GrowFromCenter(epsilon[0]), Write(epsilon[1]))
         self.wait()
+        self.play(Write(s_ε[1]))
+        self.play(Write(s_ε_squared[1]))
+        self.wait()
 
-        self.play(ε_tracker.animate.set_value(.2))
+        self.play(ε_tracker.animate.set_value(.25))
         self.wait()
         
     def initial_attempt(self):
