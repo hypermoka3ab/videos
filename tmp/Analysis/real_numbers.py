@@ -684,22 +684,23 @@ class Sqrt2IsReal(Scene):
         self.play(Create(real_line))
         self.wait()
 
-        A_brace = BraceBetweenPoints(real_line.number_to_point(0), real_line.number_to_point(sqrt(2)), UP)
-        A_text = MathTex("A").next_to(A_brace, UP)
+        A_brace = always_redraw(lambda: BraceBetweenPoints(real_line.number_to_point(0), real_line.number_to_point(sqrt(2)), UP))
+        A_text = always_redraw(lambda: MathTex("A").next_to(A_brace, UP))
         A = VGroup(A_brace, A_text)
         self.play(GrowFromCenter(A[0]), Write(A[1]))
         self.wait()
 
 
         s_tracker = ValueTracker(sqrt(2.5))
-        s_squared = always_redraw(
-            lambda: VGroup(
-                MathTex("s^2", font_size=30),
-                Triangle(
-                    stroke_width=0, fill_color=WHITE, fill_opacity=1
-                ).scale(.1)
-            ).arrange(UP, buff=SMALL_BUFF).next_to(real_line.number_to_point(s_tracker.get_value() ** 2), DOWN, buff=0)
+        s_squared_triangle = always_redraw(
+            lambda: Triangle(stroke_width=0, fill_color=WHITE, fill_opacity=1).scale(.1).next_to(
+                real_line.number_to_point(s_tracker.get_value() ** 2), DOWN, buff = 0
+            )
         )
+        s_squared_text = always_redraw(
+            lambda: MathTex(r"s^2").scale(.5).next_to(s_squared_triangle, DOWN, buff = SMALL_BUFF)
+        )
+        s_squared = VGroup(s_squared_triangle, s_squared_text)
         self.play(Write(s_squared[0]), GrowFromCenter(s_squared[1]))
         self.wait()
 
@@ -760,6 +761,25 @@ class Sqrt2IsReal(Scene):
         self.wait()
 
         self.play(ε_tracker.animate.set_value(.25))
+        self.wait()
+
+        self.play(ε_tracker.animate.set_value(.1))
+        self.wait()
+
+
+        proof = MathTex(
+            r"(s - \varepsilon)^2", ">",  "2", r"&\Rightarrow", r"s^2 - 4s\varepsilon + \varepsilon^2", "> 2", "\\",
+            # r"&\Rightarrow", r"s^2 > 2 + 4s\varepsilon + \varepsilon^2\\",
+        ).to_corner(UL)
+        
+        self.play(
+            ReplacementTransform(s_ε_squared[1].copy(), proof[0]),
+            ReplacementTransform(real_line.get_number_mobject(2), proof[2]),
+            GrowFromCenter(proof[1]),
+        )
+        self.wait()
+        self.wait()
+        self.play(real_line.animate.shift(DOWN))
         self.wait()
         
     def initial_attempt(self):
