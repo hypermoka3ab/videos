@@ -680,6 +680,9 @@ class SupCaracterisation(Scene):
 
 class Sqrt2IsReal(Scene):
     def construct(self):
+        self.disprove_s2_gt_2()
+
+    def disprove_s2_gt_2(self):
         real_line = NumberLine([-.5, 3.1], 15, numbers_to_include=[0, 2]).shift(LEFT)
         self.play(Create(real_line))
         self.wait()
@@ -769,8 +772,8 @@ class Sqrt2IsReal(Scene):
 
         proof = MathTex(
             r"(s - \varepsilon)^2", ">",  "2", r"&\Rightarrow", "s^2", "-", "4", "s", r"\varepsilon",  "+", r"\varepsilon^2", ">", 
-            "s^2", "-", "4", r"\varepsilon", ">", "2", "\\",
-            # r"&\Rightarrow", r"s^2 > 2 + 4s\varepsilon + \varepsilon^2\\",
+            "s^2", "-", "4", r"\varepsilon", ">", "2", r"\\",
+            r"\varepsilon", "<", r"{s^2", "-", "2", r"\over", "4}", r"&\\",
         ).to_corner(UL)
 
         gt2 = MathTex(">", "2").next_to(proof[10], RIGHT)
@@ -801,11 +804,22 @@ class Sqrt2IsReal(Scene):
         )
         self.wait()
 
-
-        self.play(real_line.animate.shift(DOWN))
+        self.play(Indicate(proof[4:11]))
+        self.play(Indicate(proof[12:16]))
         self.wait()
-        
-        
+
+        self.play(
+            *[
+                ReplacementTransform(proof[i].copy(), proof[j])
+                for i, j in zip(list(range(12, 18)), [21, 22, 25, 19, 20, 23])
+            ],
+            Write(proof[24]),
+        )
+        self.wait()
+
+        self.play(Indicate(proof[19:26]))
+        self.wait()
+
     def initial_attempt(self):
         A_definition = MathTex(r"A =", r"\{x\in\mathbb{R}_+|x^2 < 2\}").to_corner(UL)
         s_definition = MathTex(r"s = \sup A").next_to(A_definition, DOWN).to_edge(LEFT)
