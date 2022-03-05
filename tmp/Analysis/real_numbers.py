@@ -768,9 +768,12 @@ class Sqrt2IsReal(Scene):
 
 
         proof = MathTex(
-            r"(s - \varepsilon)^2", ">",  "2", r"&\Rightarrow", r"s^2 - 4s\varepsilon + \varepsilon^2", "> 2", "\\",
+            r"(s - \varepsilon)^2", ">",  "2", r"&\Rightarrow", "s^2", "-", "4", "s", r"\varepsilon",  "+", r"\varepsilon^2", ">", 
+            "s^2", "-", "4", r"\varepsilon", ">", "2", "\\",
             # r"&\Rightarrow", r"s^2 > 2 + 4s\varepsilon + \varepsilon^2\\",
         ).to_corner(UL)
+
+        gt2 = MathTex(">", "2").next_to(proof[10], RIGHT)
         
         self.play(
             ReplacementTransform(s_ε_squared[1].copy(), proof[0]),
@@ -778,9 +781,30 @@ class Sqrt2IsReal(Scene):
             GrowFromCenter(proof[1]),
         )
         self.wait()
+        self.play(Write(proof[3]))
+        self.play(
+            ReplacementTransform(proof[0].copy(), proof[4:11]),
+            ReplacementTransform(proof[1:3].copy(), gt2),
+        )
         self.wait()
+
+        self.play(
+            ReplacementTransform(gt2[0].copy(), proof[11]),
+            ReplacementTransform(gt2, proof[16:18]),
+        )
+        self.wait()
+        self.play(
+            *[
+                ReplacementTransform(proof[i].copy(), proof[j])
+                for i, j in zip([4, 5, 6, 8], [12, 13, 14, 15])
+            ]
+        )
+        self.wait()
+
+
         self.play(real_line.animate.shift(DOWN))
         self.wait()
+        
         
     def initial_attempt(self):
         A_definition = MathTex(r"A =", r"\{x\in\mathbb{R}_+|x^2 < 2\}").to_corner(UL)
