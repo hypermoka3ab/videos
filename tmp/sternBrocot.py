@@ -92,14 +92,14 @@ class Tree(object):
         self.root.set_right(right)
         self.right = right
 
-    def show(self, sc:Scene):
+    def show(self, scene:Scene):
         """
         Draws the tree
         """
 
         # test for empty tree
         if self:
-            sc.play(
+            scene.play(
                 # write root fraction
                 Write(self.fraction.scale(.5).move_to(self.position)),
                 Create(Circle(arc_center = self.fraction.get_center(), radius = .3, color = WHITE))
@@ -107,14 +107,14 @@ class Tree(object):
 
             # test for leaf
             if self.height > 0:
-                sc.play(
+                scene.play(
                     # show creation of left and right edges
                     Write(Line(self.position, self.left.position, buff=SMALL_BUFF)),
                     Write(Line(self.position, self.right.position, buff=SMALL_BUFF))
                 )
                 # show left and right children
-                self.left.show(sc)
-                self.right.show(sc)
+                self.left.show(scene)
+                self.right.show(scene)
 
     
     
