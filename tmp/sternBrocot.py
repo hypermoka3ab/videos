@@ -5,8 +5,8 @@ class Fraction(MathTex):
     """
 
     def __init__(self, numerator, denominator):
-        if numerator <= 0 or denominator <= 0:
-            raise ValueError("Both arguments must be positive integers")
+        if numerator <= 0 or denominator <= 0 or not isinstance(numerator, int) or not isinstance(denominator, int):
+            raise ValueError("Both numerator and denominator must be positive integers")
         self.numerator = numerator
         self.denominator = denominator
         MathTex.__init__(self, *f"{numerator} \\over {denominator}".split(" "))
