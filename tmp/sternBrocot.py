@@ -92,7 +92,7 @@ class Tree(object):
         self.root.set_right(right)
         self.right = right
 
-    def show(self, sc):
+    def show(self, sc:Scene):
         """
         Draws the tree
         """
@@ -122,3 +122,4 @@ class SternBrocotTest(Scene):
     def construct(self):
         Tree(root_fraction = Fraction(1, 1), height=3).show(self)
         self.wait()
+
