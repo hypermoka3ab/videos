@@ -123,3 +123,17 @@ class SternBrocotTest(Scene):
         Tree(root_fraction = Fraction(1, 1), height=3).show(self)
         self.wait()
 
+class TreeTest(Scene):
+    def construct(self):
+        tree = Graph(
+            vertices=[0, 1, 2, 3, 4, 5, 6],
+            edges=[(0, 1), (0, 2), (1, 3), (1, 4), (2, 5), (2, 6)],
+            layout="tree",
+            root_vertex=0,
+            labels=True,
+            edge_type=CurvedArrow
+        )
+        for mob in tree:
+            self.play(Write(mob))
+        self.wait()
+
