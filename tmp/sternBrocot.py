@@ -5,11 +5,11 @@ class Fraction(MathTex):
     """
 
     def __init__(self, numerator, denominator):
-        if not (numerator > 0 and denominator > 0):
+        if numerator <= 0 or denominator <= 0:
             raise ValueError("Both arguments must be positive integers")
         self.numerator = numerator
         self.denominator = denominator
-        MathTex.__init__(self, *("{} \over {}".format(numerator, denominator).split(" ")))
+        MathTex.__init__(self, *f"{numerator} \\over {denominator}".split(" "))
        
 
 class Node(object):
