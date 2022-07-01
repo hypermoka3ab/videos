@@ -1,4 +1,5 @@
 from manim import *
+
 class Fraction(MathTex):
     """
     A fraction of two strictly positive integers
@@ -10,6 +11,9 @@ class Fraction(MathTex):
         self.numerator = numerator
         self.denominator = denominator
         MathTex.__init__(self, *f"{numerator} \\over {denominator}".split(" "))
+
+    def __str__(self) -> str:
+        return f"{self.numerator}\\over {self.denominator}"
        
 
 class Node(object):
@@ -116,24 +120,57 @@ class Tree(object):
                 self.left.show(scene)
                 self.right.show(scene)
 
+
+
+class Label(Tex):
+    def __init__(self, label):
+        super().__init__(label, font_size=20)
     
-    
-class SternBrocotTest(Scene):
-    def construct(self):
-        Tree(root_fraction = Fraction(1, 1), height=3).show(self)
-        self.wait()
+# class SternBrocotTest(Scene):
+#     def construct(self):
+#         Tree(root_fraction = Fraction(1, 1), height=3).show(self)
+#         self.wait()
+
+class CogMobject(VGroup):
+    def __init__(self, radius=1, tooth_size=.1, n_teeth=12):
+        outer = ParametricFunction(
+            lambda t: (np.array([np.cos(t), np.sin(t), 0])) * (radius + np.tanh(np.sin(t*n_teeth)/tooth_size)*tooth_size),
+            t_range=[0, TAU], fill_opacity=1
+        )
+        inner = Circle(.2, color=WHITE, fill_color=BLACK, fill_opacity=1)
+        VGroup.__init__(self, outer, inner)
 
 class TreeTest(Scene):
+    def fractions(self, root=Fraction(1, 1), height=3):
+
+        for i in range(2 ** height):
+            current = root
+            ibin = format(i, 'b').zfill(int(np.ceil(np.log2(i or 1))))
+            for bit in ibin:
+                # print(ibin)
+                current = Fraction(current.numerator+current.denominator, current.denominator) if int(bit) else\
+                    Fraction(current.numerator, current.numerator+current.denominator)
+            yield current
+
+
     def construct(self):
         tree = Graph(
-            vertices=[0, 1, 2, 3, 4, 5, 6],
-            edges=[(0, 1), (0, 2), (1, 3), (1, 4), (2, 5), (2, 6)],
-            layout="tree",
+            vertices=list(range(5)),
+            vertex_type=Label,
+            labels={
+                0: "Optimization methods",
+                1: "Exact", 
+                2: "Approximate",
+                3: "Heuristic",
+                4: "Metaheuristic"
+            },
+            edges=[(0, 1), (0, 2), (2, 3), (2, 4)],
+            layout='tree',
             root_vertex=0,
-            labels=True,
-            edge_type=CurvedArrow
+            edge_type=Arrow
         )
-        for mob in tree:
-            self.play(Write(mob))
+        c = CogMobject()
+        self.add(c)
         self.wait()
-
+        c.add_updater(lambda mob, dt: mob.rotate(-TAU*dt/10))
+        self.wait(3)
