@@ -132,7 +132,8 @@ class Label(Tex):
 #         self.wait()
 
 class CogMobject(VGroup):
-    def __init__(self, radius=1, tooth_size=.1, n_teeth=12):
+    def __init__(self, radius=1, tooth_size=.1, n_teeth=None):
+        n_teeth = int(radius * 10) if n_teeth is None else n_teeth
         outer = ParametricFunction(
             lambda t: (np.array([np.cos(t), np.sin(t), 0])) * (radius + np.tanh(np.sin(t*n_teeth)/tooth_size)*tooth_size),
             t_range=[0, TAU], fill_opacity=1
@@ -169,8 +170,11 @@ class TreeTest(Scene):
             root_vertex=0,
             edge_type=Arrow
         )
-        c = CogMobject()
-        self.add(c)
+        c = CogMobject().shift(RIGHT*1.3)
+        c2 = CogMobject(2).shift(LEFT*1.8)
+        self.add(c, c2)
         self.wait()
-        c.add_updater(lambda mob, dt: mob.rotate(-TAU*dt/10))
-        self.wait(3)
+        c.add_updater(lambda mob, dt: mob.rotate(-TAU*dt/2))
+        c2.add_updater(lambda mob, dt: mob.rotate(TAU*dt/4))
+
+        self.wait(10)
