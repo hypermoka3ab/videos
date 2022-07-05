@@ -145,13 +145,15 @@ class TreeTest(Scene):
     def fractions(self, root=Fraction(1, 1), height=3):
 
         for i in range(2 ** height):
-            current = root
-            ibin = format(i, 'b').zfill(int(np.ceil(np.log2(i or 1))))
-            for bit in ibin:
-                # print(ibin)
-                current = Fraction(current.numerator+current.denominator, current.denominator) if int(bit) else\
-                    Fraction(current.numerator, current.numerator+current.denominator)
-            yield current
+            if i == 0: yield root
+            else:
+                current = root
+                ibin = format(i, 'b').zfill(int(np.ceil(np.log2(i))))
+                for bit in ibin:
+                    # print(ibin)
+                    current = Fraction(current.numerator+current.denominator, current.denominator) if int(bit) else\
+                        Fraction(current.numerator, current.numerator+current.denominator)
+                yield current
 
 
     def construct(self):
