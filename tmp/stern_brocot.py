@@ -222,17 +222,16 @@ class MinkowskiQuestionMark(Scene):
             (-1) ** (n + 1) / 2 ** sum(a[:n+1]) for n in range(1, len(a)+1)
         ) * 2
 
-    
+
     def construct(self):
-        n_levels = DecimalNumber(2, 0)
-        ax = Axes([0, 1], [0, 1], tips=False)
+        n_levels = 0
+        ax = Axes([-.2, 1, .2], [-.2, 1, .2], tips=False, axis_config={'include_numbers': True})
         self.play(Write(ax))
-        qst = always_redraw(
-            lambda : ax.plot(lambda t: self.question_mark(t, n_levels.get_value()), [.01, .99, .001], stroke_width=1)
-        )
+        qst = ax.plot(lambda t: self.question_mark(t, n_levels), [.01, .99, .0001])
         self.play(Create(qst))
         for _ in range(10):
-            self.play(n_levels.animate.set_value(n_levels.get_value()+1))
+            n_levels += 1
+            self.play(Transform(qst, ax.plot(lambda t: self.question_mark(t, n_levels), [.01, .99, .001], stroke_width=1)))
             self.wait()
         # import matplotlib.pyplot as plt
         # x = np.linspace(-1, 2, 100)
