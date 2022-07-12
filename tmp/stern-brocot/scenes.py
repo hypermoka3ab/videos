@@ -45,26 +45,6 @@ class TreeTest(Scene):
         self.add(graph)
         self.wait()
 
-def stern_brocot_sqrt2():
-    from math import sqrt
-    from matplotlib import pyplot as plt
-    left = (1, 1)
-    right = (2, 1)
-    errors = []
-    # print(f'approximation = {left[0]}/{left[1]}≤√2≤{right[0]}/{right[1]}')
-    # print(f'error = {min(abs(sqrt(2)-a[0]/a[1]) for a in [left, right])}')
-    for _ in range(40):
-        middle = (left[0] + right[0], left[1] + right[1])
-        if middle[0] ** 2 > 2 * middle[1] ** 2:
-            right = middle
-        else:
-            left = middle
-        errors.append(min(abs(sqrt(2)-a[0]/a[1]) for a in [left, right]))
-        # errors.append(abs(left[0]/left[1] - right[0]/right[1]))
-        # print(f'{left[0]}/{left[1]}≤√2≤{right[0]}/{right[1]}')
-    plt.semilogy()
-    plt.plot(errors)
-    plt.show()
 
 class MinkowskiQuestionMark(Scene):
 

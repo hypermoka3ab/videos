@@ -1,5 +1,5 @@
 from manim import *
-from sympy import Rational
+from sympy import Rational, evaluate
 from bst import Node
 
 
@@ -28,3 +28,25 @@ class CogMobject(VGroup):
         )
         inner = Circle(.2, color=WHITE, fill_color=BLACK, fill_opacity=1)
         VGroup.__init__(self, outer, inner)
+
+
+def stern_brocot_sqrt2():
+    from math import sqrt
+    from matplotlib import pyplot as plt
+    from sympy import Rational, evaluate
+    left = Rational(1, 1)
+    right = Rational(2, 1)
+    errors = []
+
+    for _ in range(40):
+        middle = (left.numerator + right.numerator, left.denominator + right.denominator)
+        if middle ** 2 > 2 :
+            right = middle
+        else:
+            left = middle
+        errors.append(min(abs(sqrt(2) - evaluate(a)) for a in [left, right]))
+
+    plt.semilogy()
+    plt.plot(errors)
+    plt.show()
+
