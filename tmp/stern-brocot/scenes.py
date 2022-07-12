@@ -13,15 +13,6 @@ from utils import *
 #         Tree(root_fraction = Fraction(1, 1), height=3).show(self)
 #         self.wait()
 
-class CogMobject(VGroup):
-    def __init__(self, radius=1, tooth_size=.1, n_teeth=None, color=WHITE):
-        n_teeth = int(radius * 20) if n_teeth is None else n_teeth
-        outer = ParametricFunction(
-            lambda t: (np.array([np.cos(t), np.sin(t), 0])) * (radius + np.tanh(np.sin(t*n_teeth)/tooth_size)*tooth_size),
-            t_range=[0, TAU], fill_opacity=1, fill_color=color, stroke_width=0
-        )
-        inner = Circle(.2, color=WHITE, fill_color=BLACK, fill_opacity=1)
-        VGroup.__init__(self, outer, inner)
 
 class TreeTest(Scene):
     def fractions(self, root=Rational(0, 1), height=3):
