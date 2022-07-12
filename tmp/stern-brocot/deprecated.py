@@ -119,3 +119,28 @@ class Tree(object):
                 # show left and right children
                 self.left.show(scene)
                 self.right.show(scene)
+
+
+# tree = Graph(
+#     vertices=list(range(5)),
+#     vertex_type=Label,
+#     labels={
+#         0: "Optimization methods",
+#         1: "Exact", 
+#         2: "Approximate",
+#         3: "Heuristic",
+#         4: "Metaheuristic"
+#     },
+#     edges=[(0, 1), (0, 2), (2, 3), (2, 4)],
+#     layout='tree',
+#     root_vertex=0,
+#     edge_type=Arrow
+# )
+# c = CogMobject().shift(RIGHT*1.3)
+# c2 = CogMobj2ect(2, color=RED).shift(LEFT*1.8)
+# self.add(c, c2)
+# self.wait()
+# c.add_updater(lambda mob, dt: mob.rotate(-TAU*dt/3))
+# c2.add_updater(lambda mob, dt: mob.rotate(TAU*dt/6))
+
+# self.wait(10)

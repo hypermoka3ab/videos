@@ -1,6 +1,6 @@
 from manim import *
 from sympy import Rational
-from bst import BST, Node
+from bst import Node
 
 
 def get_edge_list(root: Node):
