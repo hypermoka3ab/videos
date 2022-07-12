@@ -6,7 +6,7 @@ class Fraction(MathTex):
     """
 
     def __init__(self, numerator, denominator):
-        if numerator <= 0 or denominator <= 0 or not isinstance(numerator, int) or not isinstance(denominator, int):
+        if numerator < 0 or denominator < 0 or not isinstance(numerator, int) or not isinstance(denominator, int):
             raise ValueError("Both numerator and denominator must be positive integers")
         self.numerator = numerator
         self.denominator = denominator
@@ -142,44 +142,46 @@ class CogMobject(VGroup):
         VGroup.__init__(self, outer, inner)
 
 class TreeTest(Scene):
-    def fractions(self, root=Fraction(1, 1), height=3):
+    def fractions(self, root=Fraction(0, 1), height=3):
+        # ε = np.identity(2)
+        # L = np.array([[1, 0], [1, 1]])
+        # R = np.array([[1, 1], [1, 0]])
+        for i in range(2 ** height - 1):
+            current = root
+            ibin = format(i, 'b').zfill(int(np.ceil(np.log2(i or 1))))
+            for bit in ibin:
+                # print(ibin)
+                current = Fraction(current.numerator+current.denominator, current.denominator) if int(bit) else\
+                    Fraction(current.numerator, current.numerator+current.denominator)
+            yield current
 
-        for i in range(2 ** height):
-            if i == 0: yield root
-            else:
-                current = root
-                ibin = format(i, 'b').zfill(int(np.ceil(np.log2(i))))
-                for bit in ibin:
-                    # print(ibin)
-                    current = Fraction(current.numerator+current.denominator, current.denominator) if int(bit) else\
-                        Fraction(current.numerator, current.numerator+current.denominator)
-                yield current
 
 
     def construct(self):
-        tree = Graph(
-            vertices=list(range(5)),
-            vertex_type=Label,
-            labels={
-                0: "Optimization methods",
-                1: "Exact", 
-                2: "Approximate",
-                3: "Heuristic",
-                4: "Metaheuristic"
-            },
-            edges=[(0, 1), (0, 2), (2, 3), (2, 4)],
-            layout='tree',
-            root_vertex=0,
-            edge_type=Arrow
-        )
-        c = CogMobject().shift(RIGHT*1.3)
-        c2 = CogMobject(2, color=RED).shift(LEFT*1.8)
-        self.add(c, c2)
-        self.wait()
-        c.add_updater(lambda mob, dt: mob.rotate(-TAU*dt/3))
-        c2.add_updater(lambda mob, dt: mob.rotate(TAU*dt/6))
+        # tree = Graph(
+        #     vertices=list(range(5)),
+        #     vertex_type=Label,
+        #     labels={
+        #         0: "Optimization methods",
+        #         1: "Exact", 
+        #         2: "Approximate",
+        #         3: "Heuristic",
+        #         4: "Metaheuristic"
+        #     },
+        #     edges=[(0, 1), (0, 2), (2, 3), (2, 4)],
+        #     layout='tree',
+        #     root_vertex=0,
+        #     edge_type=Arrow
+        # )
+        # c = CogMobject().shift(RIGHT*1.3)
+        # c2 = CogMobject(2, color=RED).shift(LEFT*1.8)
+        # self.add(c, c2)
+        # self.wait()
+        # c.add_updater(lambda mob, dt: mob.rotate(-TAU*dt/3))
+        # c2.add_updater(lambda mob, dt: mob.rotate(TAU*dt/6))
 
-        self.wait(10)
+        # self.wait(10)
+        print([str(f) for f in self.fractions(height=4)])
 
 
 def stern_brocot_sqrt2():
