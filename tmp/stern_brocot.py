@@ -224,16 +224,12 @@ class MinkowskiQuestionMark(Scene):
 
 
     def construct(self):
-        n_levels = 0
+        n_levels = 1
         ax = Axes([-.2, 1, .2], [-.2, 1, .2], tips=False, axis_config={'include_numbers': True})
         self.play(Write(ax))
-        qst = ax.plot(lambda t: self.question_mark(t, n_levels), [.01, .99, .0001])
+        qst = ax.plot(lambda t: self.question_mark(t, n_levels), [.0001, .9999, .0001], color=RED)
         self.play(Create(qst))
         for _ in range(10):
             n_levels += 1
-            self.play(Transform(qst, ax.plot(lambda t: self.question_mark(t, n_levels), [.01, .99, .001], stroke_width=1)))
+            self.play(Transform(qst, ax.plot(lambda t: self.question_mark(t, n_levels), [.01, .99, .001], stroke_width=1, color=RED)))
             self.wait()
-        # import matplotlib.pyplot as plt
-        # x = np.linspace(-1, 2, 100)
-        # plt.plot(x, [self.question_mark(xi, 10) for xi in x])
-        # plt.show()
