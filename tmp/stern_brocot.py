@@ -1,5 +1,9 @@
 from manim import *
+from sympy import Rational
 
+
+def latex(r: Rational):
+    return f'{r.numerator} \\over {r.denominator}'
 class Fraction(MathTex):
     """
     A fraction of two strictly positive integers
@@ -142,17 +146,17 @@ class CogMobject(VGroup):
         VGroup.__init__(self, outer, inner)
 
 class TreeTest(Scene):
-    def fractions(self, root=Fraction(0, 1), height=3):
+    def fractions(self, root=Rational(0, 1), height=3):
         # ε = np.identity(2)
         # L = np.array([[1, 0], [1, 1]])
         # R = np.array([[1, 1], [1, 0]])
-        for i in range(2 ** height - 1):
+        for i in range(1, 2 ** height):
             current = root
-            ibin = format(i, 'b').zfill(int(np.ceil(np.log2(i or 1))))
+            ibin = format(i, 'b')
             for bit in ibin:
                 # print(ibin)
-                current = Fraction(current.numerator+current.denominator, current.denominator) if int(bit) else\
-                    Fraction(current.numerator, current.numerator+current.denominator)
+                current = Rational(current.numerator+current.denominator, current.denominator) if int(bit) else\
+                    Rational(current.numerator, current.numerator+current.denominator)
             yield current
 
 
@@ -181,7 +185,8 @@ class TreeTest(Scene):
         # c2.add_updater(lambda mob, dt: mob.rotate(TAU*dt/6))
 
         # self.wait(10)
-        print([str(f) for f in self.fractions(height=4)])
+        for f in self.fractions(height=4):
+            print(latex(f))
 
 
 def stern_brocot_sqrt2():
