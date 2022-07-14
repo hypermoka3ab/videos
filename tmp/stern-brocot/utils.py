@@ -33,20 +33,20 @@ class CogMobject(VGroup):
 def stern_brocot_sqrt2():
     from math import sqrt
     from matplotlib import pyplot as plt
-    from sympy import Rational, evaluate
+    from sympy import Rational
     left = Rational(1, 1)
     right = Rational(2, 1)
     errors = []
 
     for _ in range(40):
-        middle = (left.numerator + right.numerator, left.denominator + right.denominator)
-        if middle ** 2 > 2 :
+        middle = Rational(left.numerator + right.numerator, left.denominator + right.denominator)
+        if (middle.p/middle.q) ** 2 > 2 :
             right = middle
         else:
             left = middle
-        errors.append(min(abs(sqrt(2) - evaluate(a)) for a in [left, right]))
+        errors.append(min(abs(sqrt(2) - (a.p/a.q)) for a in [left, right]))
+        print(f"{left.p/left.q} < sqrt(2) < {right.p/right.q}: {errors[-1]}")
 
     plt.semilogy()
     plt.plot(errors)
     plt.show()
-
