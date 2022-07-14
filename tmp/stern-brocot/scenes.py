@@ -21,8 +21,7 @@ class TreeTest(Scene):
             ibin = format(i, 'b')
             for bit in ibin:
                 # print(ibin)
-                current = Rational(current.numerator+current.denominator, current.denominator) if int(bit) else\
-                    Rational(current.numerator, current.numerator+current.denominator)
+                current = Rational(current.p+current.q, current.q) if int(bit) else Rational(current.p, current.p+current.q)
             yield current
 
 
