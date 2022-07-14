@@ -54,15 +54,27 @@ class SBTreeMobject(Graph):
             edge_config={"buff":MED_LARGE_BUFF}
         )
 
-    
-        
         
 
     def get_node_mobjects(self):
         return self.submobjects[:len(self.vertices)]
     
-    def get_vertex_mobjects(self):    
+    def get_edge_mobjects(self):    
         return self.submobjects[len(self.vertices):]
+        
+    def show_growth(self, scene:Scene):
+        # loop over levels from 1 to height
+        
+        for level in range(int(np.log2(len(self.vertices) + 1))):    
+            # create nodes of the level
+            scene.play(*[Write(node.submobjects[0]) for node in self.get_node_mobjects()[2**(level) - 1:2**(level+1) - 1]])
+            scene.play(*[Create(node.submobjects[1]) for node in self.get_node_mobjects()[2**(level) - 1:2**(level+1) - 1]])
+            scene.wait()
+
+            # create the edges for all layers except for the last
+            if level < np.log2(len(self.vertices) + 1) - 1:
+                scene.play(*[Create(edge) for edge in self.get_edge_mobjects()[2**(level+1) - 2:2**(level+2) - 2]])
+                print()
         
 
 
@@ -97,9 +109,5 @@ class BST:
 class Test(Scene):
     def construct(self):
         tree = SBTreeMobject()
-        self.add(tree)
-        self.wait()
-        for node in tree.get_node_mobjects()[:3]:
-            node.set_fill(YELLOW)
-            self.wait()
+        tree.show_growth(self)
         self.wait()
