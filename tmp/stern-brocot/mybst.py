@@ -1,13 +1,27 @@
+import itertools
 from utils import *
+import networkx as nx
+
+def fractions(root=Rational(0, 1), height=3):
+    # ε = np.identity(2)
+    # L = np.array([[1, 0], [1, 1]])
+    # R = np.array([[1, 1], [1, 0]])
+    for i in range(1, 2 ** height):
+        current = root
+        ibin = format(i, 'b')
+        for bit in ibin:
+            # print(ibin)
+            current = Rational(current.p+current.q, current.q) if int(bit) else Rational(current.p, current.p+current.q)
+        yield current
 
 class Node(VGroup):
-    def __init__(self, value:str="1/1", font_size=DEFAULT_FONT_SIZE) -> None:
+    def __init__(self, value:str="1/1", font_size=DEFAULT_FONT_SIZE, *args, **kwargs) -> None:
         value = Rational(value)
         self.value = value
         self._tex = MathTex(*(latex(value).split(' ')), font_size=font_size)
         self._circle = Circle(color=WHITE).surround(self._tex)
         
-        VGroup.__init__(self, self._tex, self._circle)
+        VGroup.__init__(self, self._tex, self._circle, *args, **kwargs)
 
     def __lt__(self, other):
         return self.value < other.value
@@ -15,6 +29,43 @@ class Node(VGroup):
         return not self.__lt__(__o)
     def __getitem__(self, value):
         return self._tex[value]
+
+
+class SBTreeMobject(Graph):
+    def __init__(self, height=4, spacing=(1.8, 2)):
+        
+        graph = nx.Graph() # empty graph
+
+        # populate with fractions
+        nodes = [f"{f.p}/{f.q}" for f in fractions(height=height)]
+        for node in nodes:
+            graph.add_node(node)
+
+        # add edges
+        for level in range(height - 1):
+            for i, j in itertools.product(range(2 ** level), range(2)):
+                graph.add_edge(nodes[i + 2**level - 1], nodes[i*2 + j + 2**(level+1) - 1])
+
+
+        Graph.__init__(
+            self, list(graph.nodes), list(graph.edges), labels=True,
+            vertex_mobjects={node: Node(node, font_size=30) for node in graph.nodes},
+            layout="tree", root_vertex=nodes[0], layout_config={'vertex_spacing': spacing},
+            edge_config={"buff":MED_LARGE_BUFF}
+        )
+
+    
+        
+        
+
+    def get_node_mobjects(self):
+        return self.submobjects[:len(self.vertices)]
+    
+    def get_vertex_mobjects(self):    
+        return self.submobjects[len(self.vertices):]
+        
+
+
 
 class BST:
     def __init__(self) -> None:
@@ -45,6 +96,10 @@ class BST:
     
 class Test(Scene):
     def construct(self):
-        for i in range(3):
-            self.add(Node(font_size=30)[i])
-            self.wait() 
+        tree = SBTreeMobject()
+        self.add(tree)
+        self.wait()
+        for node in tree.get_node_mobjects()[:3]:
+            node.set_fill(YELLOW)
+            self.wait()
+        self.wait()
