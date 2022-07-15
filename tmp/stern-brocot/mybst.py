@@ -20,23 +20,22 @@ def fractions(root=Rational(0, 1), height=3, order="stern-brocot"):
         # todo: fix the order
         ε = np.identity(2)
         L = np.array([[1, 0], [1, 1]])
-        R = np.array([[1, 1], [1, 0]])
+        R = np.array([[1, 1], [0, 1]])
         for i in range(1, 2 ** height):
             matrix = ε
             ibin = format(i, 'b')[1:]
             for bit in ibin:
-                matrix = matrix.dot(R if int(bit) else L)
-            
+                matrix = np.dot(matrix, R if int(bit) else L)
             yield Rational(*matrix.dot([1, 1]))
 
-class Node(VGroup):
+class Node(MathTex):
     def __init__(self, value:str="1/1", font_size=DEFAULT_FONT_SIZE, *args, **kwargs) -> None:
         value = Rational(value)
         self.value = value
-        self._tex = MathTex(*(latex(value).split(' ')), font_size=font_size)
-        self._circle = Circle(color=WHITE).surround(self._tex)
+        self._tex = MathTex.__init__(self, *(latex(value).split(' ')), font_size=font_size)
+        # self._circle = Circle(color=WHITE).surround(self._tex)
         
-        VGroup.__init__(self, self._tex, self._circle, *args, **kwargs)
+        # VGroup.__init__(self, self._tex, self._circle, *args, **kwargs)
 
     def __lt__(self, other):
         return self.value < other.value
@@ -83,8 +82,7 @@ class SBTreeMobject(Graph):
         
         for level in range(int(np.log2(len(self.vertices) + 1))):    
             # create nodes of the level
-            scene.play(*[Write(node.submobjects[0]) for node in self.get_node_mobjects()[2**(level) - 1:2**(level+1) - 1]])
-            scene.play(*[Create(node.submobjects[1]) for node in self.get_node_mobjects()[2**(level) - 1:2**(level+1) - 1]])
+            scene.play(*[Write(node) for node in self.get_node_mobjects()[2**(level) - 1:2**(level+1) - 1]])
             scene.wait()
 
             # create the edges for all layers except for the last
