@@ -2,17 +2,32 @@ import itertools
 from utils import *
 import networkx as nx
 
-def fractions(root=Rational(0, 1), height=3):
+def fractions(root=Rational(0, 1), height=3, order="stern-brocot"):
     # ε = np.identity(2)
     # L = np.array([[1, 0], [1, 1]])
     # R = np.array([[1, 1], [1, 0]])
-    for i in range(1, 2 ** height):
-        current = root
-        ibin = format(i, 'b')
-        for bit in ibin:
-            # print(ibin)
-            current = Rational(current.p+current.q, current.q) if int(bit) else Rational(current.p, current.p+current.q)
-        yield current
+
+    if order == "wlof-klein":
+        for i in range(1, 2 ** height):
+            current = root
+            ibin = format(i, 'b')
+            for bit in ibin:
+                current = Rational(current.p, current.p+current.q) if int(bit) else Rational(current.p+current.q, current.q)
+
+            yield current
+    elif order == "stern-brocot":
+
+        # todo: fix the order
+        ε = np.identity(2)
+        L = np.array([[1, 0], [1, 1]])
+        R = np.array([[1, 1], [1, 0]])
+        for i in range(1, 2 ** height):
+            matrix = ε
+            ibin = format(i, 'b')[1:]
+            for bit in ibin:
+                matrix = matrix.dot(R if int(bit) else L)
+            
+            yield Rational(*matrix.dot([1, 1]))
 
 class Node(VGroup):
     def __init__(self, value:str="1/1", font_size=DEFAULT_FONT_SIZE, *args, **kwargs) -> None:
@@ -38,6 +53,7 @@ class SBTreeMobject(Graph):
 
         # populate with fractions
         nodes = [f"{f.p}/{f.q}" for f in fractions(height=height)]
+        print(nodes)
         for node in nodes:
             graph.add_node(node)
 
