@@ -1,11 +1,8 @@
-import itertools
 from utils import *
 import networkx as nx
+from sympy import continued_fraction, continued_fraction_reduce
 
 def fractions(root=Rational(0, 1), height=3, order="stern-brocot"):
-    # ε = np.identity(2)
-    # L = np.array([[1, 0], [1, 1]])
-    # R = np.array([[1, 1], [1, 0]])
 
     if order == "wlof-klein":
         for i in range(1, 2 ** height):
@@ -16,7 +13,6 @@ def fractions(root=Rational(0, 1), height=3, order="stern-brocot"):
 
             yield current
     elif order == "stern-brocot":
-
         ε = np.identity(2)
         L = np.array([[1, 0], [1, 1]])
         R = np.array([[1, 1], [0, 1]])
@@ -27,13 +23,30 @@ def fractions(root=Rational(0, 1), height=3, order="stern-brocot"):
                 matrix = np.dot(matrix, R if int(bit) else L)
             yield Rational(*matrix.dot([1, 1]))
 
+
+def get_left_right(r:str):
+    r = Rational(r)
+    one, other = continued_fraction(r), continued_fraction(r)
+    one[-1] += 1
+    one = Rational(continued_fraction_reduce(one))
+
+    other[-1] -= 1
+    other.append(2)
+    other = Rational(continued_fraction_reduce(other))
+
+    return string(min(one, other)), string(max(one, other))
+
+def string(r:Rational) -> str:
+    return f"{r.p}/{r.q}"
+
 class Node(MathTex):
     def __init__(self, value:str="1/1", font_size=DEFAULT_FONT_SIZE, *args, **kwargs) -> None:
-        value = Rational(value)
-        self.value = value
-        self._tex = MathTex.__init__(self, *(latex(value).split(' ')), font_size=font_size)
-        # self._circle = Circle(color=WHITE).surround(self._tex)
+        self.value = Rational(value)
+        self._tex = MathTex.__init__(self, *(latex(self.value).split(' ')), font_size=font_size)
+        self.left = None
+        self.right = None
         
+        # self._circle = Circle(color=WHITE).surround(self._tex)        
         # VGroup.__init__(self, self._tex, self._circle, *args, **kwargs)
 
     def __lt__(self, other):
@@ -45,30 +58,51 @@ class Node(MathTex):
 
 
 class BinaryTree(Graph):
-    def __init__(self, height=4, spacing=(1.8, 2)):
+    def __init__(self, height=4, root_position=UP*3, spacing=(2.5, 1.5), scale=1):
         
-        graph = nx.Graph() # empty graph
-
         # populate with fractions
-        nodes = [f"{f.p}/{f.q}" for f in fractions(height=height)]
-        print(nodes)
-        for node in nodes:
-            graph.add_node(node)
+        nodes = ["1/1"]
+        node_positions = [root_position]
 
-        # add edges
-        for level in range(height - 1):
-            for i, j in itertools.product(range(2 ** level), range(2)):
-                graph.add_edge(nodes[i + 2**level - 1], nodes[i*2 + j + 2**(level+1) - 1])
+        level = 0
+        while level < height - 1:
 
+            # nodes for which to add descendents (ignore nodes above level)
+            level_nodes = nodes[2**level - 1:2**(level+1) - 1]
+            level_positions = node_positions[2**level - 1:2**(level+1) - 1]
 
-        Graph.__init__(
-            self, list(graph.nodes), list(graph.edges), labels=True,
-            vertex_mobjects={node: Node(node, font_size=30) for node in graph.nodes},
-            layout="tree", root_vertex=nodes[0], layout_config={'vertex_spacing': spacing},
-            edge_config={"buff":MED_LARGE_BUFF}
-        )
+            for node, pos in zip(level_nodes, level_positions):
+                # add left node and position
+                left, right = get_left_right(Rational(node))
+                nodes.append(left)
+                node_positions.append(pos  + DOWN * spacing[1] + LEFT * spacing[0] / 2**level)
 
+                # add right node and position
+                nodes.append(right)
+                node_positions.append(pos  + DOWN * spacing[1] + RIGHT * spacing[0] / 2**level)
+
+            level += 1
+
+        # edges
+        edges = []
+        for node in nodes[:2**level - 1]:
+            left, right = get_left_right(Rational(node))
+            edges.extend(((node, left), (node, right)))
+
+        # layout
+        lt = dict(zip(nodes, node_positions))
         
+        Graph.__init__(
+            self, nodes, edges, labels=True, 
+            vertex_mobjects={node: Node(node, font_size=30) for node in nodes},
+            edge_config = {"buff": MED_LARGE_BUFF},
+            layout=lt
+        )
+        for node in nodes:
+            left, right = get_left_right(Rational(node))
+            self.vertices[node].left = left
+            self.vertices[node].right = right
+        self.scale(scale)
 
     def get_node_mobjects(self):
         return self.submobjects[:len(self.vertices)]
@@ -87,8 +121,7 @@ class BinaryTree(Graph):
             # create the edges for all layers except for the last
             if level < np.log2(len(self.vertices) + 1) - 1:
                 scene.play(*[Create(edge) for edge in self.get_edge_mobjects()[2**(level+1) - 2:2**(level+2) - 2]])
-                print()
-        
+
 
 
 
@@ -124,3 +157,4 @@ class Test(Scene):
         tree = BinaryTree()
         tree.show_growth(self)
         self.wait()
+
