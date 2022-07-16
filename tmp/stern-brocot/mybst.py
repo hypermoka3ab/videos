@@ -1,5 +1,4 @@
 from utils import *
-import networkx as nx
 from sympy import continued_fraction, continued_fraction_reduce
 
 def fractions(root=Rational(0, 1), height=3, order="stern-brocot"):
