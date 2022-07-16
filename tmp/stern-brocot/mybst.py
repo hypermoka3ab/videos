@@ -17,7 +17,6 @@ def fractions(root=Rational(0, 1), height=3, order="stern-brocot"):
             yield current
     elif order == "stern-brocot":
 
-        # todo: fix the order
         ε = np.identity(2)
         L = np.array([[1, 0], [1, 1]])
         R = np.array([[1, 1], [0, 1]])
@@ -45,7 +44,7 @@ class Node(MathTex):
         return self._tex[value]
 
 
-class SBTreeMobject(Graph):
+class BinaryTree(Graph):
     def __init__(self, height=4, spacing=(1.8, 2)):
         
         graph = nx.Graph() # empty graph
@@ -122,6 +121,6 @@ class BST:
     
 class Test(Scene):
     def construct(self):
-        tree = SBTreeMobject()
+        tree = BinaryTree()
         tree.show_growth(self)
         self.wait()
