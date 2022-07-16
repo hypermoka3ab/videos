@@ -1,6 +1,4 @@
 from manim import *
-from sympy import Rational       
-from bst import BST
 from utils import *
 
 
@@ -12,36 +10,9 @@ from utils import *
 
 
 class TreeTest(Scene):
-    def fractions(self, root=Rational(0, 1), height=3):
-        # ε = np.identity(2)
-        # L = np.array([[1, 0], [1, 1]])
-        # R = np.array([[1, 1], [1, 0]])
-        for i in range(1, 2 ** height):
-            current = root
-            ibin = format(i, 'b')
-            for bit in ibin:
-                # print(ibin)
-                current = Rational(current.p+current.q, current.q) if int(bit) else Rational(current.p, current.p+current.q)
-            yield current
-
-
-
     def construct(self):
-        tree = BST()
-        for f in self.fractions(height=4):
-            tree.insert(f)
-
-
-        graph = Graph(
-            vertices=[latex(f) for f in tree.traverse()],
-            layout_config={'vertex_spacing': (2, 2)},
-            labels=True,
-            root_vertex=latex(tree.traverse()[0]),
-            layout="tree",
-            edges=get_edge_list(tree.root),
-        ).scale(.6)
-        
-        self.add(graph)
+        tree = BinaryTree()
+        self.add(tree)
         self.wait()
 
 
