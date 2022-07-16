@@ -1,5 +1,5 @@
 from manim import *
-from sympy import Rational, evaluate
+from sympy import Rational
 from bst import Node
 
 
