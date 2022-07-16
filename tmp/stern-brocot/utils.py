@@ -1,9 +1,9 @@
 from manim import *
 from sympy import Rational
-from bst import Node
+import bst
 
 
-def get_edge_list(root: Node):
+def get_edge_list(root: bst.Node):
     edges = []
     if root is not None: 
         if root.left is not None: edges.append((latex(root.value), latex(root.left.value)))
