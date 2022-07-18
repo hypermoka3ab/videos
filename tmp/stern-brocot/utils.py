@@ -195,3 +195,17 @@ class CogMobject(VGroup):
         inner = Circle(.2, color=WHITE, fill_color=BLACK, fill_opacity=1)
         VGroup.__init__(self, outer, inner)
 
+
+# todo: make this not suck
+class Parallelogram(Polygon):
+    def __init__(self, origin, v1, v2, **kwargs):
+        
+        v3 = v1 + v2 + origin
+        Polygon.__init__(
+            self, origin, 
+            v1,
+            v3,
+            v2,
+            origin,
+            **kwargs
+        )
