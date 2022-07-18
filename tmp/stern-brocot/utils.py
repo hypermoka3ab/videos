@@ -19,7 +19,7 @@ def latex(r: Rational):
 
 def fractions(root=Rational(0, 1), height=3, order="stern-brocot"):
 
-    if order == "wlof-klein":
+    if order == "wolf-klein":
         for i in range(1, 2 ** height):
             current = root
             ibin = format(i, 'b')
@@ -81,20 +81,18 @@ class Node(MathTex):
         self._tex = MathTex.__init__(self, *(latex(self.value).split(' ')), font_size=font_size)
         self.left = None
         self.right = None
-        
-        # self._circle = Circle(color=WHITE).surround(self._tex)        
-        # VGroup.__init__(self, self._tex, self._circle, *args, **kwargs)
 
     def __lt__(self, other):
         return self.value < other.value
+
     def __ge__(self, __o) -> bool:
         return not self.__lt__(__o)
+        
     def __getitem__(self, value):
         return self._tex[value]
 
 class BinaryTree(Graph):
     def __init__(self, height=4, root_position=UP*3, spacing=(2.5, 1.5), scale=1):
-        
         # populate with fractions
         nodes = ["1/1"]
         node_positions = [root_position]
