@@ -196,16 +196,23 @@ class CogMobject(VGroup):
         VGroup.__init__(self, outer, inner)
 
 
-# todo: make this not suck
 class Parallelogram(Polygon):
-    def __init__(self, origin, v1, v2, **kwargs):
-        
-        v3 = v1 + v2 + origin
+    def __init__(self, *vertices, origin=ORIGIN, coord_system:CoordinateSystem=None, **kwargs):
+        if coord_system is None:
+            v1, v3 = vertices
+            v2 = v1 + v3
+    
+        else:
+            v1 = coord_system.coords_to_point(*vertices[0][:2])
+            v3 = coord_system.coords_to_point(*vertices[1][:2])
+            origin = coord_system.coords_to_point(*origin[:2])
+            v2 = v1 + v3 - origin
+
         Polygon.__init__(
-            self, origin, 
-            v1,
-            v3,
-            v2,
-            origin,
-            **kwargs
-        )
+                self, origin, 
+                v1,
+                v2,
+                v3,
+                origin,
+                **kwargs
+            )

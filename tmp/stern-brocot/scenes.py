@@ -41,7 +41,7 @@ class RationalGrid(Scene):
         
         lattice_points = VGroup(
             *[
-                Dot(grid.c2p(x, y), color=YELLOW) 
+                Dot(grid.c2p(x, y), color=YELLOW, radius=.06)
                 for x, y in product(
                     range(grid.x_range[1]), range(grid.y_range[1])
                 )
@@ -50,11 +50,7 @@ class RationalGrid(Scene):
         self.play(*[GrowFromCenter(point) for point in lattice_points])
         self.play(
             DrawBorderThenFill(
-                Polygon(
-                    *[grid.c2p(x, y) for (x, y) in [(0, 0), (1, 1), (2, 3), (1, 2), (0, 0)]],
-                    fill_opacity=.3
-                )
+                Parallelogram((3, 2), (2, 1), coord_system=grid, stroke_width=2, fill_opacity=.2)
             )
         )
-    
         self.wait()
