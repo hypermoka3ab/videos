@@ -32,7 +32,6 @@ class MinkowskiQuestionMark(Scene):
             self.play(Transform(qst, ax.plot(lambda t: self.question_mark(t, n_levels), [.01, .99, .001], stroke_width=1, color=RED)))
             self.wait()
 
-
 class RationalGrid(Scene):
     def construct(self):
         grid = NumberPlane([-3, 12], [-3, 6], axis_config={"include_numbers": True})
@@ -50,7 +49,7 @@ class RationalGrid(Scene):
         self.play(*[GrowFromCenter(point) for point in lattice_points])
         self.play(
             DrawBorderThenFill(
-                Parallelogram((3, 2), (2, 1), coord_system=grid, stroke_width=2, fill_opacity=.2)
+                Parallelogram((1, 1), (2, 1), coord_system=grid, stroke_width=2, fill_opacity=.2)
             )
         )
         self.wait()
