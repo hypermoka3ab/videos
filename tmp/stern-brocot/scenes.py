@@ -32,6 +32,7 @@ class MinkowskiQuestionMark(Scene):
             self.play(Transform(qst, ax.plot(lambda t: self.question_mark(t, n_levels), [.01, .99, .001], stroke_width=1, color=RED)))
             self.wait()
 
+
 class RationalGrid(Scene):
     def construct(self):
         grid = NumberPlane([-3, 12], [-3, 6], axis_config={"include_numbers": True})
@@ -53,3 +54,5 @@ class RationalGrid(Scene):
             )
         )
         self.wait()
+
+

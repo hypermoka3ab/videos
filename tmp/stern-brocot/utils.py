@@ -47,8 +47,9 @@ def get_left_right(r:str):
     other[-1] -= 1
     other.append(2)
     other = Rational(continued_fraction_reduce(other))
+    one, other = min(one, other), max(one, other)
 
-    return string(min(one, other)), string(max(one, other))
+    return string(one), string(other)
 
 def string(r:Rational) -> str:
     return f"{r.p}/{r.q}"
