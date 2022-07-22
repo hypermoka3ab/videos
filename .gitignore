@@ -486,3 +486,4 @@ videos/
 **/*.wav
 **/*.tex
 **/*.txt
+assets/*
