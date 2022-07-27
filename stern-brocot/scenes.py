@@ -50,7 +50,7 @@ class RationalGrid(Scene):
         self.play(*[GrowFromCenter(point) for point in lattice_points])
         self.play(
             DrawBorderThenFill(
-                Parallelogram((1, 1), (2, 1), coord_system=grid, stroke_width=2, fill_opacity=.2)
+                Parallelogram((1, 1), (2, 1), coord_system=grid, stroke_width=2, fill_opacity=.2, z_index=-1)
             )
         )
         self.wait()
@@ -70,3 +70,17 @@ class TOC(Scene):
             self.wait()
             self.play(sc.animate.restore())
             self.wait()
+
+class FadedLine(Scene):
+    def construct(self):
+        grid = NumberPlane([-3, 12], [-3, 6], axis_config={"include_numbers": True}, faded_line_ratio=5)
+        lattice_points = VGroup(
+            *[
+                Dot(grid.c2p(x, y), color=YELLOW, radius=.06)
+                for x, y in product(
+                    range(grid.x_range[1]), range(grid.y_range[1])
+                )
+            ]
+        )
+
+        self.add(grid, lattice_points)
