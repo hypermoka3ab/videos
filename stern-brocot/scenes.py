@@ -56,3 +56,17 @@ class RationalGrid(Scene):
         self.wait()
 
 
+class TOC(Scene):
+    def construct(self):
+        sc1 = ScreenRectangle(height=2).to_edge(LEFT).save_state()
+        sc2 = ScreenRectangle(height=2).save_state()
+        sc3 = ScreenRectangle(height=2).to_edge(RIGHT).save_state()
+        self.play(*[Create(sc) for sc in [sc1, sc2, sc3]])
+        self.wait()
+        fsc = FullScreenRectangle()
+
+        for sc in sc1, sc2, sc3:
+            self.play(Transform(sc, fsc))
+            self.wait()
+            self.play(sc.animate.restore())
+            self.wait()
