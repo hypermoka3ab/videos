@@ -71,6 +71,7 @@ class TOC(Scene):
             self.play(sc.animate.restore())
             self.wait()
 
+
 class FadedLine(Scene):
     def construct(self):
         grid = NumberPlane([-3, 12], [-3, 6], axis_config={"include_numbers": True}, faded_line_ratio=5)
@@ -84,3 +85,36 @@ class FadedLine(Scene):
         )
 
         self.add(grid, lattice_points)
+
+
+class RationalVector(Scene):
+    def construct(self):
+        vector_representation = VGroup(
+            MathTex('a', r'\over', 'b'),
+            MathTex(r'\mapsto'),
+            Matrix(np.reshape(['a', 'b'], (2, 1)))
+        ).scale(.7).arrange(RIGHT)
+        a, b = 2, 3
+        self.add(vector_representation)
+        self.wait()
+        flipped = Matrix(np.reshape(
+            ['b', 'a'], (2, 1))
+        ).scale_to_fit_height(vector_representation[-1].height).move_to(vector_representation[-1])
+       
+        self.play(
+            Swap(
+                vector_representation[-1][0][0],
+                vector_representation[-1][0][1],
+            ) 
+        )
+        self.wait()
+        self.play(Indicate(vector_representation[-1]))
+        grid = NumberPlane([-3, 12], [-3, 6], axis_config={"include_numbers": True})
+        self.play(Create(grid))
+        self.wait()
+        false_vector = Arrow(grid.c2p(0, 0), grid.c2p(a, b), buff=0)
+        self.play(GrowArrow(false_vector))
+        self.wait()
+
+
+        
