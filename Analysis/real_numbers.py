@@ -1473,3 +1473,45 @@ class IrrationalsDense(Scene):
 
 
 
+class Intro(Scene):
+    def construct(self):
+        analyse = Tex("Analyse ",  "réelle?").shift(UP)
+        etude_des_fonctions = Tex(
+            "Étude des limites des fonctions ",
+            r"\((\mathbb{R} \to \mathbb{R})\)"
+        )
+        self.play(Write(analyse))
+        self.wait()
+        self.play(ReplacementTransform(analyse[0].copy(), etude_des_fonctions[0]))
+        self.wait()
+        self.play(ReplacementTransform(analyse[1].copy(), etude_des_fonctions[1]))
+        self.wait()
+        
+        R = Tex(r"\(\mathbb{R}\)?", font_size=80)
+        self.play(
+            ReplacementTransform(analyse, R),
+            ReplacementTransform(etude_des_fonctions, R)
+        )
+        self.wait()
+
+        approches = Graph(
+            ["R", "constructive", "axiomatique"],
+            [("R", "constructive"), ("R", "axiomatique")],
+            vertex_mobjects={
+                "R": Tex(r"\(\mathbb{R}\)?", font_size=80), 
+                "constructive": Tex("Constructive"), 
+                "axiomatique": Tex("Axiomatique")
+            }, layout="tree", root_vertex="R",
+            edge_config={"buff": MED_LARGE_BUFF}
+        )
+        
+        self.play(ReplacementTransform(R, approches["R"]))
+        for v in approches.vertices:
+            if v != "R":
+                self.play(Create(approches.edges[("R", v)]))
+                self.play(Write(approches[v]))
+                self.wait()
+
+        
+
+        
