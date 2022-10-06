@@ -25,7 +25,7 @@ class Axioms(Scene):
         self.wait()
 
         self.play(
-            TransformMatchingShapes(
+            ReplacementTransform(
                 axioms[1:],
                 VGroup(
                     Tex(r"I. \((\mathbb{Q}, +, \cdot)\) est un corps commutatif."),
