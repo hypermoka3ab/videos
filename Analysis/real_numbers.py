@@ -3,6 +3,7 @@ from manim import *
 chapter = "I"
 theorem_count = 0
 
+
 class Theorem(VGroup):
     count = 0
     CONFIG = {
@@ -49,63 +50,71 @@ class Corollary(Theorem):
             ).arrange(DOWN, aligned_edge=LEFT)
         )
 
+class TheoremAndDefinition(Theorem):
+    def __init__(self, body, title=None):
+        Theorem.count += 1
+        self.body = body
+        self.title = Tex(
+            f"Théorème et définition {chapter}.{Theorem.count} ({title})" 
+            if title else f"Corollaire {chapter}.{Theorem.count}"
+        )
+        # create down arranged theorem
+        VGroup.__init__(
+            self, 
+            VGroup(
+                self.title,
+                self.body
+            ).arrange(DOWN, aligned_edge=LEFT)
+        )
 
 class Axioms(Scene):
     def construct(self):
-        self.axioms = VGroup(
+        from axioms import addition, multiplication, distrubutivity, order, compatibilty
+
+        add_title = Tex("1. Addition ").to_corner(UL)
+        self.play(Write(add_title))
+
+        add = VGroup(
+            *[MathTex(ax) for ax in addition]
+        ).arrange(DOWN, aligned_edge=LEFT)
+
+        
+        for axiome in add:
+            self.play(Write(axiome))
+            self.wait()
+
+        groupe_abelien = Tex(
+            r"On dit donc que \((\mathbb{R}, +)\) est un groupe Abélien."
+        ).to_corner(DL)
+
+        self.play(Write(groupe_abelien))
+        self.wait()
+
+
+        mult_title = Tex("2. Multiplication ").to_corner(UL)
+
+        mult = VGroup(
+            *[MathTex(ax) for ax in multiplication]
+        ).arrange(DOWN, aligned_edge=LEFT)
+
+        
+
+        self.play(
+            ReplacementTransform(add_title, mult_title),
             *[
-                MathTex(f"\\mathrm{{axiome}}\ {i + 1}\ {axiom} ", font_size=20)
-                for i, axiom in enumerate(
-                    [
-                        # I Addition
-                        r"\forall x, y, z \in \mathbb{R},\ x + (y + z) = (x + y) + z",
-                        r"\forall x, y \in \mathbb{R},\ x + y = y + x",
-                        r"\exists 0 \in \mathbb{R}\ \forall x \in  \mathbb{R},\ x + 0 = 0 + x = x",
-                        r"\forall x \in \mathbb{R}\ \exists y \in \mathbb{R},\ x + y = y + x = 0",
-                        
-                        
-                        # II Multiplication
-                        r"\forall x, y, z \in \mathbb{R},\ x \cdot (y \cdot z) = (x \cdot y) \cdot z",
-                        r"\forall x, y \in \mathbb{R},\ x \cdot y = y \cdot x",
-                        r"\exists 1 \in \mathbb{R}\ \forall x \in  \mathbb{R},\ x \cdot 1 = 1 \cdot x = x",
-                        r"\forall x \in \mathbb{R} \backslash \{0\}\ \exists y \in \mathbb{R},\ x \cdot y = y\cdot x = 1",
-
-                        # I + II Distributivity
-                        r"\forall x, y, z \in \mathbb{R},\ x \cdot (y + x) = x\cdot y + x\cdot z",
-
-                        # III Order
-                        r"\forall x \in \mathbb{R},\ x \le x",
-                        r"\forall x, y \in \mathbb{R},\ (x \le y \wedge y \le x) \Rightarrow x = y",
-                        r"\forall x, y, z \in \mathbb{R}, (x \le y \wedge y \le z) \Rightarrow x \le z",
-                        r"\forall x, y \in \mathbb{R},\ x \le y \lor y \le x",
-
-                        # I + III Order and addition
-                        r"\forall x, y, z \in \mathbb{R},\ x \le y \Rightarrow x + z \le y + z",
-
-                        # II + III Order and multiplication
-                        r"\forall x, y \in \mathbb{R},\ (0 \le x \wedge 0 \le y) \Rightarrow 0 \le x\cdot y",
-
-                        # IV Completeness
-                        r"""
-                            \forall A, B \in \mathcal{P}(\mathbb{R})\backslash\{\emptyset\}, \ 
-                            (\forall x \in A\ \forall y\in B,\  x \le y) 
-                            \Rightarrow 
-                            (\exists z \in \mathbb{R}\ \forall x \in A \ \forall y \in B, \  x \le z \le y)
-                        """
-                    ]
-                )
-            ]
-        ).arrange(DOWN, aligned_edge = LEFT).to_edge(LEFT)
-
-        self.introduce_axioms()
+                TransformMatchingShapes(a, m) for a, m in zip(add, mult)
+            ], 
+            TransformMatchingShapes(
+                groupe_abelien,
+                Tex(
+                    r"On dit donc que \((\mathbb{R}\setminus\{0\}, \cdot)\) est un groupe Abélien."
+                ).to_corner(DL)
+            )
+        )
         self.wait()
         
-    def introduce_axioms(self):
-        self.play(Write(self.axioms[:15]))
         
-        for i in [0, 3, 11]:
-            self.play(Indicate(self.axioms[i]))
-            self.wait()
+   
             
 
 class Sqrt2IsNotRational(Scene):
