@@ -67,53 +67,8 @@ class TheoremAndDefinition(Theorem):
             ).arrange(DOWN, aligned_edge=LEFT)
         )
 
-class Axioms(Scene):
-    def construct(self):
-        from axioms import addition, multiplication, distrubutivity, order, compatibilty
-
-        add_title = Tex("1. Addition ").to_corner(UL)
-        self.play(Write(add_title))
-
-        add = VGroup(
-            *[MathTex(ax) for ax in addition]
-        ).arrange(DOWN, aligned_edge=LEFT)
-
-        
-        for axiome in add:
-            self.play(Write(axiome))
-            self.wait()
-
-        groupe_abelien = Tex(
-            r"On dit donc que \((\mathbb{R}, +)\) est un groupe Abélien."
-        ).to_corner(DL)
-
-        self.play(Write(groupe_abelien))
-        self.wait()
 
 
-        mult_title = Tex("2. Multiplication ").to_corner(UL)
-
-        mult = VGroup(
-            *[MathTex(ax) for ax in multiplication]
-        ).arrange(DOWN, aligned_edge=LEFT)
-
-        
-
-        self.play(
-            ReplacementTransform(add_title, mult_title),
-            *[
-                TransformMatchingShapes(a, m) for a, m in zip(add, mult)
-            ], 
-            TransformMatchingShapes(
-                groupe_abelien,
-                Tex(
-                    r"On dit donc que \((\mathbb{R}\setminus\{0\}, \cdot)\) est un groupe Abélien."
-                ).to_corner(DL)
-            )
-        )
-        self.wait()
-        
-        
    
             
 
