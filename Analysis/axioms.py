@@ -1,8 +1,64 @@
 from manim import *
-
+from theorems import TheoremAndDefinition
 
 class Axioms(Scene):
     def construct(self):
+        exists = Tex(
+            r"Il existe un ensemble \(\mathbb{R}\) muni de deux lois de compositions\\ internes ",
+            r"\(+, \cdot\) et d'une relation binaire \(\le\) tels que:", tex_environment=None
+        ).to_corner(UL)
+        
+        self.play(Write(exists))
+        self.wait()
+
+        self.addition()
+        self.wait()
+
+
+    def addition(self):
+        associative = MathTex(r"\forall x, y, z \in \mathbb{R},\ x + (y + z) = (x + y) + z")
+        self.play(FadeIn(associative, shift=DOWN))
+        self.wait()
+
+        zero = MathTex(r"\exists x \in \mathbb{R}\ \forall y \in  \mathbb{R},\ x + y = y + x = y")
+        self.play(FadeOut(associative, shift=DOWN), FadeIn(zero, shift=DOWN))
+        self.wait()
+
+        zero_uniqueness = TheoremAndDefinition(
+            title="Unicité de \(0\).",
+            body=Tex(
+                r"L'élèment qui vérifie l'axiome 2 est unique.\\", 
+                "On l'appelle ``zero'' ", 
+                "et on le note \(0\).",
+                tex_environment=None
+            )
+        )
+        self.play(FadeOut(zero, shift=DOWN), FadeIn(zero_uniqueness.title, shift=DOWN))
+        self.wait()
+        for part in zero_uniqueness.body:
+            self.play(Write(part), run_time=1)
+            self.wait()
+
+        proof = [
+            MathTex(
+                r"{{0^\prime}} = {{0^\prime + 0^{\prime\prime} }}"
+            ).next_to(zero_uniqueness, DOWN, buff=MED_LARGE_BUFF),
+            MathTex(
+                r"{{0^\prime}} = {{0^{\prime\prime}}}"
+            ).next_to(zero_uniqueness, DOWN, buff=MED_LARGE_BUFF)
+        ]
+        
+        self.play(Write(proof[0][:2]))
+        self.wait()
+        self.play(TransformMatchingShapes(proof[0][0].copy(), proof[0][2]))
+        self.wait()
+        self.play(TransformMatchingTex(proof[0], proof[1]))
+        self.wait()
+       
+
+        opposite = MathTex(r"\forall x \in \mathbb{R}\ \exists y \in \mathbb{R},\ x + y = y + x = 0")
+        
+    def keep(self):
         axioms = VGroup(
             Tex(
                 r"Il existe un ensemble \(\mathbb{R}\) muni de deux lois de compositions\\ internes ",
@@ -41,14 +97,11 @@ class Axioms(Scene):
 
 
 # addition = [
-#     r"\forall x, y, z \in \mathbb{R},\ x + (y + z) = (x + y) + z",
-#     r"\exists x \in \mathbb{R}\ \forall y \in  \mathbb{R},\ x + y = y + x = y",
-#     r"\forall x \in \mathbb{R}\ \exists y \in \mathbb{R},\ x + y = y + x = 0",
 #     r"\forall x, y \in \mathbb{R},\ x + y = y + x",
 # ]  
 
 # multiplication = [    
-#     r"\forall x, y, z \in \mathbb{R},\ x \cdot (y \cdot z) = (x \cdot y) \cdot z",
+#     r"\forall x, y, z \in \mathbb{R},\ x \cdot (y \cdot z) = (x \cdot y) \cdot z"   ,
 #     r"\exists x \in \mathbb{R}\ \forall y \in  \mathbb{R},\ x \cdot y = y \cdot x = y",
 #     r"\forall x \in \mathbb{R} \backslash \{0\}\ \exists y \in \mathbb{R},\ x \cdot y = y\cdot x = 1",
 #     r"\forall x, y \in \mathbb{R},\ x \cdot y = y \cdot x",
