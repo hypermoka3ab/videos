@@ -25,7 +25,7 @@ class Axioms(Scene):
         self.wait()
 
         zero_uniqueness = TheoremAndDefinition(
-            title="Unicité de \(0\).",
+            title="Unicité de \(0\)",
             body=Tex(
                 r"L'élèment qui vérifie l'axiome 2 est unique.\\", 
                 "On l'appelle ``zero'' ", 

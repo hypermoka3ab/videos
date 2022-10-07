@@ -10,7 +10,7 @@ class Theorem(VGroup):
     def __init__(self, body, title=None):
         Theorem.count += 1
         self.body = body
-        self.title = Tex(f"Théorème {chapter}.{Theorem.count} ({title})" if title else f"Théorème {chapter}.{Theorem.count}")
+        self.title = Tex(f"Théorème {chapter}.{Theorem.count} ({title})." if title else f"Théorème {chapter}.{Theorem.count}.")
         # create down arranged theorem
         VGroup.__init__(
             self, 
@@ -24,7 +24,7 @@ class Lemma(Theorem):
     def __init__(self, body, title=None):
         Theorem.count += 1
         self.body = body
-        self.title = Tex(f"Lémme {chapter}.{Theorem.count} ({title})" if title else f"Lémme {chapter}.{Theorem.count}")
+        self.title = Tex(f"Lémme {chapter}.{Theorem.count} ({title})." if title else f"Lémme {chapter}.{Theorem.count}.")
         # create down arranged theorem
         VGroup.__init__(
             self, 
@@ -38,7 +38,7 @@ class Corollary(Theorem):
     def __init__(self, body, title=None):
         Theorem.count += 1
         self.body = body
-        self.title = Tex(f"Corollaire {chapter}.{Theorem.count} ({title})" if title else f"Corollaire {chapter}.{Theorem.count}")
+        self.title = Tex(f"Corollaire {chapter}.{Theorem.count} ({title})." if title else f"Corollaire {chapter}.{Theorem.count}.")
         # create down arranged theorem
         VGroup.__init__(
             self, 
@@ -53,8 +53,8 @@ class TheoremAndDefinition(Theorem):
         Theorem.count += 1
         self.body = body
         self.title = Tex(
-            f"Théorème et définition {chapter}.{Theorem.count} ({title})" 
-            if title else f"Corollaire {chapter}.{Theorem.count}"
+            f"Théorème et définition {chapter}.{Theorem.count} ({title})." 
+            if title else f"Corollaire {chapter}.{Theorem.count}."
         )
         # create down arranged theorem
         VGroup.__init__(
