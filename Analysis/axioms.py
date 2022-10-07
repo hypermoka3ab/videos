@@ -149,45 +149,6 @@ class Axioms(Scene):
         self.wait()
         self.play(FadeOut(commutative, shift=DOWN))
         
-        
-
-
-    def keep(self):
-        axioms = VGroup(
-            Tex(
-                r"Il existe un ensemble \(\mathbb{R}\) muni de deux lois de compositions\\ internes ",
-                r"\(+, \cdot\) et d'une relation binaire \(\le\) tels que:", tex_environment=None
-            ),
-            Tex(r"I. \((\mathbb{R}, +, \cdot)\) est un corps commutatif."),
-            Tex(r"II. \(\le\) est une relation d'ordre sur \(\mathbb{R}\)."),
-            Tex(r"III. \(\le\) est compatible avec l'addittion et la multiplication."),
-            Tex(r"On dit donc \((\mathbb{R}, +, \cdot, \le)\) est un corps commutatif ordonée.")
-        ).arrange(DOWN, aligned_edge=LEFT).shift(UP)
-
-        for axiom in axioms:
-            self.play(FadeIn(axiom, shift=RIGHT))
-            self.wait()
-
-        sufficient = Tex("Ça suffit?", r"\textellipsis Non.").next_to(axioms, DOWN)
-        self.play(Write(sufficient[0]))
-        self.wait()
-        self.play(Write(sufficient[1]))
-        self.wait()
-
-        self.play(
-            ReplacementTransform(
-                axioms[1:],
-                VGroup(
-                    Tex(r"I. \((\mathbb{Q}, +, \cdot)\) est un corps commutatif."),
-                    Tex(r"II. \(\le\) est une relation d'ordre sur \(\mathbb{Q}\)."),
-                    Tex(r"III. \(\le\) est compatible avec l'addittion et la multiplication."),
-                    Tex(r"On dit donc \((\mathbb{Q}, +, \cdot, \le)\) est un corps commutatif ordonée.")
-                ).arrange(DOWN, aligned_edge=LEFT)
-            ), FadeOut(sufficient), FadeOut(axioms[0])
-        )
-        self.wait()
-
-
 
 
 
