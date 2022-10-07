@@ -12,6 +12,15 @@ class Axioms(Scene):
         self.wait()
 
         self.addition()
+
+        multiplication = VGroup(
+            MathTex(r"\forall x, y, z \in \mathbb{R},\ x \cdot (y \cdot z) = (x \cdot y) \cdot z"),
+            MathTex(r"\exists x \in \mathbb{R}\ \forall y \in  \mathbb{R},\ x \cdot y = y \cdot x = y"),
+            MathTex(r"\forall x \in \mathbb{R} \backslash \{0\}\ \exists y \in \mathbb{R},\ x \cdot y = y\cdot x = 1"),
+            MathTex(r"\forall x, y \in \mathbb{R},\ x \cdot y = y \cdot x"),
+        ).arrange(DOWN, aligned_edge=LEFT)
+        
+        self.play(FadeIn(multiplication))
         self.wait()
 
 
@@ -37,7 +46,7 @@ class Axioms(Scene):
         self.wait()
         for part in zero_uniqueness.body:
             self.play(Write(part), run_time=1)
-            self.wait()
+            self.wait(.5)
 
         proof = [
             MathTex(
@@ -47,17 +56,45 @@ class Axioms(Scene):
                 r"{{0^\prime}} = {{0^{\prime\prime}}}"
             ).next_to(zero_uniqueness, DOWN, buff=MED_LARGE_BUFF)
         ]
-        
+
         self.play(Write(proof[0][:2]))
         self.wait()
         self.play(TransformMatchingShapes(proof[0][0].copy(), proof[0][2]))
         self.wait()
         self.play(TransformMatchingTex(proof[0], proof[1]))
         self.wait()
-       
 
         opposite = MathTex(r"\forall x \in \mathbb{R}\ \exists y \in \mathbb{R},\ x + y = y + x = 0")
+        self.play(
+            FadeOut(zero_uniqueness, proof[1], shift=DOWN),
+            FadeIn(opposite, shift=DOWN)
+        )
+        self.wait()
+
+        opposite_uniqueness = TheoremAndDefinition(
+            title="Unicité de l'opposé",
+            body=Tex(
+                r"Pour tout \(x\) dans \(\mathbb{R}\), l'élément qui vérifie l'axiome 3 est unique.\\",
+                "On l'appelle ``l'opposé de \(x\)'' ",
+                "et on le note \(-x\).",
+                tex_environment=None
+            )
+        )
+        self.play(FadeOut(opposite, shift=DOWN), FadeIn(opposite_uniqueness.title, shift=DOWN))
+        self.wait()
         
+        for part in opposite_uniqueness.body:
+            self.play(Write(part), run_time=1)
+            self.wait(.5)
+
+        commutative = MathTex(r"\forall x, y \in \mathbb{R},\ x + y = y + x")
+        self.play(FadeOut(opposite_uniqueness, shift=DOWN), FadeIn(commutative, shift=DOWN))
+        self.wait()
+        self.play(FadeOut(commutative, shift=DOWN))
+        
+        
+
+
     def keep(self):
         axioms = VGroup(
             Tex(
@@ -97,7 +134,7 @@ class Axioms(Scene):
 
 
 # addition = [
-#     r"\forall x, y \in \mathbb{R},\ x + y = y + x",
+#     ,
 # ]  
 
 # multiplication = [    
