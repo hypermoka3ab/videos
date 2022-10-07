@@ -1,4 +1,3 @@
-from cgitb import reset
 from manim import *
 from theorems import TheoremAndDefinition
 
