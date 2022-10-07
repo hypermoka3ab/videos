@@ -1,3 +1,4 @@
+from cgitb import reset
 from manim import *
 from theorems import TheoremAndDefinition
 
@@ -21,6 +22,63 @@ class Axioms(Scene):
         ).arrange(DOWN, aligned_edge=LEFT)
         
         self.play(FadeIn(multiplication))
+        self.wait()
+
+        distrubitive = MathTex(r"\forall x, y, z \in \mathbb{R},\ x \cdot (y + z) = x\cdot y + x\cdot z")
+
+        self.play(
+            FadeOut(multiplication, shift=DOWN),
+            FadeIn(distrubitive, shift=DOWN)
+        )
+
+        self.wait()
+
+        order = VGroup(
+            MathTex(r"\forall x \in \mathbb{R},\ x \le x"),
+            MathTex(r"\forall x, y \in \mathbb{R},\ (x \le y \wedge y \le x) \Rightarrow x = y"),
+            MathTex(r"\forall x, y, z \in \mathbb{R},\ (x \le y \wedge y \le z) \Rightarrow x \le z"),
+            MathTex(r"\forall x, y \in \mathbb{R},\ x \le y \lor y \le x"),
+        ).arrange(DOWN, aligned_edge=LEFT)
+
+        self.play(
+            FadeOut(distrubitive, shift=DOWN),
+            FadeIn(order, shift=DOWN)
+        )
+        self.wait()
+
+        compatible = VGroup(
+            MathTex(r"\forall x, y, z \in \mathbb{R},\ x \le y \Rightarrow x + z \le y + z"),
+            MathTex(r"\forall x, y \in \mathbb{R},\ (0 \le x \wedge 0 \le y) \Rightarrow 0 \le x\cdot y"),
+        ).arrange(DOWN, aligned_edge=LEFT)
+
+        self.play(
+            FadeOut(order, shift=DOWN),
+            FadeIn(compatible, shift=DOWN)
+        )
+
+        self.wait()
+
+        result = Tex(
+            r"\((\mathbb{R}, +, \cdot, \le)\) ",
+            "est un corps commutatif ordonée.",
+            tex_environment=None
+        )
+
+        
+        self.play(
+            FadeOut(compatible, shift=DOWN),
+            FadeIn(result, shift=DOWN)
+        )
+
+        self.wait()
+
+        alternative = Tex(
+            r"\((\mathbb{Q}, +, \cdot, \le)\) ",
+            "est un corps commutatif ordonée.",
+            tex_environment=None
+        )
+
+        self.play(TransformMatchingTex(result, alternative))
         self.wait()
 
 
@@ -133,31 +191,6 @@ class Axioms(Scene):
 
 
 
-# addition = [
-#     ,
-# ]  
-
-# multiplication = [    
-#     r"\forall x, y, z \in \mathbb{R},\ x \cdot (y \cdot z) = (x \cdot y) \cdot z"   ,
-#     r"\exists x \in \mathbb{R}\ \forall y \in  \mathbb{R},\ x \cdot y = y \cdot x = y",
-#     r"\forall x \in \mathbb{R} \backslash \{0\}\ \exists y \in \mathbb{R},\ x \cdot y = y\cdot x = 1",
-#     r"\forall x, y \in \mathbb{R},\ x \cdot y = y \cdot x",
-# ]
-
-# distrubutivity = r"\forall x, y, z \in \mathbb{R},\ x \cdot (y + x) = x\cdot y + x\cdot z"
-
-# order = [
-#     r"\forall x \in \mathbb{R},\ x \le x",
-#     r"\forall x, y \in \mathbb{R},\ (x \le y \wedge y \le x) \Rightarrow x = y",
-#     r"\forall x, y, z \in \mathbb{R}, (x \le y \wedge y \le z) \Rightarrow x \le z",
-#     r"\forall x, y \in \mathbb{R},\ x \le y \lor y \le x",
-# ]
- 
-# compatibilty = [ 
-#     r"\forall x, y, z \in \mathbb{R},\ x \le y \Rightarrow x + z \le y + z",
-#     r"\forall x, y \in \mathbb{R},\ (0 \le x \wedge 0 \le y) \Rightarrow 0 \le x\cdot y",
-# ]
-
 
 # completeness = r"""
 #     \forall A, B \in \mathcal{P}(\mathbb{R})\backslash\{\emptyset\}, \ 
@@ -165,8 +198,3 @@ class Axioms(Scene):
 #     \Rightarrow 
 #     (\exists z \in \mathbb{R}\ \forall x \in A \ \forall y \in B, \  x \le z \le y)
 # """
-
-# everything = [
-#     addition, multiplication, [distrubutivity], 
-#     compatibilty, [completeness]
-# ]
