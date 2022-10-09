@@ -59,7 +59,7 @@ class Axioms(Scene):
 
         result = Tex(
             r"\((\mathbb{R}, +, \cdot, \le)\) ",
-            "est un corps commutatif ordonée.",
+            "est un corps commutatif totalement ordonée.",
             tex_environment=None
         )
 
@@ -73,7 +73,7 @@ class Axioms(Scene):
 
         alternative = Tex(
             r"\((\mathbb{Q}, +, \cdot, \le)\) ",
-            "est un corps commutatif ordonée.",
+            "est un corps commutatif totalement ordonée.",
             tex_environment=None
         )
 
