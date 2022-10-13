@@ -129,7 +129,6 @@ class Completude(Scene):
 class SupExistance(Scene):
     def construct(self):
         from theorems import Theorem
-
         theroem = Theorem(
             title="La propriété de la borne supérieure",
             body=Tex(
@@ -150,6 +149,9 @@ class SupExistance(Scene):
         self.prove_existance_of_sup_and_inf()
 
     def prove_existance_of_sup_and_inf(self):
+        tex_template = TexTemplate()
+        tex_template.add_to_preamble(r"\usepackage{mathtools}")
+
         hole_coord = ValueTracker(2.3)
         # A_B_distance = ValueTracker(0.)
         real_line = NumberLine([-10, 10], 20) # real line
@@ -189,11 +191,11 @@ class SupExistance(Scene):
         z_exists = VGroup(
             MathTex(r"(i)\ ", r"A, B \neq \emptyset"), # A, B are not empty sets
             MathTex(r"(ii)\ ", r"\forall x \in A\ \forall y \in B,\  x \le y"), # A left of B
-            VGroup(
-                VGroup(Tex("Complétude", font_size=15), MathTex(r"\Longrightarrow")).arrange(DOWN, buff=SMALL_BUFF),
-                MathTex(
-                    r"\exists z \in \mathbb{R}\ ", r"\forall x \in A\ ", r"\forall y \in B\ ", r"x \le", "z",  r"\le y"
-                )   
+        
+            MathTex(
+                r"\xRightarrow{\text{Complétude}}",
+                r"\exists z \in \mathbb{R}\ ", r"\forall x \in A\ ", r"\forall y \in B\ ", r"x \le", "z",  r"\le y",
+                tex_template=tex_template
             ).arrange(RIGHT), # z between A and B            
         ).arrange(DOWN, aligned_edge=LEFT).to_edge(LEFT).shift(UP * 2)
 
@@ -243,13 +245,13 @@ class SupExistance(Scene):
         self.wait()
         self.play(GrowFromCenter(z_exists[2][0]))
         self.wait()
-        self.play(Write(z_exists[2][1]))
+        self.play(Write(z_exists[2][1:]))
         self.wait()
         self.play(
             *[
                 FadeOut(v, shift=LEFT) for v in [z_exists[0], z_exists[1], z_exists[2][0]]
             ],
-            z_exists[2][1].animate.to_corner(UL)
+            z_exists[2][1:].animate.to_corner(UL)
         )
         z_maj_A.next_to(z_exists[2][1], DOWN).to_edge(LEFT)
         z_min_B.next_to(z_maj_A, DOWN).to_edge(LEFT)
@@ -258,17 +260,17 @@ class SupExistance(Scene):
 
         self.wait()
         self.play(
-            ReplacementTransform(z_exists[2][1][1].copy(), z_maj_A[0]),
-            ReplacementTransform(z_exists[2][1][3].copy(), z_maj_A[1]),
-            ReplacementTransform(z_exists[2][1][4].copy(), z_maj_A[2]),
+            ReplacementTransform(z_exists[2][1].copy(), z_maj_A[0]),
+            ReplacementTransform(z_exists[2][3].copy(), z_maj_A[1]),
+            ReplacementTransform(z_exists[2][4].copy(), z_maj_A[2]),
         )
         self.wait()
         self.play(Write(z_maj_A[3:]))        
         self.wait()
         self.play(
-            ReplacementTransform(z_exists[2][1][2].copy(), z_min_B[0]),
-            ReplacementTransform(z_exists[2][1][4].copy(), z_min_B[1]),
-            ReplacementTransform(z_exists[2][1][5].copy(), z_min_B[2]),
+            ReplacementTransform(z_exists[2][2].copy(), z_min_B[0]),
+            ReplacementTransform(z_exists[2][4].copy(), z_min_B[1]),
+            ReplacementTransform(z_exists[2][5].copy(), z_min_B[2]),
         )
         self.wait()
         self.play(Write(z_min_B[3:]))
