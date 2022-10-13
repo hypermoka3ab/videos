@@ -71,7 +71,7 @@ class Completude(Scene):
             r"\forall y \in B, ", 
             r"x \le z \le y"
         )
-        hole_definition = VGroup( # define a hole rigorously 
+        VGroup( # define a hole rigorously 
             A_left_B, nothing_between
         ).arrange(DOWN, aligned_edge=LEFT).to_edge(LEFT).shift(UP * 2)
         
@@ -107,7 +107,7 @@ class Completude(Scene):
         self.wait()
         
         axiom = MathTex(
-            r"\forall A, B \in \mathcal{P}(\mathbb{R})\setminus\{\emptyset\},\ ",
+            r"\forall A, B \in \mathcal{P}(\mathbb{R}),\ ",
             r"(\forall x \in A, \forall y \in B, x \le y)", r"\Rightarrow",
             r"(\exists z \in \mathbb{R}, \forall x \in A, \forall y \in B, x \le z \le y)",
             font_size=35,
