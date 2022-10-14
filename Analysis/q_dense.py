@@ -2,10 +2,6 @@ from manim import *
 
 class QDense(Scene):
     def construct(self):
-        self.prove_Q_dense()
-
-        
-    def prove_Q_dense(self):
         real_line = NumberLine([-2, 2], 15) # real line
         line_label = always_redraw( # R label
             lambda: 
@@ -68,7 +64,7 @@ class QDense(Scene):
             r"\exists q \in \mathbb{N}\ ", "q", "(", "y", "-", "x", ")", "> 1",
             r"& \Rightarrow ", "q", "y", "-", "q", "x", "> 1", 
             r"\\ & \Rightarrow", r"\exists p \in \mathbb{Z}\ ", "q", "x", "<", "p", "<", "q", "y",
-            r"\\ & \Rightarrow", r"x", "<", "{p \over q}",  "<",  "y", r"\square",
+            r"\\ & \Rightarrow", r"x", "<", "{p \over q}",  "<",  "y", r"\ \square",
         ).to_corner(UL)
 
         yellows = [1, 9, 12, 17, 20, 22, 27]
