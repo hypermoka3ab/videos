@@ -146,9 +146,9 @@ class SupExistance(Scene):
         self.play(FadeOut(theroem))
         self.wait()
        
-        self.prove_existance_of_sup_and_inf()
+        self.prove_existance()
 
-    def prove_existance_of_sup_and_inf(self):
+    def prove_existance(self):
         tex_template = TexTemplate()
         tex_template.add_to_preamble(r"\usepackage{mathtools}")
 
@@ -216,7 +216,13 @@ class SupExistance(Scene):
             r"\Rightarrow", r"z = \sup A", r"\ \square"
         )
 
-        z_min_B_reform = Tex("($z$ est le pluse petit majorant de $A$)", font_size=30)
+        z_min_B_reform = Matrix(
+            [["z \\text{ est le plus petit}"], ["\\text{majorant de A}"]], 
+            left_bracket="(", right_bracket=")",
+            element_to_mobject_config={"font_size":30},
+            bracket_h_buff=SMALL_BUFF,
+            v_buff=.4,
+        )
         self.play(
             Create(real_line), Write(line_label),
         )
@@ -283,7 +289,7 @@ class SupExistance(Scene):
         self.wait()
         self.play(Write(z_sup_A[3:5]))
         self.wait()
-        self.play(Write(z_min_B_reform))
+        self.play(GrowFromCenter(z_min_B_reform))
         self.play(
             Write(z_sup_A[5:-1]),
         )
