@@ -1,6 +1,6 @@
 from manim import *
 from theorems import TheoremAndDefinition
-
+ 
 class Axioms(Scene):
     def construct(self):
         exists = Tex(
@@ -77,7 +77,7 @@ class Axioms(Scene):
             tex_environment=None
         )
 
-        self.play(TransformMatchingTex(result, alternative))
+        self.play(ReplacementTransform(result, alternative))
         self.wait()
 
 
