@@ -14,7 +14,7 @@ class Completude(Scene):
         hole = always_redraw( # hole
             lambda:
                 Circle( 
-                    .05, YELLOW, fill_color = BLACK, 
+                    .05, YELLOW, fill_color = config.background_color, 
                     fill_opacity = 1, stroke_width = 2
                 ).move_to(real_line.number_to_point(2.3))     
         )
@@ -61,12 +61,12 @@ class Completude(Scene):
 
 
         A_left_B = MathTex(
-           r"(1)\ ", r"\forall x \in A, ",
+           r"(i)\ ", r"\forall x \in A, ",
            r"\forall y \in B, ", r"x \le y"
         )
 
         nothing_between = MathTex(
-            r"(2)\ ", r"\neg \exists z \in \mathbb{R}, ", 
+            r"(ii)\ ", r"\neg \exists z \in \mathbb{R}, ", 
             r"\forall x \in A, ", 
             r"\forall y \in B, ", 
             r"x \le z \le y"
