@@ -1,6 +1,5 @@
 from manim import *
 
-
 BACKGROUND_COLOR = "#282a36"
 FOREGROUND_COLOR = "#f8f8f2"
 HIGHLIGHT_COLOR1 = "#bd93f9"
