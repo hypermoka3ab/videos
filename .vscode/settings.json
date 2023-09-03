@@ -1,74 +1,66 @@
 {
-    "workbench.iconTheme": "material-icon-theme",
-    "kite.showWelcomeNotificationOnStartup": false,
-    "python.pythonPath": "/usr/bin/python3",
-    "FSharp.useSdkScripts": true,
-    "C_Cpp.updateChannel": "Insiders",
-    "editor.fontFamily": "'consolas', 'ubuntu mono', 'Droid Sans Mono' ,  monospace, 'Droid Sans Fallback'",
-    "editor.wordWrap": "on",
-    "editor.fontSize": 16,
-    "terminal.integrated.fontSize": 16,
-    "editor.suggestSelection": "first",
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "jupyter.alwaysTrustNotebooks": true,
-    "svg.preview.mode": "svg",
-    "cSpell.language": "fr-FR,en-US,en,fr,en-GB",
-    "C_Cpp.suggestSnippets": false,
-    "workbench.editorAssociations": {
-        "*.ipynb": "jupyter-notebook",
-        "*.json": "default"
-    },
-    "plantuml.exportOutDir": ".",
-    "plantuml.exportSubFolder": false,
-    "files.exclude": {
-        "**/.classpath": true,
-        "**/.project": true,
-        "**/.settings": true,
-        "**/.factorypath": true
-    },
-    "cSpell.userWords": [
-        "Belgoumri",
-        "COVID",
-        "journ",
-        "manimlib",
-        "s",
-        "séjournés"
-    ],
-    "window.zoomLevel": 1,
-    "cSpell.enableFiletypes": [
-        "bibtex",
-        "bibtex-style",
-        "jupyter",
-        "Mobject",
-        "submobject",
-        "submobjects"
-    ],
-    "editor.inlineSuggest.enabled": true,
-    "notebook.cellToolbarLocation": {
-        "default": "right",
-        "jupyter-notebook": "left"
-    },
-    "python.defaultInterpreterPath": "/usr/bin/python3",
-    "liveServer.settings.CustomBrowser": "chrome",
-    "editor.columnSelection": false,
-    "[python]": {
-        
-
-        "gitlens.codeLens.symbolScopes": [
-            "!Module"
-        ],
-        "editor.autoClosingBrackets": "always",
-        "editor.wordBasedSuggestions": false
-    },
-    "cSpell.words": [
-        "Mobject",
-        "manim",
-        "submobject",
-        "submobjects"
-    ],
-    "python.linting.pylintEnabled": false,
-    "python.linting.enabled": false,
-    "python.linting.banditEnabled": false,
-    "python.linting.flake8Enabled": false,
-    "python.linting.pycodestyleEnabled": true
+  "workbench.iconTheme": "material-icon-theme",
+  "kite.showWelcomeNotificationOnStartup": false,
+  "python.pythonPath": "/usr/bin/python3",
+  "FSharp.useSdkScripts": true,
+  "C_Cpp.updateChannel": "Insiders",
+  "editor.fontFamily": "'consolas', 'ubuntu mono', 'Droid Sans Mono' ,  monospace, 'Droid Sans Fallback'",
+  "editor.wordWrap": "on",
+  "editor.fontSize": 16,
+  "terminal.integrated.fontSize": 16,
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "jupyter.alwaysTrustNotebooks": true,
+  "svg.preview.mode": "svg",
+  "cSpell.language": "fr-FR,en-US,en,fr,en-GB",
+  "C_Cpp.suggestSnippets": false,
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook",
+    "*.json": "default"
+  },
+  "plantuml.exportOutDir": ".",
+  "plantuml.exportSubFolder": false,
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+  "cSpell.userWords": [
+    "Belgoumri",
+    "COVID",
+    "journ",
+    "manimlib",
+    "s",
+    "séjournés"
+  ],
+  "window.zoomLevel": 1,
+  "cSpell.enableFiletypes": [
+    "bibtex",
+    "bibtex-style",
+    "jupyter",
+    "Mobject",
+    "submobject",
+    "submobjects"
+  ],
+  "editor.inlineSuggest.enabled": true,
+  "notebook.cellToolbarLocation": {
+    "default": "right",
+    "jupyter-notebook": "left"
+  },
+  "python.defaultInterpreterPath": "/usr/bin/python3",
+  "liveServer.settings.CustomBrowser": "chrome",
+  "editor.columnSelection": false,
+  "[python]": {
+    "gitlens.codeLens.symbolScopes": ["!Module"],
+    "editor.autoClosingBrackets": "always",
+    "editor.wordBasedSuggestions": false
+  },
+  "cSpell.words": ["Mobject", "manim", "submobject", "submobjects"],
+  "python.linting.pylintEnabled": false,
+  "python.linting.enabled": false,
+  "python.linting.banditEnabled": false,
+  "python.linting.flake8Enabled": false,
+  "python.linting.pycodestyleEnabled": true,
+  "python.terminal.activateEnvironment": true
 }
