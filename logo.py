@@ -1,9 +1,9 @@
 from itertools import product
 
 from manim import *
-from themes.dracula import set_theme
+from themes.dracula import dracula
 
-set_theme()
+dracula.set()
 
 
 class Logo(Scene):

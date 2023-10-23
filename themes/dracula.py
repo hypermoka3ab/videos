@@ -1,18 +1,12 @@
-from manim import *
+from themes.theme import Theme
 
-BACKGROUND_COLOR = "#282a36"
-FOREGROUND_COLOR = "#f8f8f2"
-HIGHLIGHT_COLOR1 = "#bd93f9"
-HIGHLIGHT_COLOR2 = "#ffb86c"
-HIGHLIGHT_COLOR3 = "#50fa7b"
-HIGHLIGHT_COLOR4 = "#ff5555"
-HIGHLIGHT_COLOR5 = "#f1fa8c"
-HIGHLIGHT_COLOR6 = "#bd93f4"
-
-
-def set_theme():
-    config.background_color = BACKGROUND_COLOR
-    Mobject.set_default(color=FOREGROUND_COLOR)
-    VMobject.set_default(
-        stroke_color=FOREGROUND_COLOR, fill_color=FOREGROUND_COLOR, fill_opacity=0.3
-    )
+dracula = Theme(
+    background="#282a36",
+    foreground="#f8f8f2",
+    highlight1="#bd93f9",
+    highlight2="#ffb86c",
+    highlight3="#50fa7b",
+    highlight4="#ff5555",
+    highlight5="#f1fa8c",
+    highlight6="#bd93f4",
+)
