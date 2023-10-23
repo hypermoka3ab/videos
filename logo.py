@@ -1,6 +1,9 @@
 from itertools import product
 
 from manim import *
+from themes.dracula import set_theme
+
+set_theme()
 
 
 class Logo(Scene):
@@ -52,11 +55,12 @@ class Logo(Scene):
             dots[i] = Dot(
                 complex_to_R3(r * np.exp(TAU * 1j * i / 8)),
                 fill_opacity=1,
-                fill_color="#008b8b" if is_odd(order[i]) else "#000",
+                fill_color="#ffb86c" if is_odd(order[i]) else "#50fa7b",
+                radius=0.15,
             )
         lines = VGroup(
             *[
-                Line(dots[i].get_center(), dots[j].get_center())
+                Line(dots[i].get_center(), dots[j].get_center(), stroke_color="#bd93f9")
                 for i, j in product(range(16), range(16))
                 if matrix[order[i], order[j]]
             ]
