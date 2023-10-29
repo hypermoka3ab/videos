@@ -42,3 +42,21 @@ class Inversion(Scene):
         fg.apply_complex_function(
             lambda z: 2 / z if z != 0 else complex(config.frame_x_radius, 0)
         )
+
+
+class Zeta(Scene):
+    def construct(self):
+        bg = ComplexPlane()
+        fg = ComplexPlane(
+            x_range=x_range,
+            y_range=y_range,
+            axis_config={"stroke_width": 0},
+            faded_line_ratio=5,
+            background_line_style={
+                "stroke_color": dracula.highlight2,
+            },
+            faded_line_style={"stroke_width": 1},
+        )
+        self.add(bg, fg)
+        fg.prepare_for_nonlinear_transform()
+        fg.apply_complex_function(zeta)
