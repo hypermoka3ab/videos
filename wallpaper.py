@@ -40,5 +40,5 @@ class Inversion(Scene):
         self.add(bg, fg)
         fg.prepare_for_nonlinear_transform()
         fg.apply_complex_function(
-            lambda s: 2 / s if s != 0 else complex(config.frame_x_radius, 0)
+            lambda z: 2 / z if z != 0 else complex(config.frame_x_radius, 0)
         )
