@@ -46,6 +46,10 @@ class Inversion(Scene):
 
 class Zeta(Scene):
     def construct(self):
+        x_radius = 5
+        x_center = 0.5
+        x_range = (x_center - x_radius, x_center + x_radius)
+        y_range = x_range
         bg = ComplexPlane()
         fg = ComplexPlane(
             x_range=x_range,
