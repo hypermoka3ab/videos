@@ -1,6 +1,6 @@
 import mpmath
-
 from manim import *
+
 from themes.dracula import dracula
 
 # 4k resolution
