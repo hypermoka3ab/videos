@@ -14,24 +14,6 @@ class Logo(Scene):
         self.play(FadeIn(logo), logo.animate.rotate(PI / 2), run_time=2)
         self.wait()
 
-        # point = Dot(ORIGIN)
-        # segment = VGroup(
-        #     Dot(RIGHT),
-        #     Dot(LEFT),
-        #     Line(LEFT, RIGHT)
-        # )
-        # square = VGroup(
-        #     Dot(UR), Dot(UL), Dot(DL), Dot(DR),
-        #     Line(UR, UL), Line(UL, DL),
-        #     Line(DL, DR), Line(DR, UR)
-        # )
-        # self.play(GrowFromCenter(point))
-        # self.wait()
-        # self.play(ReplacementTransform(point, segment))
-        # self.wait()
-        # self.play(ReplacementTransform(segment, square))
-        # self.wait()
-
     def adjascency_matrix(self, n=4):
         q = np.zeros((1, 1))
         for k in range(n):
@@ -55,7 +37,7 @@ class Logo(Scene):
             dots[i] = Dot(
                 complex_to_R3(r * np.exp(TAU * 1j * i / 8)),
                 fill_opacity=1,
-                fill_color="#ffb86c" if is_odd(order[i]) else "#50fa7b",
+                fill_color="#ffb86c" if order[i] % 2 else "#50fa7b",
                 radius=0.15,
             )
         lines = VGroup(
@@ -67,11 +49,3 @@ class Logo(Scene):
         ).set_z_index(-1)
 
         return VGroup(lines, dots)
-
-
-def is_odd(n):
-    parity = 0
-    while n:
-        parity = ~parity
-        n = n & (n - 1)
-    return parity == 0
