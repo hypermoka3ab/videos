@@ -54,7 +54,7 @@
   "[python]": {
     "gitlens.codeLens.symbolScopes": ["!Module"],
     "editor.autoClosingBrackets": "always",
-    "editor.wordBasedSuggestions": false
+    "editor.wordBasedSuggestions": "off"
   },
   "cSpell.words": ["Mobject", "manim", "submobject", "submobjects"],
   "python.terminal.activateEnvironment": true
